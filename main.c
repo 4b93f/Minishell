@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 14:49:59 by chly-huc         ###   ########.fr       */
+/*   Updated: 2020/12/09 19:35:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void get_pwd(t_sh *sh)
 
 void ft_scan(t_sh *sh)
 {
+	sh->built_in = ft_strtrim(sh->built_in, " ");
 	if (!strcmp(sh->built_in, "pwd"))
 		ft_pwd();
 	if (!strncmp(sh->built_in, "cd", 2))
@@ -68,6 +69,21 @@ void ft_scan(t_sh *sh)
 		print_tab(sh->all_path);
 }
 
+int check_syntax(t_sh *sh)
+{
+	int i;
+	int error;
+
+	i = -1;
+	error = 0;
+	while (sh->built_in[++i])
+	{
+		if (sh->built_in[i] == '\\' && sh->built_in[i + 1] == ';')
+			error++;
+	}
+	return (error == 0 ? 1 : 0);
+}
+
 int main(int argc, char **argv, char **env)
 {
 	t_sh *sh;
@@ -76,11 +92,22 @@ int main(int argc, char **argv, char **env)
 	get_all_path(sh);
 	while(1)
 	{
+		int i = -1;
 		write(0, "My Minishell ~> ", 16);
 		get_next_line(0, &sh->built_in);
-		ft_scan(sh);
+		if (check_syntax(sh))
+			sh->tmp = ft_split(sh->built_in, ';');
+		print_tab(sh->tmp);
+		while (sh->tmp[++i])
+		{
+			free(sh->built_in);
+			sh->built_in = ft_strdup(sh->tmp[i]);
+			free(sh->tmp[i]);
+			ft_scan(sh);
+			get_pwd(sh);
+		}
+		free(sh->tmp);
 		free(sh->built_in);
-		get_pwd(sh);
 	}
 	return (1);
 }

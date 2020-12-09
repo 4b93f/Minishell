@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 14:49:31 by chly-huc         ###   ########.fr       */
+/*   Updated: 2020/12/09 18:18:25 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void ft_cd(t_sh *sh)
 	free(sh->actual_pwd);
 	sh->actual_pwd = get_actual_path();
 	free(path);
-	
 }
 
 void ft_echo(t_sh *sh)

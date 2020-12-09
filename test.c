@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/08 18:49:36 by chly-huc         ###   ########.fr       */
+/*   Updated: 2020/12/09 17:59:34 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int main()
 {
-    char *buf;
-	buf = NULL;
-    int size = 40000;
-    printf("%s\n", getcwd(buf, size));
+    char *str = "      NON       ";
+    char *new_str;
+    int i = 0;
+
+    
 }

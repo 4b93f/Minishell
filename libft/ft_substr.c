@@ -6,33 +6,35 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 17:24:18 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/01/09 23:24:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2020/11/12 21:15:24 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char		*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	int		i;
-	int		j;
-	char	*newstr;
+	char	*arr;
+	size_t	i;
 
-	i = 0;
-	j = 0;
 	if (!s)
 		return (NULL);
-	if (!(newstr = malloc(sizeof(char) * len + 1)))
+	if (start > ft_strlen(s))
+		len = 0;
+	if (!(arr = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
-	while (start--)
-		i++;
-	while (s[i] && len--)
+	i = 0;
+	while (i < len && s[i] != '\0')
 	{
-		newstr[j++] = (char)s[i++];
-		newstr[i] = '\0';
+		arr[i] = s[start];
+		i++;
+		start++;
 	}
-	return (newstr);
+	arr[i] = '\0';
+	free((char *)s);
+	return (arr);
 }
+
 /*
 ** retourne une chaine de caractères issue de la chaine ’s’.
 ** Cette nouvelle chaine commence à l’index ’start’ et

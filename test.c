@@ -1,19 +1,21 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-#include "unistd.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
+/*   Updated: 2020/12/08 18:49:36 by chly-huc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//
-//int main()
-//{
-//   char *buf;
-//    int size = 800;
-//    printf("%s\n", getcwd(buf, size));
-//}
+#include "minishell.h"
 
 int main()
 {
     char *buf;
+	buf = NULL;
     int size = 40000;
     printf("%s\n", getcwd(buf, size));
 }

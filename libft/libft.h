@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 08:47:31 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/01/14 01:29:48 by chly-huc         ###   ########.fr       */
+/*   Updated: 2020/11/06 19:50:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void				*ft_memset(void *b, int c, size_t n);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *s);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
-size_t				ft_strlcpy(char *dest, const char *src, size_t size);
-size_t				ft_strlen(const char *str);
+int					ft_strlen(const char *str);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strnstr(const char *haystack, const char
 						*needle, size_t len);
@@ -53,8 +52,8 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
-char				*ft_strtrim(char const *s1, char const *set);
-char				**ft_split(char const *str, char charset);
+char				*ft_strtrim(char *s1, char *set);
+char				**ft_split(char *str, char charset);
 char				*ft_itoa(int n);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void				ft_putchar_fd(char c, int fd);

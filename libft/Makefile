@@ -6,7 +6,7 @@
 #    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/09 21:51:32 by chly-huc          #+#    #+#              #
-#    Updated: 2020/01/10 12:37:13 by chly-huc         ###   ########.fr        #
+#    Updated: 2020/10/31 16:55:30 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,26 +23,26 @@ ft_lstiter.c ft_lstlast.c \
 
 HEADERS =	libft.h
 NAME = 		libft.a
-CC = 		gcc
-CFLAGS =	-Wall -Wextra -Werror
 OBJS = 		${SRCS:.c=.o}
 OBJ = 		${BONUS:.c=.o}
 
 .c.o:
-			${CC} ${CFLAGS} -I ${HEADERS} -c $^ -o ${<:.c=.o}
+			@${CC} ${CFLAGS} -I ${HEADERS} -c $^ -o ${<:.c=.o}
 
 ${NAME}: 	${OBJS}
-			ar rc ${NAME} ${OBJS}
+			@ar rc ${NAME} ${OBJS}
 
 all:		${NAME}
 
 bonus:		${OBJ}
-			ar rc ${NAME} ${OBJ} 	
+			@ar rc ${NAME} ${OBJ} 	
 clean:	
-			rm -f ${OBJS} ${OBJ}
+			@rm -f ${OBJS} ${OBJ}
 
 fclean:		clean
-			rm -f ${NAME} ${OBJ}
+			@rm -f ${NAME} ${OBJ}
+
+clarify:	clean
 
 re:			fclean all
 

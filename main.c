@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 19:35:22 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/23 15:31:05 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,24 @@ void get_pwd(t_sh *sh)
 
 void ft_scan(t_sh *sh)
 {
-	sh->built_in = ft_strtrim(sh->built_in, " ");
-	if (!strcmp(sh->built_in, "pwd"))
+	sh->input_str = ft_strtrim(sh->input_str, " ");
+	if (!strcmp(sh->input_str, "pwd"))
 		ft_pwd();
-	if (!strncmp(sh->built_in, "cd", 2))
+	if (!strncmp(sh->input_str, "cd", 2))
 		ft_cd(sh);
-	if (!strcmp(sh->built_in, "ls"))
+	if (!strcmp(sh->input_str, "ls"))
 		ft_ls();
-	if (!strncmp(sh->built_in, "echo", 4))
+	if (!strncmp(sh->input_str, "echo", 4))
 		ft_echo(sh);
-	if (!strncmp(sh->built_in, "export", 6))
+	if (!strncmp(sh->input_str, "export", 6))
 		ft_export(sh);
-	if (!strncmp(sh->built_in, "unset", 5))
+	if (!strncmp(sh->input_str, "unset", 5))
 		ft_unset(sh);
-	if (!strcmp(sh->built_in, "exit"))
+	if (!strcmp(sh->input_str, "exit"))
 		ft_exit(sh);
-	if (!strcmp(sh->built_in, "env"))
+	if (!strcmp(sh->input_str, "env"))
 		print_tab(sh->env);
-	if (!strcmp(sh->built_in, "path"))
+	if (!strcmp(sh->input_str, "path"))
 		print_tab(sh->all_path);
 }
 
@@ -76,9 +76,9 @@ int check_syntax(t_sh *sh)
 
 	i = -1;
 	error = 0;
-	while (sh->built_in[++i])
+	while (sh->input_str[++i])
 	{
-		if (sh->built_in[i] == '\\' && sh->built_in[i + 1] == ';')
+		if (sh->input_str[i] == '\\' && sh->input_str[i + 1] == ';')
 			error++;
 	}
 	return (error == 0 ? 1 : 0);
@@ -94,20 +94,20 @@ int main(int argc, char **argv, char **env)
 	{
 		int i = -1;
 		write(0, "My Minishell ~> ", 16);
-		get_next_line(0, &sh->built_in);
+		get_next_line(0, &sh->input_str);
 		if (check_syntax(sh))
-			sh->tmp = ft_split(sh->built_in, ';');
+			sh->tmp = ft_split(sh->input_str, ';');
 		print_tab(sh->tmp);
 		while (sh->tmp[++i])
 		{
-			free(sh->built_in);
-			sh->built_in = ft_strdup(sh->tmp[i]);
+			free(sh->input_str);
+			sh->input_str = ft_strdup(sh->tmp[i]);
 			free(sh->tmp[i]);
 			ft_scan(sh);
 			get_pwd(sh);
 		}
 		free(sh->tmp);
-		free(sh->built_in);
+		free(sh->input_str);
 	}
 	return (1);
 }

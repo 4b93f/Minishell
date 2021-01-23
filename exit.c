@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:54 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 18:16:14 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/23 15:31:21 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void ft_exit(t_sh *sh)
 
 	i = -1;
 	free_tab(sh->all_path);
-	free(sh->built_in);
+	free(sh->input_str);
 	free(sh->actual_pwd);
 	free(sh->old_pwd);
 	free_tab(sh->env);

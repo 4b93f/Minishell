@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 18:18:25 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/23 15:32:13 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void ft_cd(t_sh *sh)
 	path = NULL;
 	free(sh->old_pwd);
 	sh->old_pwd = get_actual_path(); 
-	if (!strcmp("cd /", sh->built_in))
+	if (!strcmp("cd /", sh->input_str))
 		chdir("/");
-	if (!strcmp("cd ~", sh->built_in) || !strcmp("cd", sh->built_in))
+	if (!strcmp("cd ~", sh->input_str) || !strcmp("cd", sh->input_str))
 	{
 		while(strncmp(sh->env[i], "HOME=", ft_strlen("HOME=")))
 			i++;
@@ -46,7 +46,7 @@ void ft_cd(t_sh *sh)
 	i = stat("/Users/chly-huc/Desktop/minish", &buffer);
 	path = get_actual_path();
 	path = ft_strjoinfree(path, "/");
-	path = ft_strjoinfree(path, sh->built_in + ft_strlen("cd "));
+	path = ft_strjoinfree(path, sh->input_str + ft_strlen("cd "));
 	if (i == -1)
 		return ;
 	else
@@ -66,12 +66,12 @@ void ft_echo(t_sh *sh)
 	int i;
 
 	i = 0;
-	if (!strcmp(sh->built_in, "echo"))
+	if (!strcmp(sh->input_str, "echo"))
 		return ;
-	if (!strncmp(sh->built_in, "echo -n", ft_strlen("echo -n")))
-		write(1, sh->built_in + ft_strlen("echo -n") + 1, ft_strlen(sh->built_in + ft_strlen("echo -n") + 1));
+	if (!strncmp(sh->input_str, "echo -n", ft_strlen("echo -n")))
+		write(1, sh->input_str + ft_strlen("echo -n") + 1, ft_strlen(sh->input_str + ft_strlen("echo -n") + 1));
 	else
-		printf("%s\n", sh->built_in + ft_strlen("echo") + 1);
+		printf("%s\n", sh->input_str + ft_strlen("echo") + 1);
 	
 }
 
@@ -136,9 +136,9 @@ void ft_export(t_sh *sh)
 	j = 0;
 	k = 0;
 	tab = NULL;
-	if (!(tab = ft_split(sh->built_in, ' ')))
+	if (!(tab = ft_split(sh->input_str, ' ')))
 		return;
-	if (!strcmp(sh->built_in, "export"))
+	if (!strcmp(sh->input_str, "export"))
 		sort_export(sh, 0, 0, tablen(sh->env));
 	while (tab[++k])
 	{
@@ -174,7 +174,7 @@ void ft_unset(t_sh *sh)
 	
 	i = 0;
 	j = 0;
-	if (!(tab = ft_split(sh->built_in, ' ')))
+	if (!(tab = ft_split(sh->input_str, ' ')))
 		return ;
 	while (tab[++i])
 	{

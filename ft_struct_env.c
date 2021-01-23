@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_struct_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 17:22:57 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/23 15:31:15 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_sh	ft_create_sh(void)
 
 	sh.env = NULL;
 	sh.all_path = NULL;
-	sh.built_in = NULL;
+	sh.input_str = NULL;
 	sh.old_pwd = NULL;
 	sh.actual_pwd = NULL;
 	sh.tmp = NULL;

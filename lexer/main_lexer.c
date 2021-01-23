@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/23 14:25:30 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:36:07 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	need to trim when " or ' is used.
 */
 
-static void	str_store(t_sarg *t, int j, int i, int sep)
+static void	str_store(t_sh *t, int j, int i, int sep)
 {
 	if (i - j > 0)
 	{
@@ -28,7 +28,7 @@ static void	str_store(t_sarg *t, int j, int i, int sep)
 			i, sep)));
 }
 
-static int	is_double_char(t_sarg *t, int i)
+static int	is_double_char(t_sh *t, int i)
 {
 	return ((t->input_str[i] == '>' && t->input_str[i + 1] == '>') ||
 		(t->input_str[i] == '<' && t->input_str[i + 1] == '<') ||
@@ -40,7 +40,7 @@ static int	is_double_char(t_sarg *t, int i)
 **	nedd to call error function when " or ' is not closed.
 */
 
-static void	str_cut(t_sarg *t, int i, int j)
+static void	str_cut(t_sh *t, int i, int j)
 {
 	while (t->input_str && t->input_str[i])
 	{
@@ -66,7 +66,7 @@ static void	str_cut(t_sarg *t, int i, int j)
 		str_store(t, j, i, 0);
 }
 
-void		strtolst(t_sarg *t)
+void		strtolst(t_sh *t)
 {
 	str_cut(t, 0, 0);
 }

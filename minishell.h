@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 14:26:10 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:39:10 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@ typedef struct	s_sh
 	char *actual_pwd;
 	char **tmp;
 	char *free;
-}				t_sh;
 
-
-typedef struct	s_sarg
-{
 	char		*input_str;
 
 	t_list		*arg_lst;
@@ -41,7 +37,7 @@ typedef struct	s_sarg
 	t_list		*pid_lst;
 
 	int			ret_val;
-}				t_sarg;
+}				t_sh;
 
 
 t_sh		*ft_malloc_sh();
@@ -66,5 +62,8 @@ void		ft_exit(t_sh *sh);
 void		ft_unset(t_sh *sh);
 void		ft_pwd();
 int			ft_isspace(int c);
+
+void		strtolst(t_sh *t);
+int			parser(t_sh *t);
 
 #endif

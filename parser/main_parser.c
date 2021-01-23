@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/23 14:25:09 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:36:30 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	sep_checker(char *str)
 **	cmd_index  7 --> help
 */
 
-static int	chain_maker(t_sarg *t)
+static int	chain_maker(t_sh *t)
 {
 	t_list		*ptr;
 	t_cmd_lst	*cmd_ptr;
@@ -143,7 +143,7 @@ static int	chain_maker(t_sarg *t)
 	return (0);
 }
 
-int			parser(t_sarg *t)
+int			parser(t_sh *t)
 {
 	char	*str;
 

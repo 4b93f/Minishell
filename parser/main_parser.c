@@ -6,11 +6,11 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/17 04:47:15 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:25:09 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../main.h"
+#include "../minishell.h"
 
 static int	cmd_flag_check(char *str)
 {

@@ -6,11 +6,11 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/22 00:21:18 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:25:30 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../main.h"
+#include "../minishell.h"
 
 /*
 **	need to trim when " or ' is used.
@@ -70,6 +70,3 @@ void		strtolst(t_sarg *t)
 {
 	str_cut(t, 0, 0);
 }
-yolo; echo && plop;;
-
-[yolo] [;] [echo] [yolo] [;] [;]

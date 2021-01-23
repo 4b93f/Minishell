@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/17 00:49:57 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 14:24:57 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define FT_CMD_CL_H
 
-# include "../main.h"
+# include "../minishell.h"
 
 typedef struct	s_cmd_lst
 {

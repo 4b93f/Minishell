@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 15:32:28 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 19:43:02 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@
 
 typedef struct	s_sh
 {
-	char	**env;
-	char **all_path;
+	char	**env; //--> liste chainee
+	char **all_path; //--> liste chainee
 	char *old_pwd;
 	char *actual_pwd;
-	char **tmp;
-	char *free;
+	char **tmp; //sert a R
 
 	char		*input_str;
 

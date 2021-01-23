@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_cmdlstclear.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:58:26 by jsilance         ###   ########.fr       */
+/*   Created: 2019/10/10 23:28:38 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/23 19:49:37 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_env_cl.h"
 
-int main()
+void	ft_env_lstclear(t_env_lst **lst, void (*del)(void*))
 {
-    char *str = "      NON       ";
-    char *new_str;
-    int i = 0;
+	t_env_lst	*ptr;
+	t_env_lst	*tmp;
+
+	if (!lst || !*lst || !del)
+		return ;
+	tmp = NULL;
+	ptr = *lst;
+	while (ptr)
+	{
+		tmp = ptr->next;
+		ft_env_lstdelone(ptr, (*del));
+		ptr = tmp;
+	}
+	*lst = NULL;
 }

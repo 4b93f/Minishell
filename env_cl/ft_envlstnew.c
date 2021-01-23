@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_cmdlstnew.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:58:26 by jsilance         ###   ########.fr       */
+/*   Created: 2019/10/10 02:44:47 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/23 19:52:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_env_cl.h"
 
-int main()
+t_env_lst	*ft_env_lstnew(void *var, void *content)
 {
-    char *str = "      NON       ";
-    char *new_str;
-    int i = 0;
+	t_env_lst	*ptr;
+
+	if (!(ptr = (t_env_lst *)malloc(sizeof(t_env_lst))))
+		return (NULL);
+	ptr->var = var;
+	ptr->content = content;
+	ptr->next = NULL;
+	return (ptr);
 }

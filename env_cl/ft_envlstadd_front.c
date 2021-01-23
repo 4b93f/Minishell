@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_cmdlstadd_front.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:58:26 by jsilance         ###   ########.fr       */
+/*   Created: 2019/10/10 04:14:57 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/23 19:49:15 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_env_cl.h"
 
-int main()
+void	ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new)
 {
-    char *str = "      NON       ";
-    char *new_str;
-    int i = 0;
+	if (!alst || !new)
+		return ;
+	new->next = *alst;
+	*alst = new;
 }

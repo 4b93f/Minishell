@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:43:02 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 20:35:30 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,41 @@
 
 # define MAIN_H
 
+# include <sys/types.h>
+# include "libft/libft.h"
+# include "env_cl/ft_env_cl.h"
+# include "cmd_cl/ft_cmd_cl.h"
 # include <stdio.h>
 # include "get_next_line/get_next_line.h"
-# include "libft/libft.h"
-# include "cmd_cl/ft_cmd_cl.h"
-# include <sys/types.h>
+
+
+typedef struct	s_env_lst
+{
+	char		*var;
+	char		*content;
+	
+	void		*next;
+}				t_env_lst;
+
+
+typedef struct	s_cmd_lst
+{
+	int			cmd_index;
+	char		*flags;
+
+	int			pipe_in;
+	int			fd_pipe_in;
+
+	int			pipe_out;
+	int			fd_pipe_out;
+
+	t_list		*str;
+	
+	int			pid;
+	
+	void		*next;
+}				t_cmd_lst;
+
 
 typedef struct	s_sh
 {
@@ -32,7 +62,9 @@ typedef struct	s_sh
 
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;
+	t_env_lst	*env_lst;
 	t_list		*pid_lst;
+
 
 	int			ret_val;
 }				t_sh;
@@ -63,5 +95,23 @@ int			ft_isspace(int c);
 
 void		strtolst(t_sh *t);
 int			parser(t_sh *t);
+
+void			ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);
+void			ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new);
+void			ft_env_lstclear(t_env_lst **lst, void (*del)(void*));
+void			ft_env_lstdelone(t_env_lst *lst, void (*del)(void*));
+void			ft_env_lstiter(t_env_lst *lst, void (*f)(void *));
+t_env_lst		*ft_env_lstlast(t_env_lst *lst);
+t_env_lst		*ft_env_lstnew(void *var, void *content);
+int				ft_env_lstsize(t_env_lst *lst);
+
+void			ft_cmd_lstadd_back(t_cmd_lst **alst, t_cmd_lst *new);
+void			ft_cmd_lstadd_front(t_cmd_lst **alst, t_cmd_lst *new);
+void			ft_cmd_lstclear(t_cmd_lst **lst, void (*del)(void*));
+void			ft_cmd_lstdelone(t_cmd_lst *lst, void (*del)(void*));
+void			ft_cmd_lstiter(t_cmd_lst *lst, void (*f)(void *));
+t_cmd_lst		*ft_cmd_lstlast(t_cmd_lst *lst);
+t_cmd_lst		*ft_cmd_lstnew(void *str, void *flag, int index);
+int				ft_cmd_lstsize(t_cmd_lst *lst);
 
 #endif

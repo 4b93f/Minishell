@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_envlstsize.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:58:26 by jsilance         ###   ########.fr       */
+/*   Created: 2019/10/10 04:41:04 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/23 19:56:01 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_env_cl.h"
 
-int main()
+int	ft_env_lstsize(t_env_lst *lst)
 {
-    char *str = "      NON       ";
-    char *new_str;
-    int i = 0;
+	int	count;
+
+	count = 0;
+	while (lst && ++count)
+		lst = lst->next;
+	return (count);
 }

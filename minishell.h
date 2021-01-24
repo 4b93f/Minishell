@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 20:35:30 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 23:22:50 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ typedef struct	s_sh
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;
 	t_env_lst	*env_lst;
-	t_list		*pid_lst;
-
 
 	int			ret_val;
 }				t_sh;
@@ -113,5 +111,7 @@ void			ft_cmd_lstiter(t_cmd_lst *lst, void (*f)(void *));
 t_cmd_lst		*ft_cmd_lstlast(t_cmd_lst *lst);
 t_cmd_lst		*ft_cmd_lstnew(void *str, void *flag, int index);
 int				ft_cmd_lstsize(t_cmd_lst *lst);
+
+void			ft_env_to_lst(char **env, t_sh *sh);
 
 #endif

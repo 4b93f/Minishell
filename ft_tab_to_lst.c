@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_tab_to_lst.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 17:38:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 21:59:25 by jsilance         ###   ########.fr       */
+/*   Created: 2021/01/23 22:54:42 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/24 02:27:37 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_env_to_lst(char **env, t_sh *sh)
 {
-	t_list	*ptr;
-	t_list	*tmp;
+	int		i;
+	int		equal_pos;
+	char	*var;
+	char	*value;
 
-	if (!lst || !*lst || !del)
-		return ;
-	tmp = NULL;
-	ptr = *lst;
-	while (ptr)
+	i = -1;
+	while (env && env[++i])
 	{
-		tmp = ptr->next;
-		ft_lstdelone(ptr, (*del));
-		ptr = tmp;
+		equal_pos = ft_strchr(env[i], '=');
+		var = ft_substr(env[i], 0, equal_pos);
+		value = ft_substr(env[i], equal_pos + 1, ft_strlen(env[i]));
+		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));
 	}
-	*lst = NULL;
 }
-/*
-** Clear une liste chainée
-*/

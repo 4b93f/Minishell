@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 17:38:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 21:59:25 by jsilance         ###   ########.fr       */
+/*   Created: 2021/01/23 21:49:38 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/23 21:50:27 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_list	*ptr;
-	t_list	*tmp;
+	size_t	count;
 
-	if (!lst || !*lst || !del)
-		return ;
-	tmp = NULL;
-	ptr = *lst;
-	while (ptr)
+	count = 0;
+	while (s1 && s2 && (s1[count] || s2[count]))
 	{
-		tmp = ptr->next;
-		ft_lstdelone(ptr, (*del));
-		ptr = tmp;
+		if ((unsigned char)s1[count] != (unsigned char)s2[count])
+			return ((unsigned char)s1[count] - (unsigned char)s2[count]);
+		count++;
 	}
-	*lst = NULL;
+	return (0);
 }
-/*
-** Clear une liste chainée
-*/

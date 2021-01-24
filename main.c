@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:57:54 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/23 23:23:26 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,28 +86,30 @@ int check_syntax(t_sh *sh)
 
 int main(int argc, char **argv, char **env)
 {
-	t_sh *sh;
-	sh = ft_malloc_sh();
-	sh->env = tabcpy(env);
-	get_all_path(sh);
+	t_sh	sh;
+	// char	**tmp_env;
+
+	ft_env_to_lst(env, &sh);
+	
+	get_all_path(&sh);
 	while(1)
 	{
 		int i = -1;
 		write(0, "My Minishell ~> ", 16);
-		get_next_line(0, &sh->input_str);
-		if (check_syntax(sh))
-			sh->tmp = ft_split(sh->input_str, ';');
-		print_tab(sh->tmp);
-		while (sh->tmp[++i])
+		get_next_line(0, sh.input_str);
+		if (check_syntax(&sh))
+			sh.tmp = ft_split(sh.input_str, ';');
+		print_tab(sh.tmp);
+		while (sh.tmp[++i])
 		{
-			free(sh->input_str);
-			sh->input_str = ft_strdup(sh->tmp[i]);
-			free(sh->tmp[i]);
-			ft_scan(sh);
-			get_pwd(sh);
+			free(sh.input_str);
+			sh.input_str = ft_strdup(sh.tmp[i]);
+			free(sh.tmp[i]);
+			ft_scan(&sh);
+			get_pwd(&sh);
 		}
-		free(sh->tmp);
-		free(sh->input_str);
+		free(sh.tmp);
+		free(sh.input_str);
 	}
 	return (1);
 }

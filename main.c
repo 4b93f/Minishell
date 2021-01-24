@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 23:23:26 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/24 23:47:11 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv, char **env)
 	{
 		int i = -1;
 		write(0, "My Minishell ~> ", 16);
-		get_next_line(0, sh.input_str);
+		get_next_line(0, &sh.input_str);
 		if (check_syntax(&sh))
 			sh.tmp = ft_split(sh.input_str, ';');
 		print_tab(sh.tmp);

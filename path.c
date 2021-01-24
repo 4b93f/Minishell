@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/08 18:50:55 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/24 23:46:20 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,18 @@ void ft_search_path(t_sh *sh)
 
 void	get_all_path(t_sh *sh)
 {
-	int i;
-	char *tmp;
+	int			i;
+	char		*tmp;
+	t_env_lst	*lst_ptr;
 
-	i = 0;
-	while(strncmp(sh->env[i], "PATH=", ft_strlen("PATH=")))
-		i++;
-	if(!sh->env[i])
-		return ;
-	tmp = sh->env[i] + ft_strlen("PATH=");
-	sh->all_path = ft_split(tmp, ':');
 	i = -1;
+	lst_ptr = sh->env_lst;
+	while(ft_strcmp(lst_ptr->var, "PATH"))
+		lst_ptr = lst_ptr->next;
+	if(!lst_ptr)
+		return ;
+	sh->all_path = ft_split(lst_ptr->content, ':');
 	while (sh->all_path[++i])
 		sh->all_path[i] = ft_strjoinfree(sh->all_path[i], "/");
-	i = -1;
 }
 

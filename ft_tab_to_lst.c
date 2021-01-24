@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 22:54:42 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/24 02:27:37 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/24 23:48:12 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_env_to_lst(char **env, t_sh *sh)
 	i = -1;
 	while (env && env[++i])
 	{
-		equal_pos = ft_strchr(env[i], '=');
+		equal_pos = ft_strchr(env[i], '=') - env[i];
 		var = ft_substr(env[i], 0, equal_pos);
 		value = ft_substr(env[i], equal_pos + 1, ft_strlen(env[i]));
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));

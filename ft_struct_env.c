@@ -6,12 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 19:42:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:43:22 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 t_sh	ft_create_sh(void)
 {
 	t_sh sh;
@@ -24,7 +25,10 @@ t_sh	ft_create_sh(void)
 	sh.tmp = NULL;
 	return (sh);
 }
+*/
 
+
+/*
 t_sh	*ft_malloc_sh(void)
 {
 	t_sh *malloc_sh;
@@ -34,3 +38,4 @@ t_sh	*ft_malloc_sh(void)
 	*malloc_sh = ft_create_sh();
 	return (malloc_sh);
 }
+*/

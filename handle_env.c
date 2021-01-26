@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:31:30 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/08 13:59:50 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:42:53 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 void create_env(t_sh *sh, char *new_env)
 {
 	char *tmp;
@@ -25,7 +26,9 @@ void create_env(t_sh *sh, char *new_env)
 	sh->env = ft_realloc(sh->env, tmp);
 	free(tmp);	
 }
+*/
 
+/*
 char **delete_env(t_sh *sh, char *delete_env, int len)
 {
 	char **new_tab;
@@ -51,3 +54,4 @@ char **delete_env(t_sh *sh, char *delete_env, int len)
 	new_tab[++i] = NULL;
 	return(new_tab);
 }
+*/

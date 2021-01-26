@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 15:32:13 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:41:13 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void ft_pwd()
 	free(buf);
 }
 
+/*
 void ft_cd(t_sh *sh)
 {
 	struct stat buffer;
@@ -58,6 +59,7 @@ void ft_cd(t_sh *sh)
 	sh->actual_pwd = get_actual_path();
 	free(path);
 }
+*/
 
 void ft_echo(t_sh *sh)
 {
@@ -93,6 +95,8 @@ void ft_ls()
 	free(tmp);
 }
 
+
+/*
 int  sort_export(t_sh *sh, int i, int j, int len)
 {
 	char *tmp;
@@ -123,8 +127,11 @@ int  sort_export(t_sh *sh, int i, int j, int len)
 	free_tab(ok);
 	return (0);
 }
+*/
 
 
+
+/*
 void ft_export(t_sh *sh)
 {
 	int i;
@@ -164,7 +171,10 @@ void ft_export(t_sh *sh)
 	}
 	free_tab(tab);
 }
+*/
 
+
+/*
 void ft_unset(t_sh *sh)
 {
 	int i;
@@ -194,3 +204,4 @@ void ft_unset(t_sh *sh)
 	}
 	free_tab(tab);
 }
+*/

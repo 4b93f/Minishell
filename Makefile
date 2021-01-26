@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/01/23 23:23:03 by jsilance         ###   ########.fr        #
+#    Updated: 2021/01/26 01:46:13 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,12 @@ SRCS =	env_cl/ft_envlstadd_back.c env_cl/ft_envlstadd_front.c \
 		libft/ft_lstadd_back.c libft/ft_lstdelone.c libft/ft_lstclear.c \
 		libft/ft_lstiter.c libft/ft_lstlast.c \
 		ft_tab_to_lst.c \
+		free_utils.c executor.c \
 		
 HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h
 NAME = 		minishell
 OBJ = 		${SRCS:.c=.o}
-FLAGS =		-Wall -Wextra -Werror
+FLAGS =		-Wall -Wextra -Werror -fsanitize=address
 
 %.o: %.c
 			@gcc -c -o $@ $?

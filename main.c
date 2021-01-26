@@ -6,13 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/24 23:47:11 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:39:09 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_actual_path(void)
+char	*get_actual_path(void)
 {
 	char *buf;
 	char *str;
@@ -22,7 +22,8 @@ char *get_actual_path(void)
 	return(str);
 }
 
-void get_pwd(t_sh *sh)
+/*
+void	get_pwd(t_sh *sh)
 {
 	int i;
 
@@ -45,16 +46,17 @@ void get_pwd(t_sh *sh)
 		}
 	}
 }
+*/
 
-void ft_scan(t_sh *sh)
+void	ft_scan(t_sh *sh)
 {
 	sh->input_str = ft_strtrim(sh->input_str, " ");
 	if (!strcmp(sh->input_str, "pwd"))
 		ft_pwd();
 	if (!strncmp(sh->input_str, "cd", 2))
 		ft_cd(sh);
-	if (!strcmp(sh->input_str, "ls"))
-		ft_ls();
+	// if (!strcmp(sh->input_str, "ls"))
+		// ft_ls();
 	if (!strncmp(sh->input_str, "echo", 4))
 		ft_echo(sh);
 	if (!strncmp(sh->input_str, "export", 6))
@@ -64,12 +66,12 @@ void ft_scan(t_sh *sh)
 	if (!strcmp(sh->input_str, "exit"))
 		ft_exit(sh);
 	if (!strcmp(sh->input_str, "env"))
-		print_tab(sh->env);
+		print_env(sh->env_lst, 1); // En fonction de la commande.
 	if (!strcmp(sh->input_str, "path"))
 		print_tab(sh->all_path);
 }
 
-int check_syntax(t_sh *sh)
+int		check_syntax(t_sh *sh)
 {
 	int i;
 	int error;
@@ -81,35 +83,47 @@ int check_syntax(t_sh *sh)
 		if (sh->input_str[i] == '\\' && sh->input_str[i + 1] == ';')
 			error++;
 	}
-	return (error == 0 ? 1 : 0);
+	return (error);
 }
 
-int main(int argc, char **argv, char **env)
+int		main(int argc, char **argv, char **env)
 {
 	t_sh	sh;
-	// char	**tmp_env;
+	int		ret;
 
 	ft_env_to_lst(env, &sh);
-	
 	get_all_path(&sh);
-	while(1)
+	ret = 1;
+	
+	while(ret)
 	{
 		int i = -1;
 		write(0, "My Minishell ~> ", 16);
-		get_next_line(0, &sh.input_str);
-		if (check_syntax(&sh))
-			sh.tmp = ft_split(sh.input_str, ';');
-		print_tab(sh.tmp);
+		ret = get_next_line(0, &sh.input_str);
+
+		strtolst(&sh);
+		parser(&sh);
+		
+		// if (!check_syntax(&sh))
+			// sh.tmp = ft_split(sh.input_str, ';');
+		// print_tab(sh.tmp);
+		/*
 		while (sh.tmp[++i])
 		{
 			free(sh.input_str);
 			sh.input_str = ft_strdup(sh.tmp[i]);
 			free(sh.tmp[i]);
-			ft_scan(&sh);
-			get_pwd(&sh);
+			// get_pwd(&sh); //n'est plus utile car ajout de env_lst_finder
 		}
 		free(sh.tmp);
-		free(sh.input_str);
+		*/
+	
+		// executor()
+	
+		ft_scan(&sh);
+		sh_free(&sh);
+		// free(sh.input_str);
 	}
+	sh_free(&sh);
 	return (1);
 }

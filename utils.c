@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/09 17:54:30 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:38:08 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,35 @@ char	**ft_realloc(char **str, char *line)
 	return (cpy);
 }
 
-void print_tab(char **str)
-{
-	int i;
+/*
+**	env_lst_finder
+**
+**	Renvoie le content de la liste chainee (lst) a la variable 
+**	correspondante (var).
+*/
 
-	i = -1;
-	while(str[++i])
-		printf("{%s}\n", str[i]);
-	return ;
+void	*env_lst_finder(t_env_lst *lst, char *var)
+{
+	t_env_lst	*ptr_lst;
+
+	ptr_lst = lst;
+	if (!ptr_lst || !var)
+		return (NULL);
+	while (ft_strcmp(ptr_lst->var, var))
+		ptr_lst = ptr_lst->next;
+	return (ptr_lst->content);
+}
+
+void	print_env(t_env_lst *lst, int fd)
+{
+	t_env_lst	*ptr_lst;
+
+	ptr_lst = lst;
+	while (ptr_lst)
+	{
+		ft_putstr_fd(ptr_lst->var, fd);
+		write(fd, "=", 1);
+		ft_putstr_fd(ptr_lst->content, fd);
+		write(fd, "\n", 1); //a supprimer en cas de pipe.
+	}
 }

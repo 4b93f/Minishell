@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/23 23:22:50 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/26 01:39:37 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef struct	s_env_lst
 {
 	char		*var;
-	char		*content;
+	void		*content;
 	
 	void		*next;
 }				t_env_lst;
@@ -52,11 +52,11 @@ typedef struct	s_cmd_lst
 
 typedef struct	s_sh
 {
-	char	**env; //--> liste chainee
+	// char	**env; //--> liste chainee
 	char **all_path; //--> liste chainee
-	char *old_pwd;
-	char *actual_pwd;
-	char **tmp; //sert a R
+	// char *old_pwd;
+	// char *actual_pwd;
+	// char **tmp; //sert a R
 
 	char		*input_str;
 
@@ -78,6 +78,7 @@ char		**delete_env(t_sh *sh, char *delete_env, int len);
 char		*get_actual_path(void);
 void		free_tab(char **tab);
 void		print_tab(char **str);
+void		print_env(t_env_lst *lst, int fd);
 void		get_pwd(t_sh *sh);
 void		create_env(t_sh *sh, char *new_env);
 void		get_all_path(t_sh *sh);
@@ -93,6 +94,10 @@ int			ft_isspace(int c);
 
 void		strtolst(t_sh *t);
 int			parser(t_sh *t);
+void		*env_lst_finder(t_env_lst *lst, char *var);
+void		sh_free(t_sh *sh);
+
+int			executor(t_sh *sh);
 
 void			ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);
 void			ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new);

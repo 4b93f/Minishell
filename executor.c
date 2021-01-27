@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/26 01:22:12 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/26 23:47:11 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	commander_exec(t_cmd_lst *ptr_cmd, t_sh *sh)
 	if (ptr_cmd->cmd_index == -1)
 		ft_error(1, 0); //execve
 	else if (ptr_cmd->cmd_index == 0)
-		exiturn(sh, 1);
+		ft_exit(sh);
 	else if (ptr_cmd->cmd_index == 1)
 		cmd_echo(ptr_cmd);
 	else if (ptr_cmd->cmd_index == 2)

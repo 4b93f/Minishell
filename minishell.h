@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/26 01:39:37 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 02:45:19 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MAIN_H
 
 # include <sys/types.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 # include "env_cl/ft_env_cl.h"
 # include "cmd_cl/ft_cmd_cl.h"
@@ -34,6 +35,7 @@ typedef struct	s_env_lst
 typedef struct	s_cmd_lst
 {
 	int			cmd_index;
+	char		*cmd_str;
 	char		*flags;
 
 	int			pipe_in;
@@ -52,11 +54,7 @@ typedef struct	s_cmd_lst
 
 typedef struct	s_sh
 {
-	// char	**env; //--> liste chainee
 	char **all_path; //--> liste chainee
-	// char *old_pwd;
-	// char *actual_pwd;
-	// char **tmp; //sert a R
 
 	char		*input_str;
 
@@ -82,19 +80,17 @@ void		print_env(t_env_lst *lst, int fd);
 void		get_pwd(t_sh *sh);
 void		create_env(t_sh *sh, char *new_env);
 void		get_all_path(t_sh *sh);
-void		ft_cd(t_sh *sh);
-void		ft_echo(t_sh *sh);
-void		ft_ls();
-void		ft_export(t_sh *sh);
+void		exec_cmd(t_cmd_lst *cmd, t_sh *sh);
+void		ft_export(t_cmd_lst *cmd, t_sh *sh);
 void		cd_info(t_sh *sh, int num, char *path);
 void		ft_exit(t_sh *sh);
-void		ft_unset(t_sh *sh);
-void		ft_pwd();
+void		ft_unset(t_cmd_lst *cmd, t_sh *sh);
+void		ft_pwd(t_cmd_lst *cmd);
 int			ft_isspace(int c);
 
 void		strtolst(t_sh *t);
 int			parser(t_sh *t);
-void		*env_lst_finder(t_env_lst *lst, char *var);
+t_env_lst	*env_lst_finder(t_env_lst *lst, char *var);
 void		sh_free(t_sh *sh);
 
 int			executor(t_sh *sh);
@@ -118,5 +114,7 @@ t_cmd_lst		*ft_cmd_lstnew(void *str, void *flag, int index);
 int				ft_cmd_lstsize(t_cmd_lst *lst);
 
 void			ft_env_to_lst(char **env, t_sh *sh);
+
+void			dbg(t_sh *t);
 
 #endif

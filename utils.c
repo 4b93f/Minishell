@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/26 01:38:08 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 04:11:47 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,27 @@ char	**ft_realloc(char **str, char *line)
 /*
 **	env_lst_finder
 **
-**	Renvoie le content de la liste chainee (lst) a la variable 
-**	correspondante (var).
+**	Renvoie un pointer sur le chainon (lst) correspondant.
 */
 
-void	*env_lst_finder(t_env_lst *lst, char *var)
+t_env_lst	*env_lst_finder(t_env_lst *lst, char *var)
 {
 	t_env_lst	*ptr_lst;
+	t_env_lst	*tmp;
 
+	tmp = NULL;
 	ptr_lst = lst;
 	if (!ptr_lst || !var)
 		return (NULL);
-	while (ft_strcmp(ptr_lst->var, var))
+	while (ptr_lst && ft_strcmp(ptr_lst->var, var))
+	{
+		tmp = ptr_lst;
 		ptr_lst = ptr_lst->next;
-	return (ptr_lst->content);
+	}
+	if (ptr_lst)
+		return (ptr_lst);
+	else
+		return (tmp);
 }
 
 void	print_env(t_env_lst *lst, int fd)
@@ -126,9 +133,23 @@ void	print_env(t_env_lst *lst, int fd)
 	ptr_lst = lst;
 	while (ptr_lst)
 	{
-		ft_putstr_fd(ptr_lst->var, fd);
-		write(fd, "=", 1);
-		ft_putstr_fd(ptr_lst->content, fd);
-		write(fd, "\n", 1); //a supprimer en cas de pipe.
+		if (ptr_lst->var)
+		{
+			ft_putstr_fd(ptr_lst->var, fd);
+			write(fd, "=", 1);
+			ft_putstr_fd(ptr_lst->content, fd);
+			if (fd < 3)
+				write(fd, "\n", 1);
+		}
+		ptr_lst = ptr_lst->next;
 	}
+}
+
+void	print_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while(tab && tab[++i])
+		ft_putstr_fd(tab[i], 1);
 }

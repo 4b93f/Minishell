@@ -6,84 +6,65 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/26 23:47:11 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 03:37:40 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-
-static void	cmd_pwd(t_cmd_lst *cmd_ptr)
-{
-	char	*ptr;
-
-	ptr = pather();
-	ft_putstr_fd(ptr, cmd_ptr->fd_pipe_out);
-	if (cmd_ptr->fd_pipe_out == 1)
-		write(1, "\n", 1);
-	free(ptr);
-}
-
 /*
-**	/!\ gerer si plus que flag et arg
-**	/!\ gerer erreur de guillemet + trim
+**	/!\ gerer si plus que flag et arg.
+**	/!\ gerer erreur de guillemet + trim.
+**	/!\ gerer les variables d'env ($).
 */
 
-
-
-static void	cmd_echo(t_cmd_lst *cmd_ptr)
+static void	ft_echo(t_cmd_lst *cmd)
 {
 	t_list	*ptr_lst;
 
-	ptr_lst = cmd_ptr->str;
+	ptr_lst = cmd->str;
 	while (ptr_lst)
 	{
-		ft_putstr_fd(ptr_lst->content, cmd_ptr->fd_pipe_out);
+		ft_putstr_fd(ptr_lst->content, cmd->fd_pipe_out);
 		ptr_lst = ptr_lst->next;
 		if (ptr_lst)
-			write(cmd_ptr->fd_pipe_out, " ", 1);
-		else if (!(cmd_ptr->flags && !ft_strcmp("-n", cmd_ptr->flags)))
-			write(cmd_ptr->fd_pipe_out, "\n", 1);
+			write(cmd->fd_pipe_out, " ", 1);
+		else if (!(cmd->flags && !ft_strcmp("-n", cmd->flags)))
+			write(cmd->fd_pipe_out, "\n", 1);
 	}
 }
 
+/*
+**	voir si besoin de gere le old pwd dans l'env.
+**	adapter avec l'ancier ft_cd.
+*/
 
-
-
-static void	cmd_help(t_cmd_lst *cmd_ptr)
+static void	ft_cd(t_cmd_lst *cmd)
 {
-	ft_putstr_fd("\nCommands list:\n\nexit\necho [-n] [arg]\ncd [arg]\npwd\nexport [arg]\nunset [arg]\nenv\nhelp\n\n", cmd_ptr->fd_pipe_out);
+	if (chdir(cmd->str->content))
+		return ;
+		// ft_error(2, 0);
 }
 
-
-
-
-
-static void	cmd_cd(t_cmd_lst *cmd_ptr)
+static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
-	if (chdir(cmd_ptr->str->content))
-		ft_error(2, 0);
-}
-
-
-
-
-
-static void	commander_exec(t_cmd_lst *ptr_cmd, t_sh *sh)
-{
-	if (ptr_cmd->cmd_index == -1)
-		ft_error(1, 0); //execve
-	else if (ptr_cmd->cmd_index == 0)
+	if (cmd->cmd_index == -1)
+		exec_cmd(cmd, sh);
+	else if (cmd->cmd_index == 0)
 		ft_exit(sh);
-	else if (ptr_cmd->cmd_index == 1)
-		cmd_echo(ptr_cmd);
-	else if (ptr_cmd->cmd_index == 2)
-		cmd_cd(ptr_cmd);
-	else if (ptr_cmd->cmd_index == 3)
-		cmd_pwd(ptr_cmd);
-	else if (ptr_cmd->cmd_index == 7)
-		cmd_help(ptr_cmd);
+	else if (cmd->cmd_index == 1)
+		ft_echo(cmd);
+	else if (cmd->cmd_index == 2)
+		ft_cd(cmd);
+	else if (cmd->cmd_index == 3)
+		ft_pwd(cmd);
+	else if (cmd->cmd_index == 4)
+		ft_export(cmd, sh);
+	else if (cmd->cmd_index == 5)
+		ft_unset(cmd, sh);
+	else if (cmd->cmd_index == 6)
+		print_env(sh->env_lst, cmd->fd_pipe_out);
 }
 
 static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
@@ -109,7 +90,6 @@ int	executor(t_sh *sh)
 	t_cmd_lst	*ptr_cmd;
 
 	ptr_cmd = sh->cmd;
-		// dbg(t);
 	while (ptr_cmd)
 	{
 		if (ptr_cmd->pipe_out)

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/26 01:47:49 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 03:31:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	sh_free(t_sh *sh)
 {
 	if (sh->input_str)
 		free(sh->input_str);
-	ft_lstclear(sh->arg_lst, free);
-	ft_cmd_lstclear(sh->cmd, free);
-	ft_env_lstclear(sh->env_lst, free);
+	ft_lstclear(&sh->arg_lst, free);
+	ft_cmd_lstclear(&sh->cmd, free);
 }
 
 int		ft_error(int error, int ret_val)

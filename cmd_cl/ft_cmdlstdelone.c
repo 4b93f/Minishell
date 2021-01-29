@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 21:52:28 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/16 15:36:37 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 01:52:03 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	ft_cmd_lstdelone(t_cmd_lst *lst, void (*del)(void*))
 		return ;
 	ft_lstclear(&lst->str, free);
 	del(lst->flags);
+	del(lst->cmd_str);
 	free(lst);
 }

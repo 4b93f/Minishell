@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 02:44:47 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/17 03:59:24 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 01:46:14 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_cmd_lst	*ft_cmd_lstnew(void *str, void *flag, int index)
 	if (!(ptr = (t_cmd_lst *)malloc(sizeof(t_cmd_lst))))
 		return (NULL);
 	ptr->str = str;
+	ptr->cmd_str = NULL;
 	ptr->flags = flag;
 	ptr->cmd_index = index;
 	ptr->pipe_in = 0;

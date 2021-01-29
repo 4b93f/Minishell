@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/01/26 01:46:13 by jsilance         ###   ########.fr        #
+#    Updated: 2021/01/29 01:42:53 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,18 @@ SRCS =	env_cl/ft_envlstadd_back.c env_cl/ft_envlstadd_front.c \
 		libft/ft_lstiter.c libft/ft_lstlast.c \
 		ft_tab_to_lst.c \
 		free_utils.c executor.c \
+		debug.c \
 		
 HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h
 NAME = 		minishell
 OBJ = 		${SRCS:.c=.o}
-FLAGS =		-Wall -Wextra -Werror -fsanitize=address
+FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
 
 %.o: %.c
 			@gcc -c -o $@ $?
 
 $(NAME): ${OBJ}
-			@gcc ${FLAGS} ${OBJ} -o ${NAME}
+			@gcc -g3 ${FLAGS} ${OBJ} -o ${NAME}
 			@echo "[Done !]"
 
 all:		${NAME}

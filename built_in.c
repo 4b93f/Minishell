@@ -6,13 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/26 01:41:13 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 04:11:27 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_pwd()
+void	ft_pwd(t_cmd_lst *cmd)
 {
     char *buf;
 	int size;
@@ -21,7 +21,9 @@ void ft_pwd()
 	buf = NULL;
 	
     buf = getcwd(buf, size);
-	printf("%s\n", buf);
+	ft_putstr_fd(buf, cmd->fd_pipe_out);
+	if (!cmd->pipe_out)
+		ft_putstr_fd("\n", cmd->fd_pipe_out);
 	free(buf);
 }
 
@@ -34,10 +36,10 @@ void ft_cd(t_sh *sh)
 	
 	i = 0;
 	path = NULL;
-	free(sh->old_pwd);
-	sh->old_pwd = get_actual_path(); 
-	if (!strcmp("cd /", sh->input_str))
-		chdir("/");
+	// free(sh->old_pwd);
+	// sh->old_pwd = get_actual_path(); 
+	// if (!strcmp("cd /", sh->input_str))
+		// chdir("/");
 	if (!strcmp("cd ~", sh->input_str) || !strcmp("cd", sh->input_str))
 	{
 		while(strncmp(sh->env[i], "HOME=", ft_strlen("HOME=")))
@@ -61,6 +63,7 @@ void ft_cd(t_sh *sh)
 }
 */
 
+/*
 void ft_echo(t_sh *sh)
 {
 	char *str;
@@ -76,25 +79,57 @@ void ft_echo(t_sh *sh)
 		printf("%s\n", sh->input_str + ft_strlen("echo") + 1);
 	
 }
+*/
 
-void ft_ls()
+
+char	**lst_db_tab(t_cmd_lst *cmd)
 {
-	pid_t child_pid;
-	pid_t dad_pid;
-	char **tmp;
-	
-	child_pid = fork();
-	if (!(tmp = malloc(sizeof(char*) * 2)))
-		return ;
-	tmp[0] = "ls";
-	tmp[1] = 0;
-	if (child_pid == 0)
-		execve("/bin/ls", tmp, NULL);
-	else
-		dad_pid = wait(&child_pid);
-	free(tmp);
+	char	**ptr;
+	t_list	*arg_ptr;
+	int		size;
+
+	ptr = NULL;
+	size = ft_lstsize(cmd->str);
+	arg_ptr = cmd->str;
+	if (!(ptr = ft_calloc(sizeof(char *), size + 2)))
+		return (NULL);
+	size = -1;
+	if (!(ptr[++size] = ft_strdup(cmd->cmd_str)))
+	{
+		free_tab(ptr);
+		return (NULL);
+	}
+	while(arg_ptr)
+	{
+		if (!(ptr[++size] = ft_strdup(arg_ptr->content)))
+		{
+			free_tab(ptr);
+			return (NULL);
+		}
+		arg_ptr = arg_ptr->next;
+	}
+	return (ptr);
 }
 
+void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
+{
+	pid_t	child_pid;
+	pid_t	dad_pid;
+	char	**tmp;
+	char	*ptr;
+
+	ptr = ft_strjoin("/bin/", cmd->cmd_str);
+	tmp = lst_db_tab(cmd);
+	child_pid = fork();
+	if (!child_pid)
+		execve(ptr, tmp, NULL);
+	else
+		dad_pid = wait(0);
+	free(ptr);
+	free_tab(tmp);
+	if (!child_pid)
+		exit(0);
+}
 
 /*
 int  sort_export(t_sh *sh, int i, int j, int len)
@@ -130,6 +165,24 @@ int  sort_export(t_sh *sh, int i, int j, int len)
 */
 
 
+void	ft_export(t_cmd_lst *cmd, t_sh *sh)
+{
+	int		equal_pos;
+	char	*var;
+	char	*value;
+	t_list	*ptr_str;
+
+	ptr_str = cmd->str;
+	while (ptr_str)
+	{
+		// securiser si ex: export YOLO= ou export =
+		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
+		var = ft_substr(ptr_str->content, 0, equal_pos);
+		value = ft_substr(ptr_str->content, equal_pos + 1, ft_strlen(ptr_str->content));
+		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));
+		ptr_str = ptr_str->next;
+	}
+}
 
 /*
 void ft_export(t_sh *sh)
@@ -138,7 +191,7 @@ void ft_export(t_sh *sh)
 	int j;
 	int k;
 	char **tab;
-	
+
 	i = 0;
 	j = 0;
 	k = 0;
@@ -173,6 +226,21 @@ void ft_export(t_sh *sh)
 }
 */
 
+/*
+**	/!\ PROBLEMES a resoudre.
+*/
+
+void	ft_unset(t_cmd_lst *cmd, t_sh *sh)
+{
+	t_list	*ptr_str;
+
+	ptr_str = cmd->str;
+	while (ptr_str)
+	{
+		ft_env_lstdelone(env_lst_finder(sh->env_lst, ptr_str->content), free);
+		ptr_str = ptr_str->next;
+	}
+}
 
 /*
 void ft_unset(t_sh *sh)

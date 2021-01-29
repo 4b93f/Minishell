@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/23 14:36:30 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/29 01:34:25 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	cmd_flag_check(char *str)
 	return (0);
 }
 
-static int	cmd_chekcer(char *str)
+static int	cmd_checker(char *str)
 {
 	if (str)
 	{
@@ -37,8 +37,6 @@ static int	cmd_chekcer(char *str)
 			return (5);
 		else if (!ft_strcmp("env", str))
 			return (6);
-		else if (!ft_strcmp("help", str))
-			return (7);
 	}
 	// return (ft_error(1, -1));
 	return (-1);
@@ -71,7 +69,6 @@ static int	sep_checker(char *str)
 **	cmd_index  4 --> export
 **	cmd_index  5 --> unset
 **	cmd_index  6 --> env
-**	cmd_index  7 --> help
 */
 
 static int	chain_maker(t_sh *t)
@@ -91,8 +88,9 @@ static int	chain_maker(t_sh *t)
 		if (!ptr)
 			continue ;
 		ft_cmd_lstadd_back(&t->cmd, ft_cmd_lstnew(NULL, NULL,
-			cmd_chekcer(ptr->content)));
+			cmd_checker(ptr->content)));
 		cmd_ptr = ft_cmd_lstlast(t->cmd);
+		cmd_ptr->cmd_str = ft_strdup(ptr->content);
 		if (piped[0] > -1)
 		{
 			cmd_ptr->fd_pipe_in = piped[0];

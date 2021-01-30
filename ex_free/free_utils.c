@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 02:02:46 by jsilance         ###   ########.fr       */
+/*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/30 01:38:08 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s)
+/*
+**	sh_free
+**
+**	Free the sh struct.
+*/
+
+void	sh_free(t_sh *sh)
 {
-	char	*dest;
-	char	*source;
-	int		i;
-
-	source = (char *)s;
-	if (!((dest = (char *)malloc(sizeof(char) * (ft_strlen(source) + 1)))))
-		return (0);
-	i = 0;
-	while (source[i])
-	{
-		dest[i] = source[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	if (sh->input_str)
+		free(sh->input_str);
+	ft_lstclear(&sh->arg_lst, free);
+	ft_cmd_lstclear(&sh->cmd, free);
 }
 
 /*
-** Créer un chaine de caractère avec malloc
+int		ft_error(int error, int ret_val)
+{
+	if (error == 1)
+		ft_putendl_fd("Commandnot found!", 2);
+	if (error == 2)
+		ft_putendl_fd("Change directory has failed!", 2);
+	return (ret_val);
+}
 */

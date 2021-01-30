@@ -6,11 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 04:11:47 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:15:36 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
 int tablen(char **tab)
 {
 	int i;
@@ -29,6 +31,7 @@ int		ft_isspace(int c)
 		return (1);
 	return (0);
 }
+*/
 
 void free_tab(char **tab)
 {
@@ -39,7 +42,7 @@ void free_tab(char **tab)
 		free(tab[i]);
 	free(tab);
 }
-
+/*
 char **tabcpy(char **tab)
 {
 	char **new_tab;
@@ -53,6 +56,7 @@ char **tabcpy(char **tab)
 	new_tab[i] = NULL;
 	return(new_tab);
 }
+*/
 
 char	*ft_strjoinfree(const char *s1, const char *s2)
 {
@@ -76,6 +80,7 @@ char	*ft_strjoinfree(const char *s1, const char *s2)
 	return (tab);
 }
 
+/*
 char	**ft_realloc(char **str, char *line)
 {
 	char	**cpy;
@@ -99,6 +104,7 @@ char	**ft_realloc(char **str, char *line)
 	free(str);
 	return (cpy);
 }
+*/
 
 /*
 **	env_lst_finder
@@ -115,20 +121,20 @@ t_env_lst	*env_lst_finder(t_env_lst *lst, char *var)
 	ptr_lst = lst;
 	if (!ptr_lst || !var)
 		return (NULL);
-	while (ptr_lst && ft_strcmp(ptr_lst->var, var))
+	while (ptr_lst)
 	{
-		tmp = ptr_lst;
+		if (ptr_lst->var && !ft_strcmp(ptr_lst->var, var))
+			return (ptr_lst);
 		ptr_lst = ptr_lst->next;
 	}
-	if (ptr_lst)
-		return (ptr_lst);
-	else
-		return (tmp);
+	return (NULL);
 }
 
 void	print_env(t_env_lst *lst, int fd)
 {
 	t_env_lst	*ptr_lst;
+	
+	int	i = 0;
 
 	ptr_lst = lst;
 	while (ptr_lst)

@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 02:02:46 by jsilance         ###   ########.fr       */
+/*   Created: 2020/12/06 15:14:52 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/01/30 02:51:22 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+int main()
 {
-	char	*dest;
-	char	*source;
-	int		i;
-
-	source = (char *)s;
-	if (!((dest = (char *)malloc(sizeof(char) * (ft_strlen(source) + 1)))))
-		return (0);
-	i = 0;
-	while (source[i])
+	int     pid;
+	int     fd[2];
+	
+	fd[0] = open("./kappa.txt", O_WRONLY);
+	// fd[1] = STDOUT_FILENO;
+	fd[1] = 1;
+	
+	pid = fork();
+	if (!pid)
 	{
-		dest[i] = source[i];
-		i++;
+		dup2(fd[0], fd[1]);
+		execl("./prog", "prog", NULL);
 	}
-	dest[i] = '\0';
-	return (dest);
+	wait(0);
+	return (0);
 }
-
-/*
-** Créer un chaine de caractère avec malloc
-*/
+		

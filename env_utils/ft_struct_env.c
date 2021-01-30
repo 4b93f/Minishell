@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_struct_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 02:02:46 by jsilance         ###   ########.fr       */
+/*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/01/30 02:58:31 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-char	*ft_strdup(const char *s)
+t_sh	ft_create_sh(void)
 {
-	char	*dest;
-	char	*source;
-	int		i;
+	t_sh sh;
 
-	source = (char *)s;
-	if (!((dest = (char *)malloc(sizeof(char) * (ft_strlen(source) + 1)))))
-		return (0);
-	i = 0;
-	while (source[i])
-	{
-		dest[i] = source[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	sh.all_path = NULL;
+	sh.input_str = NULL;
+	sh.arg_lst = NULL;
+	sh.cmd = NULL;
+	sh.env_lst = NULL;
+	sh.ret_val = 0;
+	return (sh);
 }
 
-/*
-** Créer un chaine de caractère avec malloc
-*/
+t_sh	*ft_malloc_sh(void)
+{
+	t_sh *malloc_sh;
+
+	if (!(malloc_sh = malloc(sizeof(t_sh))))
+		return (0);
+	*malloc_sh = ft_create_sh();
+	return (malloc_sh);
+}

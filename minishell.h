@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 02:45:19 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:41:30 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ t_cmd_lst		*ft_cmd_lstnew(void *str, void *flag, int index);
 int				ft_cmd_lstsize(t_cmd_lst *lst);
 
 void			ft_env_to_lst(char **env, t_sh *sh);
+char			*ft_is_var(char *str, t_sh *sh);
 
 void			dbg(t_sh *t);
 

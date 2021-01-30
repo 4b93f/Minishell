@@ -1,36 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   test1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 02:02:46 by jsilance         ###   ########.fr       */
+/*   Created: 2021/01/30 02:38:11 by jsilance          #+#    #+#             */
+/*   Updated: 2021/01/30 02:39:37 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s)
+int main()
 {
-	char	*dest;
-	char	*source;
-	int		i;
-
-	source = (char *)s;
-	if (!((dest = (char *)malloc(sizeof(char) * (ft_strlen(source) + 1)))))
-		return (0);
-	i = 0;
-	while (source[i])
-	{
-		dest[i] = source[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+    ft_putstr_fd("BOUNDOUR ZE VOUS NEM!\n", 1);
+    return (0);
 }
-
-/*
-** Créer un chaine de caractère avec malloc
-*/

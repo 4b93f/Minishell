@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/24 23:46:20 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/30 01:15:07 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,3 @@ void	get_all_path(t_sh *sh)
 	while (sh->all_path[++i])
 		sh->all_path[i] = ft_strjoinfree(sh->all_path[i], "/");
 }
-

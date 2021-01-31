@@ -6,14 +6,14 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/01/30 01:54:52 by jsilance         ###   ########.fr        #
+#    Updated: 2021/01/31 01:21:00 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS =	env_cl/ft_envlstadd_back.c env_cl/ft_envlstadd_front.c \
 		env_cl/ft_envlstclear.c env_cl/ft_envlstdelone.c env_cl/ft_envlstiter.c \
 		env_cl/ft_envlstlast.c env_cl/ft_envlstnew.c env_cl/ft_envlstsize.c \
-		main.c path.c executor/built_in.c ex_free/exit.c utils.c env_utils/ft_struct_env.c \
+		main.c path.c executor/built_in.c utils.c env_utils/ft_struct_env.c \
 		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 		cmd_cl/ft_cmdlstadd_back.c cmd_cl/ft_cmdlstadd_front.c \
 		cmd_cl/ft_cmdlstclear.c	cmd_cl/ft_cmdlstdelone.c cmd_cl/ft_cmdlstiter.c \

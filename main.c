@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 03:31:24 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 01:11:55 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,15 @@
 
 char	*get_actual_path(void)
 {
-	char *buf;
-	char *str;
+	char	*buf;
+	char	*str;
+    size_t	size;
+
 	buf = NULL;
-    int size = 40000;
+    size = 10000;
 	str = getcwd(buf, size);
-	return(str);
+	return (str);
 }
-
-/*
-void	get_pwd(t_sh *sh)
-{
-	int i;
-
-	i = -1;
-	while(sh->env[++i])
-	{
-		if (sh->old_pwd && !ft_strncmp(sh->env[i], "OLDPWD", ft_strlen("OLDPWD")))
-		{
-			free(sh->env[i]);
-			sh->env[i] = ft_strjoin("OLDPWD=", sh->old_pwd);
-		}
-	}
-	i = -1;
-	while(sh->env[++i])
-	{
-		if (sh->actual_pwd && !ft_strncmp(sh->env[i], "PWD", ft_strlen("PWD")))
-		{
-			free(sh->env[i]);
-			sh->env[i] = ft_strjoin("PWD=", sh->actual_pwd);
-		}
-	}
-}
-*/
-
-/*
-void	ft_scan(t_sh *sh)
-{
-	sh->input_str = ft_strtrim(sh->input_str, " ");
-	if (!strcmp(sh->input_str, "pwd"))
-		ft_pwd();
-	if (!strncmp(sh->input_str, "cd", 2))
-		ft_cd(sh);
-	// if (!strcmp(sh->input_str, "ls"))
-		// ft_ls();
-	// if (!strncmp(sh->input_str, "echo", 4))
-	// 	ft_echo(sh);
-	if (!strncmp(sh->input_str, "export", 6))
-		ft_export(sh);
-	if (!strncmp(sh->input_str, "unset", 5))
-		ft_unset(sh);
-	if (!strcmp(sh->input_str, "exit"))
-		ft_exit(sh);
-	if (!strcmp(sh->input_str, "env"))
-		print_env(sh->env_lst, 1); // En fonction de la commande.
-	if (!strcmp(sh->input_str, "path"))
-		print_tab(sh->all_path);
-}
-*/
 
 int		check_syntax(t_sh *sh)
 {
@@ -106,15 +57,14 @@ int		main(int argc, char **argv, char **env)
 
 		strtolst(sh);
 		parser(sh);
-		
-		// if (!check_syntax(&sh))
-			// sh.tmp = ft_split(sh.input_str, ';');
-		// print_tab(sh.tmp);
+
 		executor(sh);
 		sh_free(sh);
 	}
-	ft_env_lstclear(&sh->env_lst, free);
-	sh_free(sh);
-	free(sh);
+	//ft_free
+	//ft_env_lstclear(&sh->env_lst, free);
+	//sh_free(sh);
+	//free(sh);
+	ft_error(0, sh);
 	return (1);
 }

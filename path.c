@@ -6,32 +6,38 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 01:15:07 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 03:27:19 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-void ft_search_path(t_sh *sh)
+**	Return good path for the current command.
+**	if the 
+*/
+
+char	*ft_search_path(t_sh *sh, t_cmd_lst *cmd)
 {
 	struct stat buffer;
 	char *tmp;
 	int i;
 
 	i = -1;
-	while(sh->env[++i])
+	while(sh->all_path[++i])
 	{
-		tmp = ft_strjoin(sh->env[i], sh->built_in);
-		if (stat(tmp, &buffer))
+		tmp = ft_strjoin(sh->all_path[i], cmd->cmd_str);
+		if (!tmp)
+			ft_error(MALLOC_ERROR, sh);
+		if (!stat(tmp, &buffer))
 		{
 			free(tmp);
-			return ;
+			return (sh->all_path[i]);
 		}
+		free(tmp);
 	}
-	return ;
+	return (NULL);
 }
-*/
 
 void	get_all_path(t_sh *sh)
 {

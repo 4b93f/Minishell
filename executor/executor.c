@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/30 01:34:25 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 05:20:51 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,22 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 
 static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 {
+	t_env_lst	*env;
+	char		*ptr;
+
+	env = env_lst_finder(sh->env_lst, "OLDPWD");
+	free(env->content);
+	ptr = get_actual_path();
+	env->content = ft_strdup(ptr);
+	free(ptr);
 	if (chdir(ft_is_var(cmd->str->content, sh)))
 		return ;
 		// ft_error(2, 0);
+	env = env_lst_finder(sh->env_lst, "PWD");
+	free(env->content);
+	ptr = get_actual_path();
+	env->content = ft_strdup(ptr);
+	free(ptr);
 }
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
@@ -50,7 +63,8 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 	if (cmd->cmd_index == -1)
 		exec_cmd(cmd, sh);
 	else if (cmd->cmd_index == 0)
-		ft_exit(sh);
+		sh_free(sh);
+		// ft_error(0, sh); // 0 en attendant
 	else if (cmd->cmd_index == 1)
 		ft_echo(cmd, sh);
 	else if (cmd->cmd_index == 2)
@@ -68,22 +82,28 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 {
 	int	pid;
+	t_cmd_lst	*ccmd;
 
+	ccmd = ptr_cmd->next;
 	pid = fork();
 	if (pid)
 	{
+		close(ptr_cmd->fd_pipe_out);
 		ptr_cmd = ptr_cmd->next;
 		ptr_cmd->pid = pid;
 	}
 	else
+	{
 		ptr_cmd->pid = pid;
+		close(ccmd->fd_pipe_in);
+	}
 	wait(0);
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
 		exit(0);
 }
 
-int	executor(t_sh *sh)
+int		executor(t_sh *sh)
 {
 	t_cmd_lst	*ptr_cmd;
 

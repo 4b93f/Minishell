@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/29 01:34:25 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 05:06:33 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	sep_checker(char *str)
 }
 
 /*
-**	cmd_index -1 --> error
+**	cmd_index -1 --> autre
 **	cmd_index  0 --> exit
 **	cmd_index  1 --> echo
 **	cmd_index  2 --> cd

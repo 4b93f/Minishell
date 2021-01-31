@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/23 14:36:07 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 01:41:45 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ static int	is_double_char(t_sh *t, int i)
 }
 
 /*
-**	nedd to call error function when " or ' is not closed.
+**	need to call error function when " or ' is not closed.
+**	if double ; return error and no commands executed.
 */
 
 static void	str_cut(t_sh *t, int i, int j)

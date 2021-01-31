@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/30 03:24:49 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 05:26:44 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 void	ft_pwd(t_cmd_lst *cmd)
 {
     char *buf;
-	int size;
-	
-	size = 40000;
-	buf = NULL;
-    buf = getcwd(buf, size);
+
+    buf = get_actual_path();
 	ft_putstr_fd(buf, cmd->fd_pipe_out);
 	if (!cmd->pipe_out)
 		ft_putstr_fd("\n", cmd->fd_pipe_out);
@@ -103,8 +100,14 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	pid_t	dad_pid;
 	char	**tmp;
 	char	*ptr;
+	char	*sf;
+	int		io[2];
 
-	ptr = ft_strjoin("/bin/", cmd->cmd_str);
+	io[0] = dup(STDIN_FILENO);
+	io[1] = dup(STDOUT_FILENO);
+	sf = ft_search_path(sh, cmd);
+	ptr = ft_strjoin(sf, cmd->cmd_str);
+	free(sf);
 	tmp = lst_db_tab(cmd);
 	child_pid = fork();
 	if (!child_pid)
@@ -113,14 +116,14 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 		dup2(cmd->fd_pipe_in, STDIN_FILENO);
 		if (execve(ptr, tmp, NULL) == -1);
 			ft_putstr_fd("Command not found!\n", cmd->fd_pipe_out);
+		exit(0);
 	}
 	else
 		dad_pid = wait(0);
-	wait(0);
+	dup2(STDIN_FILENO, io[0]);
+	dup2(STDOUT_FILENO, io[1]);
 	free(ptr);
 	free_tab(tmp);
-	if (!child_pid)
-		exit(0);
 }
 
 void	ft_export(t_cmd_lst *cmd, t_sh *sh)
@@ -135,17 +138,20 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	chainon = NULL;
 	while (ptr_str)
 	{
-		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
-		var = ft_substr(ptr_str->content, 0, equal_pos);
-		value = ft_substr(ptr_str->content, equal_pos + 1, ft_strlen(ptr_str->content));
-		chainon = env_lst_finder(sh->env_lst, var);
-		if (!chainon)
-			ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));
-		else
+		if (ft_strchr(ptr_str->content, 61))
 		{
-			free(var);
-			free(chainon->content);
-			chainon->content = value;
+			equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
+			var = ft_substr(ptr_str->content, 0, equal_pos);
+			value = ft_substr(ptr_str->content, equal_pos + 1, ft_strlen(ptr_str->content));
+			chainon = env_lst_finder(sh->env_lst, var);
+			if (!chainon)
+				ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));
+			else
+			{
+				free(var);
+				free(chainon->content);
+				chainon->content = value;
+			}
 		}
 		ptr_str = ptr_str->next;
 	}

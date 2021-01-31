@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/30 01:38:08 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 01:00:04 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@ void	sh_free(t_sh *sh)
 }
 
 /*
-int		ft_error(int error, int ret_val)
-{
-	if (error == 1)
-		ft_putendl_fd("Commandnot found!", 2);
-	if (error == 2)
-		ft_putendl_fd("Change directory has failed!", 2);
-	return (ret_val);
-}
+** Free all malloc and more	
 */
+
+void		ft_error(int ret, t_sh *sh)
+{
+	static char *error[] = {
+	"Error with malloc\n"	
+	};
+	if (ret > 0)
+		printf("%s", error[ret]);
+	ft_free_sh(sh);
+	exit(0);
+}

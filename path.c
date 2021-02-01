@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/31 03:27:19 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/01 01:54:58 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_search_path(t_sh *sh, t_cmd_lst *cmd)
 	{
 		tmp = ft_strjoin(sh->all_path[i], cmd->cmd_str);
 		if (!tmp)
-			ft_error(MALLOC_ERROR, sh);
+			ft_error(MALLOC_ERROR, sh, 0);
 		if (!stat(tmp, &buffer))
 		{
 			free(tmp);

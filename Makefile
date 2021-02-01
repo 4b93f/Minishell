@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/01/31 01:21:00 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/01 02:02:00 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h
 NAME = 		minishell
 OBJ = 		${SRCS:.c=.o}
 FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
+# FLAGS =		-Wall -Wextra -Werror -g3
 
 %.o: %.c
 			@gcc -c -o $@ $?

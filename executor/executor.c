@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/31 05:20:51 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/01 02:02:44 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 	t_list	*ptr_lst;
 
 	ptr_lst = cmd->str;
+	if (!ptr_lst && !(cmd->flags && !ft_strcmp("-n", cmd->flags)))
+		write(cmd->fd_pipe_out, "\n", 1);
 	while (ptr_lst)
 	{
+		ptr_lst->content = rm_guim(ptr_lst->content);
 		ft_putstr_fd(ft_is_var(ptr_lst->content, sh), cmd->fd_pipe_out);
 		ptr_lst = ptr_lst->next;
 		if (ptr_lst)
@@ -42,20 +45,23 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 {
 	t_env_lst	*env;
 	char		*ptr;
+	int			ret;
 
 	env = env_lst_finder(sh->env_lst, "OLDPWD");
 	free(env->content);
 	ptr = get_actual_path();
 	env->content = ft_strdup(ptr);
 	free(ptr);
-	if (chdir(ft_is_var(cmd->str->content, sh)))
-		return ;
-		// ft_error(2, 0);
-	env = env_lst_finder(sh->env_lst, "PWD");
-	free(env->content);
-	ptr = get_actual_path();
-	env->content = ft_strdup(ptr);
-	free(ptr);
+	if (!(ret = chdir(ft_is_var(cmd->str->content, sh))))
+	{
+		env = env_lst_finder(sh->env_lst, "PWD");
+		free(env->content);
+		ptr = get_actual_path();
+		env->content = ft_strdup(ptr);
+		free(ptr);
+	}
+	free(env_lst_finder(sh->env_lst, "?")->content);
+	env_lst_finder(sh->env_lst, "?")->content = ft_strdup(ft_itoa(ret));
 }
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
@@ -63,8 +69,7 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 	if (cmd->cmd_index == -1)
 		exec_cmd(cmd, sh);
 	else if (cmd->cmd_index == 0)
-		sh_free(sh);
-		// ft_error(0, sh); // 0 en attendant
+		ft_exit(cmd, sh);
 	else if (cmd->cmd_index == 1)
 		ft_echo(cmd, sh);
 	else if (cmd->cmd_index == 2)

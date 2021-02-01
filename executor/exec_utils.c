@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/30 00:46:29 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/01/31 23:45:01 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,14 @@ char	*ft_is_var(char *str, t_sh *sh)
 		else
 			return (NULL);
 	}
+	return (str);
+}
+
+char	*rm_guim(char *ptr)
+{
+	char	*str;
+
+	str = ft_strtrim(ptr, "\'\"");
+	free(ptr);
 	return (str);
 }

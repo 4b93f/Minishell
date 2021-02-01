@@ -3,39 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 15:20:02 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/11/02 19:25:37 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/01 02:32:29 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int			i;
-	long long	res;
-	int			sign;
+	int		neg;
+	int		cou;
+	long	nbr;
 
-	sign = 1;
-	res = 0;
-	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r'
-	|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i++] == '-')
-			sign = sign * (-1);
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10 + (str[i++] - '0');
-		if (res < 0)
-			return (sign > 0 ? -1 : 0);
-	}
-	return (sign > 0 ? res : -res);
+	if (!str || !*str || (neg = 0))
+		return (0);
+	nbr = 0;
+	cou = 0;
+	while (str[cou] == '\t' || str[cou] == '\n' || str[cou] == '\r' ||
+		str[cou] == '\v' || str[cou] == '\f' || str[cou] == ' ')
+		cou++;
+	neg = (str && str[cou] == '-');
+	cou += (neg == 1 || str[cou] == '+');
+	while ('0' <= str[cou] && str[cou] <= '9')
+		if ((nbr = (nbr * 10) + (str[cou++] - 48)) < 0)
+			return ((neg) ? -1 : 0);
+	return ((neg == 1) ? -nbr : nbr);
 }
 /*
 ** Changer une chaine de caractère en "nombre"

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/31 21:52:12 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/01 03:16:25 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static char	*argv_to_str(char **arg)
 
 	i = 0;
 	str = NULL;
+	// if (arg && arg[i])
 	while (arg && arg[i])
 	{
 		tmp = str;
@@ -63,20 +64,23 @@ int		main(int argc, char **argv, char **env)
 	int		ret;
 
 	sh = ft_malloc_sh();
+	ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("?"), ft_strdup("0")));
 	ft_env_to_lst(env, sh);
 	get_all_path(sh);
 	ret = 1;
 	
-		printf("[%s] DETECTED!\n", argv[1]);
-	// if (!ft_strcmp(argv[1], "-n"))
-		// printf("[-n] DETECTED!\n");
-	
 	while(ret)
 	{
-		int i = -1;
 		write(0, "My Minishell ~> ", 16);
-		ret = get_next_line(0, &sh->input_str);
-
+		
+		if (argc == 1 || ft_strcmp(argv[1], "-c")) //	le temps des tests
+			ret = get_next_line(0, &sh->input_str);
+		else
+		{
+			sh->input_str = argv_to_str(&argv[2]);
+			ret = 0; //		le temps des tests.
+		}
+	// printf("[%s]\n", sh->input_str);
 		strtolst(sh);
 		parser(sh);
 
@@ -87,6 +91,6 @@ int		main(int argc, char **argv, char **env)
 	//ft_env_lstclear(&sh->env_lst, free);
 	//sh_free(sh);
 	//free(sh);
-	ft_error(0, sh);
-	return (1);
+	ft_error(0, sh, 0);
+	return (0);
 }

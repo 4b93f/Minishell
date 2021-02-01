@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/31 05:26:44 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/01 04:10:58 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,18 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 	return (ptr);
 }
 
+static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh)
+{
+	t_env_lst	*ptr;
+
+	ptr = env_lst_finder(sh->env_lst, "?");
+	ft_putstr_fd("minishell: ", cmd->fd_pipe_out);
+	ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
+	ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
+	free(ptr->content);
+	ptr->content = ft_strdup("127");
+}
+
 /*
 **	/!\ s'occuper des pipes via dup2 --> /!\ STDIN PROBLEMES.
 **	/!\ remplacer "/bin/" par une variable all_path
@@ -115,7 +127,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 		dup2(cmd->fd_pipe_out, STDOUT_FILENO);
 		dup2(cmd->fd_pipe_in, STDIN_FILENO);
 		if (execve(ptr, tmp, NULL) == -1);
-			ft_putstr_fd("Command not found!\n", cmd->fd_pipe_out);
+			ft_not_found(cmd, sh); //faire remonter le signal 127...
 		exit(0);
 	}
 	else

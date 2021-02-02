@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/31 05:06:33 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/01 22:42:47 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	cmd_flag_check(char *str)
 {
-	if (!ft_strcmp("-n", str))
+	if (!ft_strncmp("-n", str, 2))
 		return (1);
 	return (0);
 }
@@ -99,9 +99,10 @@ static int	chain_maker(t_sh *t)
 		}
 		if (!(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
 			continue ;
-		if (ptr && cmd_ptr->cmd_index == 1 && cmd_flag_check(ptr->content))
+		while (ptr && cmd_ptr->cmd_index == 1 && cmd_flag_check(ptr->content))
 		{
-			cmd_ptr->flags = ft_strdup(ptr->content);
+			free(cmd_ptr->flags);
+			cmd_ptr->flags = ft_strdup(ptr->content); // a travailler
 			if (!(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
 				break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/01/31 01:41:45 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:21:51 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	str_cut(t_sh *t, int i, int j)
 {
 	while (t->input_str && t->input_str[i])
 	{
-		if (ft_strchr(" ><|;&", t->input_str[i]))
+		if (ft_strchr(" ><|;&", t->input_str[i]) || ft_isspace(t->input_str[i]))
 		{
 			if (is_double_char(t, i))
 				str_store(t, j, i++, 2);

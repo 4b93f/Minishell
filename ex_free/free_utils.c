@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/01 03:59:40 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 01:45:02 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static int	ft_str_digit(char *str)
 				return (255);
 		str++;
 	}
+	if (!ft_strcmp(str, "-0"))
+		return (0);
 	return (1);
 }
 
@@ -81,7 +83,9 @@ void		ft_error(int ret, t_sh *sh, int ext)
 	"Error with malloc\n",
 	"minishell: exit: too many arguments",
 	"minishell: exit: Illegal number: ",
-	"minishell: exit: numeric argument required: "
+	"minishell: exit: numeric argument required: ",
+	"minishell: pipe ERROR",
+	"minishell: syntax error near unexpected token ';'"
 	};
 	if (ret > 0)
 		printf("%s\n", error[ret]);

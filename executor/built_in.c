@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/01 04:10:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:37:23 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void ft_cd(t_sh *sh)
 }
 */
 
+/*
+**	Convert string of command in double tab.
+*/
+
 char	**lst_db_tab(t_cmd_lst *cmd)
 {
 	char	**ptr;
@@ -88,52 +92,43 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 	return (ptr);
 }
 
-static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh)
+static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh, int pid, int fd[2])
 {
-	t_env_lst	*ptr;
-
-	ptr = env_lst_finder(sh->env_lst, "?");
 	ft_putstr_fd("minishell: ", cmd->fd_pipe_out);
 	ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
 	ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
-	free(ptr->content);
-	ptr->content = ft_strdup("127");
+	ft_portal(sh, 127, pid, fd);
 }
-
-/*
-**	/!\ s'occuper des pipes via dup2 --> /!\ STDIN PROBLEMES.
-**	/!\ remplacer "/bin/" par une variable all_path
-**	
-*/
 
 void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 {
 	pid_t	child_pid;
-	pid_t	dad_pid;
 	char	**tmp;
 	char	*ptr;
 	char	*sf;
 	int		io[2];
+	int		fd[2];
 
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
 	sf = ft_search_path(sh, cmd);
 	ptr = ft_strjoin(sf, cmd->cmd_str);
-	free(sf);
 	tmp = lst_db_tab(cmd);
+	if (pipe(fd) < 0)
+		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
 	if (!child_pid)
 	{
 		dup2(cmd->fd_pipe_out, STDOUT_FILENO);
 		dup2(cmd->fd_pipe_in, STDIN_FILENO);
 		if (execve(ptr, tmp, NULL) == -1);
-			ft_not_found(cmd, sh); //faire remonter le signal 127...
+			ft_not_found(cmd, sh, child_pid, fd);
 		exit(0);
 	}
-	else
-		dad_pid = wait(0);
+	wait(0);
 	dup2(STDIN_FILENO, io[0]);
 	dup2(STDOUT_FILENO, io[1]);
+	ft_portal(sh, 0, child_pid, fd);
 	free(ptr);
 	free_tab(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 03:22:31 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:01:41 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_sh	ft_create_sh(void)
 	sh.arg_lst = NULL;
 	sh.cmd = NULL;
 	sh.env_lst = NULL;
-	sh.ret_val = 0;
 	return (sh);
 }
 

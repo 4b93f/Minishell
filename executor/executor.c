@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/01 02:02:44 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 01:39:28 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		ptr_lst = ptr_lst->next;
 		if (ptr_lst)
 			write(cmd->fd_pipe_out, " ", 1);
-		else if (!(cmd->flags && !ft_strcmp("-n", cmd->flags)))
+		else if (!(cmd->flags && !ft_strncmp("-n", cmd->flags, 2)))
 			write(cmd->fd_pipe_out, "\n", 1);
 	}
+	
 }
 
 /*
@@ -61,7 +62,9 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 		free(ptr);
 	}
 	free(env_lst_finder(sh->env_lst, "?")->content);
-	env_lst_finder(sh->env_lst, "?")->content = ft_strdup(ft_itoa(ret));
+	ptr = ft_itoa(ret);
+	env_lst_finder(sh->env_lst, "?")->content = ft_strdup(ptr);
+	free(ptr);
 }
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
@@ -105,7 +108,11 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	wait(0);
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
+	{	
+	close(ccmd->fd_pipe_in);
 		exit(0);
+	}
+		close(ccmd->fd_pipe_out);
 }
 
 int		executor(t_sh *sh)
@@ -115,7 +122,7 @@ int		executor(t_sh *sh)
 	ptr_cmd = sh->cmd;
 	while (ptr_cmd)
 	{
-		if (ptr_cmd->pipe_out)
+		if (ptr_cmd->pipe_out && ptr_cmd->next)
 		{
 			fork_piper(ptr_cmd, sh);
 			if (ptr_cmd->fd_pipe_out)

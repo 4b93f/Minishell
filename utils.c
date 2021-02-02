@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/01 04:18:50 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:03:09 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void free_tab(char **tab)
 	int i;
 
 	i = -1;
-	while(tab[++i])
+	while(tab && tab[++i])
 		free(tab[i]);
-	free(tab);
+	if (tab)
+		free(tab);
+	tab = NULL;
 }
 
 char	*ft_strjoinfree(const char *s1, const char *s2)

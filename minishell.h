@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/01 03:29:56 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 01:43:38 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ enum		e_error
 	MALLOC_ERROR,
 	EXIT_TO_MANY_ARG,
 	EXIT_ILLEGAL,
-	EXIT_NUM
+	EXIT_NUM,
+	PIPE_ERROR,
+	ECHO_SYNTAX
 };
 
 typedef struct	s_env_lst
@@ -105,6 +107,7 @@ char		*rm_guim(char *ptr);
 void		ft_exit(t_cmd_lst *cmd, t_sh *sh);
 
 int			executor(t_sh *sh);
+void		ft_portal(t_sh *sh, int ret, int pid, int fd[2]);
 
 void			ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);
 void			ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new);

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 04:11:27 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 02:51:26 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,6 @@ void ft_cd(t_sh *sh)
 	free(path);
 }
 */
-
-/*
-void ft_echo(t_sh *sh)
-{
-	char *str;
-
-	int i;
-
-	i = 0;
-	if (!strcmp(sh->input_str, "echo"))
-		return ;
-	if (!strncmp(sh->input_str, "echo -n", ft_strlen("echo -n")))
-		write(1, sh->input_str + ft_strlen("echo -n") + 1, ft_strlen(sh->input_str + ft_strlen("echo -n") + 1));
-	else
-		printf("%s\n", sh->input_str + ft_strlen("echo") + 1);
-	
-}
-*/
-
 
 char	**lst_db_tab(t_cmd_lst *cmd)
 {
@@ -175,7 +156,6 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	ptr_str = cmd->str;
 	while (ptr_str)
 	{
-		// securiser si ex: export YOLO= ou export =
 		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
 		var = ft_substr(ptr_str->content, 0, equal_pos);
 		value = ft_substr(ptr_str->content, equal_pos + 1, ft_strlen(ptr_str->content));
@@ -224,10 +204,6 @@ void ft_export(t_sh *sh)
 	}
 	free_tab(tab);
 }
-*/
-
-/*
-**	/!\ PROBLEMES a resoudre.
 */
 
 void	ft_unset(t_cmd_lst *cmd, t_sh *sh)

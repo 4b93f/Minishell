@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 01:43:38 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 00:43:45 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "get_next_line/get_next_line.h"
 # include <math.h>
 # include <stdlib.h>
+# include <signal.h>
 
 enum		e_error
 {

@@ -6,11 +6,37 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/02 00:22:47 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 01:37:17 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static char	*ft_multi_var(char *str, t_sh *sh)
+{
+	char		**ptr;
+	int			i;
+	char		*ret;
+	char		*tmp;
+	t_env_lst	*lst;
+
+	i = 0;
+	ret = NULL;
+	ptr = ft_split(str, '$');
+	while (ptr && ptr[i])
+	{
+		lst = env_lst_finder(sh->env_lst, ptr[i]);
+		if(lst)
+		{
+			tmp = ret;
+			ret = ft_strjoin(ret, lst->content);
+			free(tmp);
+		}
+		i++;
+	}
+	free_tab(ptr);
+	return (ret);
+}
 
 /*
 **	Detecte si str est une variable d'env ou non et renvoie le resultat aproprie.
@@ -20,18 +46,14 @@
 char	*ft_is_var(char *str, t_sh *sh)
 {
 	t_env_lst	*ptr;
+	char		*ptr_str;
 	
 	ptr = NULL;
+	ptr_str = NULL;
 	if (!str)
 		return (NULL);
 	if (str[0] == '$')
-	{
-		ptr = env_lst_finder(sh->env_lst, &str[1]);
-		if (ptr)
-			return (ptr->content);
-		else
-			return (NULL);
-	}
+		return (ft_multi_var(str, sh));
 	else if (str[0] == '~')
 	{
 		ptr = env_lst_finder(sh->env_lst, "HOME");
@@ -40,7 +62,8 @@ char	*ft_is_var(char *str, t_sh *sh)
 		else
 			return (NULL);
 	}
-	return (str);
+	ptr_str = ft_strdup(str);
+	return (ptr_str);
 }
 
 char	*rm_guim(char *ptr)
@@ -67,11 +90,13 @@ void	ft_portal(t_sh *sh, int ret, int pid, int fd[2])
 	else
 	{	
 		close(fd[1]);
-		if (!(ptr = calloc(sizeof(char), 11)))
+		ptr = calloc(sizeof(char), 11);
+		if (!ptr)
 			ft_error(MALLOC_ERROR, sh, 0);
 		free(env_lst_finder(sh->env_lst, "?")->content);
 		read(fd[0], ptr, 10);
 		env_lst_finder(sh->env_lst, "?")->content = ft_strdup(ptr);
+		
 		free(ptr);
 		close(fd[0]);
 	}

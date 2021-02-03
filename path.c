@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 02:04:06 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 01:50:32 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	get_all_path(t_sh *sh)
 		lst_ptr = lst_ptr->next;
 	if(!lst_ptr)
 		return ;
-	// if (sh->all_path)
-		// free_tab(sh->all_path);
-	sh->all_path = ft_split(lst_ptr->content, ':');
+	sh->all_path = ft_split(lst_ptr->content, ':')
+	if (!sh->all_path)
+		return ;
 	while (sh->all_path[++i])
 		sh->all_path[i] = ft_strjoinfree(sh->all_path[i], "/");
 }

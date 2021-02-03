@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 17:36:40 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/06 14:07:36 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/02 22:19:18 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	tab[i + j] = '\0';
 	return (tab);
 }
+
 /*
 ** Coller deux chaines de caractères ensembles
 */

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/01 22:42:47 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 21:49:57 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static int	chain_maker(t_sh *t)
 					break ;
 			}
 		else
-			if (!(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
+			if (!ptr || !(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
 				continue ;
 		if (ptr && !ft_strcmp(ptr->content, "|"))
 		{

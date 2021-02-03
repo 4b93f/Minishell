@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 02:37:23 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 01:35:10 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_pwd(t_cmd_lst *cmd)
     char *buf;
 
     buf = get_actual_path();
+	if (!buf)
+		return;
 	ft_putstr_fd(buf, cmd->fd_pipe_out);
 	if (!cmd->pipe_out)
 		ft_putstr_fd("\n", cmd->fd_pipe_out);
@@ -72,17 +74,20 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 	ptr = NULL;
 	size = ft_lstsize(cmd->str);
 	arg_ptr = cmd->str;
-	if (!(ptr = ft_calloc(sizeof(char *), size + 2)))
+	ptr = ft_calloc(sizeof(char *), size + 2);
+	if (!ptr)
 		return (NULL);
 	size = -1;
-	if (!(ptr[++size] = ft_strdup(cmd->cmd_str)))
+	ptr[++size] = ft_strdup(cmd->cmd_str);
+	if (!ptr)
 	{
 		free_tab(ptr);
 		return (NULL);
 	}
 	while(arg_ptr)
 	{
-		if (!(ptr[++size] = ft_strdup(arg_ptr->content)))
+		ptr[++size] = ft_strdup(arg_ptr->content);
+		if (!ptr)
 		{
 			free_tab(ptr);
 			return (NULL);
@@ -111,8 +116,13 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 
 	io[0] = dup(STDIN_FILENO);
 	io[1] = dup(STDOUT_FILENO);
+// printf("[%d][%d]\n", STDIN_FILENO, STDOUT_FILENO);
 	sf = ft_search_path(sh, cmd);
+	if (!sf)
+		return;
 	ptr = ft_strjoin(sf, cmd->cmd_str);
+	if (!ptr)
+		return;
 	tmp = lst_db_tab(cmd);
 	if (pipe(fd) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
@@ -133,6 +143,22 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	free_tab(tmp);
 }
 
+/*
+**	si la string est bien alphanumerique le result sera NULL.
+**	sinon le char en question sera renvoye.
+*/
+
+static char	*ft_str_isalnum(char *str)
+{
+	while (str && *str)
+	{	
+		if (!ft_isalnum(*str) && *str != '_' && *str != '\\')
+			return (str);
+		str++;
+	}
+	return (NULL);
+}
+
 void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 {
 	int			equal_pos;
@@ -141,6 +167,27 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	t_env_lst	*chainon;
 	t_list		*ptr_str;
 
+	ptr_str = cmd->str;
+	while (ptr_str)
+	{
+		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
+		var = ft_substr(ptr_str->content, 0, equal_pos);
+		if (!var)
+			return;
+		var = rm_guim(var);
+		if (ft_str_isalnum(var))
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token '", cmd->fd_pipe_out);
+			write(cmd->fd_pipe_out, ft_str_isalnum(var), 1);
+			write(cmd->fd_pipe_out, "'\n", 2);
+			free(env_lst_finder(sh->env_lst, "?")->content);
+			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("2");
+			free(var);
+			return ;
+		}
+		ptr_str = ptr_str->next;
+		free(var);
+	}
 	ptr_str = cmd->str;
 	chainon = NULL;
 	while (ptr_str)
@@ -167,7 +214,32 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 void	ft_unset(t_cmd_lst *cmd, t_sh *sh)
 {
 	t_list	*ptr_str;
+	int		equal_pos;
 
+	ptr_str = cmd->str;
+	while (ptr_str)
+	{
+		equal_pos = 0;
+		ptr_str->content = rm_guim(ptr_str->content);
+		equal_pos = (ft_strchr(ptr_str->content, '=') || ft_strchr(ptr_str->content, ' '));
+		if (equal_pos)
+		{
+			ft_putstr_fd("minishell: unset: `", cmd->fd_pipe_out);
+			ft_putstr_fd(ptr_str->content, cmd->fd_pipe_out);
+			ft_putstr_fd("': not a valid identifier\n", cmd->fd_pipe_out);
+			free(env_lst_finder(sh->env_lst, "?")->content);
+			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("0");
+		}
+		else if (ft_str_isalnum(ptr_str->content))
+		{
+			ft_putstr_fd("minishell: syntax error near unexpected token '", cmd->fd_pipe_out);
+			write(cmd->fd_pipe_out, ft_str_isalnum(ptr_str->content), 1);
+			write(cmd->fd_pipe_out, "'\n", 2);
+			free(env_lst_finder(sh->env_lst, "?")->content);
+			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("2");
+		}
+		ptr_str = ptr_str->next;
+	}
 	ptr_str = cmd->str;
 	while (ptr_str)
 	{

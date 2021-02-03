@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 00:25:11 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 01:43:37 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*get_actual_path(void)
 	buf = NULL;
     size = 10000;
 	str = getcwd(buf, size);
+	if (!str)
+		return(NULL);
 	return (str);
 }
 

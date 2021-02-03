@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 03:44:51 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/01/14 01:11:37 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/03 01:35:26 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char			*ft_itoa(int n)
 	char	*str;
 
 	i = nbnb(n);
-	if (!(str = malloc(sizeof(char) * (i + 1))))
+	str = malloc(sizeof(char) * (i + 1));
+	if (!str)
 		return (NULL);
 	str[i--] = '\0';
 	if (n == 0 && (str[0] = '0'))

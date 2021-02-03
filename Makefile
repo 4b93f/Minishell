@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/02/02 02:15:10 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/03 00:28:01 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ SRCS =	env_cl/ft_envlstadd_back.c env_cl/ft_envlstadd_front.c \
 HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h
 NAME = 		minishell
 OBJ = 		${SRCS:.c=.o}
-# FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS =		-Wall -Wextra -Werror -g3
+FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
+# FLAGS =		-Wall -Wextra -Werror -g3
 
 %.o: %.c
 			@gcc -c -o $@ $?

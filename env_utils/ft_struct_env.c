@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 01:50:51 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/02 22:46:57 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,9 @@ t_sh	*ft_malloc_sh(void)
 
 void	ft_free_sh(t_sh *sh)
 {
-	if (sh->all_path)
-	{
-		free_tab(sh->all_path);
-		sh->all_path = NULL;
-	}
-	if (sh->input_str)
-	{
-		free(sh->input_str);
-		sh->input_str = NULL;
-	}
-	if (sh->arg_lst)
-		ft_lstclear(&sh->arg_lst, free);
-	if (sh->cmd)
-		ft_cmd_lstclear(&sh->cmd, free);
-	if (sh->env_lst)
-		ft_env_lstclear(&sh->env_lst, free);
-	if (sh)
-		free(sh);
+	if (!sh)
+		return ;
+	sh_free(sh);
+	ft_env_lstclear(&sh->env_lst, free);
+	free(sh);
 }

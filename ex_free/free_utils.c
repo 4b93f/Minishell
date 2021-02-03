@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/02 01:45:02 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 00:18:19 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@
 
 void	sh_free(t_sh *sh)
 {
-	if (sh->input_str)
-	{
-		free(sh->input_str);
-		sh->input_str = NULL;
-	}
+	free(sh->input_str);
+	sh->input_str = NULL;
 	ft_lstclear(&sh->arg_lst, free);
 	sh->arg_lst = NULL;
 	ft_cmd_lstclear(&sh->cmd, free);
 	sh->cmd = NULL;
+	free_tab(sh->all_path);
+	sh->all_path = NULL;
 }
 
 static int	ft_str_digit(char *str)

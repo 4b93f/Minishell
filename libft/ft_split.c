@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 02:10:35 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/02 21:59:25 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 03:32:05 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static char		**malloc_free(char **str)
 {
 	int i;
 
-	i = 0;
-	while (str[i])
-		free(str[i++]);
+	i = -1;
+	while (str[++i])
+		free(str[i]);
 	free(str);
 	return (NULL);
 }
@@ -32,12 +32,9 @@ static int		count_words(char *str, char c)
 	{
 		while (str[i] && (str[i] == c))
 			i++;
-		if (str[i] && str[i] != c)
-		{
-			i++;
+		if (str[i++] && str[i] != c)
 			while (str[i] && str[i] != c)
 				i++;
-		}
 	}
 	return (i);
 }
@@ -50,14 +47,12 @@ static char		*malloc_word(char *str, char c)
 	i = 0;
 	while (str[i] && str[i] != c)
 		i++;
-	if (!(word = (char *)malloc(sizeof(char) * (i + 1))))
+	word = malloc(sizeof(char) * (i + 1));
+	if(!word)
 		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != c)
-	{
+	i = -1;
+	while (str[++i] && str[i] != c)
 		word[i] = str[i];
-		i++;
-	}
 	word[i] = '\0';
 	return (word);
 }
@@ -72,7 +67,8 @@ char			**ft_split(char *str, char charset)
 	if (!str)
 		return (NULL);
 	words = count_words(str, charset);
-	if (!(tab = malloc(sizeof(char*) * (words + 1))))
+	tab = malloc(sizeof(char*) * (words + 1));
+	if (!tab)
 		return (NULL);
 	while (*str)
 	{
@@ -80,7 +76,8 @@ char			**ft_split(char *str, char charset)
 			str++;
 		if (*str && *str != charset)
 		{
-			if (!(tab[i++] = malloc_word(str, charset)))
+			tab[i++] = malloc_word(str, charset);
+			if (!tab)
 				return (malloc_free(tab));
 			while (*str && *str != charset)
 				str++;

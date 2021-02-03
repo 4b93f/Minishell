@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 01:43:37 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 02:16:48 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,45 +19,44 @@ char	*get_actual_path(void)
     size_t	size;
 
 	buf = NULL;
+	str = NULL;
     size = 10000;
 	str = getcwd(buf, size);
-	if (!str)
-		return(NULL);
 	return (str);
-}
-
-int		check_syntax(t_sh *sh)
-{
-	int i;
-	int error;
-
-	i = -1;
-	error = 0;
-	while (sh->input_str[++i])
-	{
-		if (sh->input_str[i] == '\\' && sh->input_str[i + 1] == ';')
-			error++;
-	}
-	return (error);
 }
 
 static char	*argv_to_str(char **arg)
 {
 	int		i;
-	char	*tmp;
 	char	*str;
 
 	i = 0;
 	str = NULL;
-	// if (arg && arg[i])
 	while (arg && arg[i])
-	{
-		tmp = str;
-		str = ft_strjoin(tmp, arg[i]);
-		free(tmp);
-		i++;
-	}
+		str = ft_strjoinfree(str, arg[i++]);
 	return (str);
+}
+
+int		ft_retval_init(t_sh *sh)
+{
+	t_env_lst	*ptr;
+	char		*var;
+	char		*val;
+
+	var = ft_strdup("?");
+	if (!var)
+		ft_error(MALLOC_ERROR, sh, 0);
+	val = ft_strdup("0");
+	if (!val)
+	{
+		free(var);
+		ft_error(MALLOC_ERROR, sh, 0);
+	}
+	ptr = ft_env_lstnew(var, val);
+	if (!ptr)
+		ft_error(MALLOC_ERROR, sh, 0);
+	ft_env_lstadd_back(&sh->env_lst, ptr);
+	
 }
 
 int		main(int argc, char **argv, char **env)
@@ -66,7 +65,10 @@ int		main(int argc, char **argv, char **env)
 	int		ret;
 
 	sh = ft_malloc_sh();
-	ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("?"), ft_strdup("0")));
+	if (!sh)
+		ft_error(MALLOC_ERROR, sh, 0);
+	if (!ft_retval_init(sh))
+		ft_error(MALLOC_ERROR, sh, 0);
 	ft_env_to_lst(env, sh);
 	ret = 1;
 	while(ret)

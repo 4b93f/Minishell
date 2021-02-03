@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 00:04:10 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 03:14:58 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ char	*ft_strdup(const char *s)
 	if (!s)
 		return (NULL);
 	source = (char *)s;
-	if (!((dest = (char *)malloc(sizeof(char) * (ft_strlen(source) + 1)))))
+	dest = malloc(ft_strlen(source) + 1);
+	if (!dest)
 		return (0);
-	i = 0;
-	while (source[i])
-	{
+	i = -1;
+	while (source[++i])
 		dest[i] = source[i];
-		i++;
-	}
 	dest[i] = '\0';
 	return (dest);
 }

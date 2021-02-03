@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 12:17:09 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/01 02:09:22 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 03:16:19 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,8 @@ char	*ft_strchr(const char *s, int c)
 	i = 0;
 	str = (char *)s;
 	while (str && str[i])
-	{
-		if (str[i] != c)
-			i++;
-		else
+		if (str[i++] == c)
 			return (str + i);
-	}
 	if (str && str[i] == c)
 		return (str + i);
 	return (NULL);

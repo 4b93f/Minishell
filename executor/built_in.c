@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 01:35:10 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/04 03:18:01 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,18 +80,35 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 	size = -1;
 	ptr[++size] = ft_strdup(cmd->cmd_str);
 	if (!ptr)
-	{
-		free_tab(ptr);
-		return (NULL);
-	}
+		return (free_tab(ptr));
 	while(arg_ptr)
 	{
 		ptr[++size] = ft_strdup(arg_ptr->content);
 		if (!ptr)
-		{
-			free_tab(ptr);
-			return (NULL);
-		}
+			return (free_tab(ptr));
+		arg_ptr = arg_ptr->next;
+	}
+	return (ptr);
+}
+
+static char	**ft_lst_to_tab(t_env_lst *lst)
+{
+	char		**ptr;
+	t_env_lst	*arg_ptr;
+	int			size;
+
+	ptr = NULL;
+	size = ft_env_lstsize(lst);
+	arg_ptr = lst;
+	ptr = ft_calloc(sizeof(char *), size + 1);
+	if (!ptr)
+		return (NULL);
+	size = -1;
+	while(arg_ptr)
+	{
+		ptr[++size] = ft_strdup(arg_ptr->var);
+		if (!ptr)
+			return (free_tab(ptr));
 		arg_ptr = arg_ptr->next;
 	}
 	return (ptr);
@@ -118,24 +135,26 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	io[1] = dup(STDOUT_FILENO);
 // printf("[%d][%d]\n", STDIN_FILENO, STDOUT_FILENO);
 	sf = ft_search_path(sh, cmd);
-	if (!sf)
-		return;
 	ptr = ft_strjoin(sf, cmd->cmd_str);
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
 	if (pipe(fd) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
+	dup2(cmd->fd_pipe_out, STDOUT_FILENO);
+	dup2(cmd->fd_pipe_in, STDIN_FILENO);
 	child_pid = fork();
 	if (!child_pid)
 	{
-		dup2(cmd->fd_pipe_out, STDOUT_FILENO);
-		dup2(cmd->fd_pipe_in, STDIN_FILENO);
-		if (execve(ptr, tmp, NULL) == -1);
+		if (execve(ptr, tmp, NULL) == -1)
 			ft_not_found(cmd, sh, child_pid, fd);
+		else
+			ft_portal(sh, 0, child_pid, fd);
 		exit(0);
 	}
 	wait(0);
+	// close(cmd->fd_pipe_in);
+	// close(cmd->fd_pipe_out);
 	dup2(STDIN_FILENO, io[0]);
 	dup2(STDOUT_FILENO, io[1]);
 	ft_portal(sh, 0, child_pid, fd);
@@ -151,12 +170,50 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 static char	*ft_str_isalnum(char *str)
 {
 	while (str && *str)
-	{	
+	{
 		if (!ft_isalnum(*str) && *str != '_' && *str != '\\')
-			return (str);
+			return (--str);
 		str++;
 	}
 	return (NULL);
+}
+
+void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
+{
+	char		*tmp;
+	char		**tab;
+	int			size;
+	int			i;
+	int			j;
+
+	i = -1;
+	size = ft_env_lstsize(sh->env_lst);
+	tab = ft_lst_to_tab(sh->env_lst);
+	if (!tab)
+		return ;
+	while (++i < size)
+	{
+		j = i;
+		while (++j < size)
+			if (ft_strcmp(tab[i], tab[j]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[j];
+				tab[j] = tmp;
+			}
+	}
+	i = -1;
+	while (tab && tab[++i])
+	{
+		if (!ft_strcmp(tab[i], "?") || !ft_strcmp(tab[i], "_"))
+			continue ;
+		ft_putstr_fd("declare -x ", cmd->fd_pipe_out);
+		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->var, cmd->fd_pipe_out);
+		ft_putchar_fd('"', cmd->fd_pipe_out);
+		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->content, cmd->fd_pipe_out);
+		ft_putstr_fd("\"\n", cmd->fd_pipe_out);
+	}
+	free_tab(tab);
 }
 
 void	ft_export(t_cmd_lst *cmd, t_sh *sh)
@@ -168,6 +225,11 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	t_list		*ptr_str;
 
 	ptr_str = cmd->str;
+	if (!ptr_str)
+	{
+		ft_sort_export(sh, cmd);
+		return ;
+	}
 	while (ptr_str)
 	{
 		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
@@ -203,8 +265,11 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 			else
 			{
 				free(var);
-				free(chainon->content);
-				chainon->content = value;
+				if (chainon)
+				{	
+					free(chainon->content);
+					chainon->content = value;
+				}
 			}
 		}
 		ptr_str = ptr_str->next;

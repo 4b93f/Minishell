@@ -6,13 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 01:45:37 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/03 22:41:53 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void free_tab(char **tab)
+void	*free_tab(char **tab)
 {
 	int i;
 
@@ -22,6 +22,7 @@ void free_tab(char **tab)
 	if (tab)
 		free(tab);
 	tab = NULL;
+	return (NULL);
 }
 
 char	*ft_strjoinfree(const char *s1, const char *s2)

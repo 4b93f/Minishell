@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 02:16:48 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/04 01:39:04 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int		main(int argc, char **argv, char **env)
 		executor(sh);
 		sh_free(sh);
 	}
+	// printf("[%d]\n", ret);
 	ft_error(0, sh, ft_atoi(env_lst_finder(sh->env_lst, "?")->content));
 	return (0);
 }

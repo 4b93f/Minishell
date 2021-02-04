@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/03 01:17:00 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/04 02:47:32 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,15 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	pid = fork();
 	if (pid)
 	{
-		close(ptr_cmd->fd_pipe_out);
+		close(ccmd->fd_pipe_out);
 		ptr_cmd = ptr_cmd->next;
 		ptr_cmd->pid = pid;
 	}
 	else
 	{
 		ptr_cmd->pid = pid;
-		close(ccmd->fd_pipe_in);
+		close(ptr_cmd->fd_pipe_in);
 	}
-	// wait(0);
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
 	{	

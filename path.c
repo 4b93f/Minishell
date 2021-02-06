@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 22:40:15 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/05 23:48:27 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_search_path(t_sh *sh, t_cmd_lst *cmd)
 	int i;
 
 	i = -1;
-	while(sh->all_path[++i])
+	while(sh->all_path && sh->all_path[++i])
 	{
 		tmp = ft_strjoin(sh->all_path[i], cmd->cmd_str);
 		if (!tmp)
@@ -47,7 +47,7 @@ void	get_all_path(t_sh *sh)
 
 	i = -1;
 	lst_ptr = sh->env_lst;
-	while (ft_strcmp(lst_ptr->var, "PATH"))
+	while (lst_ptr && ft_strcmp(lst_ptr->var, "PATH"))
 		lst_ptr = lst_ptr->next;
 	if(!lst_ptr)
 		return ;

@@ -6,13 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/04 03:18:01 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/06 01:10:14 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_pwd(t_cmd_lst *cmd)
+void	ft_pwd(t_cmd_lst *cmd, t_sh *sh)
 {
     char *buf;
 
@@ -23,6 +23,8 @@ void	ft_pwd(t_cmd_lst *cmd)
 	if (!cmd->pipe_out)
 		ft_putstr_fd("\n", cmd->fd_pipe_out);
 	free(buf);
+	free(env_lst_finder(sh->env_lst, "?")->content);
+	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
 }
 
 /*
@@ -120,6 +122,7 @@ static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh, int pid, int fd[2])
 	ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
 	ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
 	ft_portal(sh, 127, pid, fd);
+	// printf("Send value [127]\n");
 }
 
 void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
@@ -233,7 +236,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	while (ptr_str)
 	{
 		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
-		var = ft_substr(ptr_str->content, 0, equal_pos);
+		var = ft_substr(ptr_str->content, 0, equal_pos - 1);
 		if (!var)
 			return;
 		var = rm_guim(var);
@@ -243,7 +246,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 			write(cmd->fd_pipe_out, ft_str_isalnum(var), 1);
 			write(cmd->fd_pipe_out, "'\n", 2);
 			free(env_lst_finder(sh->env_lst, "?")->content);
-			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("2");
+			env_lst_finder(sh->env_lst, "?")->content = ft_itoa(2);
 			free(var);
 			return ;
 		}
@@ -257,8 +260,9 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		if (ft_strchr(ptr_str->content, 61))
 		{
 			equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
-			var = ft_substr(ptr_str->content, 0, equal_pos);
-			value = ft_substr(ptr_str->content, equal_pos + 1, ft_strlen(ptr_str->content));
+			var = ft_substr(ptr_str->content, 0, equal_pos - 1);
+			value = ft_substr(ptr_str->content, equal_pos, ft_strlen(ptr_str->content));
+		// printf("[%s]\n", value);
 			chainon = env_lst_finder(sh->env_lst, var);
 			if (!chainon)
 				ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(var, value));
@@ -274,6 +278,8 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		}
 		ptr_str = ptr_str->next;
 	}
+	free(env_lst_finder(sh->env_lst, "?")->content);
+	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
 }
 
 void	ft_unset(t_cmd_lst *cmd, t_sh *sh)
@@ -311,4 +317,6 @@ void	ft_unset(t_cmd_lst *cmd, t_sh *sh)
 		ft_env_lstdelone(env_lst_finder(sh->env_lst, ptr_str->content), free);
 		ptr_str = ptr_str->next;
 	}
+	free(env_lst_finder(sh->env_lst, "?")->content);
+	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
 }

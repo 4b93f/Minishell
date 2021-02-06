@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 22:41:53 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/05 22:46:13 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_env_lst	*env_lst_finder(t_env_lst *lst, char *var)
 	return (NULL);
 }
 
-void	print_env(t_env_lst *lst, int fd)
+void	print_env(t_env_lst *lst, int fd, t_sh *sh)
 {
 	t_env_lst	*ptr_lst;
 	
@@ -90,6 +90,8 @@ void	print_env(t_env_lst *lst, int fd)
 		}
 		ptr_lst = ptr_lst->next;
 	}
+	free(env_lst_finder(sh->env_lst, "?")->content);
+	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
 }
 
 void	print_tab(char **tab)

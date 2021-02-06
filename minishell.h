@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 22:41:40 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/06 00:38:48 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char		**delete_env(t_sh *sh, char *delete_env, int len);
 char		*get_actual_path(void);
 void		*free_tab(char **tab);
 void		print_tab(char **str);
-void		print_env(t_env_lst *lst, int fd);
+void		print_env(t_env_lst *lst, int fd, t_sh *sh);
 void		get_pwd(t_sh *sh);
 void		create_env(t_sh *sh, char *new_env);
 void		get_all_path(t_sh *sh);
@@ -94,7 +94,7 @@ void		exec_cmd(t_cmd_lst *cmd, t_sh *sh);
 void		ft_export(t_cmd_lst *cmd, t_sh *sh);
 void		cd_info(t_sh *sh, int num, char *path);
 void		ft_unset(t_cmd_lst *cmd, t_sh *sh);
-void		ft_pwd(t_cmd_lst *cmd);
+void		ft_pwd(t_cmd_lst *cmd, t_sh *sh);
 int			ft_isspace(int c);
 
 void		strtolst(t_sh *t);
@@ -108,6 +108,7 @@ char		*rm_guim(char *ptr);
 void		ft_exit(t_cmd_lst *cmd, t_sh *sh);
 
 int			executor(t_sh *sh);
+void		ft_set_free_env(t_sh *sh, void *var, void *content);
 void		ft_portal(t_sh *sh, int ret, int pid, int fd[2]);
 
 void			ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);

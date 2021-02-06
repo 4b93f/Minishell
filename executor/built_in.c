@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/06 01:10:14 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/06 19:29:46 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 			continue ;
 		ft_putstr_fd("declare -x ", cmd->fd_pipe_out);
 		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->var, cmd->fd_pipe_out);
-		ft_putchar_fd('"', cmd->fd_pipe_out);
+		ft_putstr_fd("=\"", cmd->fd_pipe_out);
 		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->content, cmd->fd_pipe_out);
 		ft_putstr_fd("\"\n", cmd->fd_pipe_out);
 	}

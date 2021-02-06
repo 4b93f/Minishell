@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/06 02:02:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/06 19:59:56 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 	int			i;
 	char		*ret;
 	char		*tmp;
+	// char		*tmpb;
 	t_env_lst	*lst;
 
 	i = 0;
@@ -29,7 +30,10 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 		if(lst)
 		{
 			tmp = ret;
+			// tmpb = rm_guim(ft_strdup(lst->content));
 			ret = ft_strjoin(ret, lst->content);
+			// ret = ft_strjoin(ret, tmpb);
+			// free(tmpb);
 			free(tmp);
 		}
 		i++;
@@ -58,7 +62,7 @@ char	*ft_is_var(char *str, t_sh *sh)
 	{
 		ptr = env_lst_finder(sh->env_lst, "HOME");
 		if (ptr)
-			return (ptr->content);
+			return (rm_guim(ptr->content));
 		else
 			return (NULL);
 	}

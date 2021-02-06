@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/06 02:22:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/06 19:49:47 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 	{
 		ptr_lst->content = rm_guim(ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);
+// printf("**[%s]**\n", ptr);
 		ft_putstr_fd(ptr, cmd->fd_pipe_out);
 		free(ptr);
 		ptr_lst = ptr_lst->next;
@@ -37,8 +38,7 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		else if (!(cmd->flags && !ft_strncmp("-n", cmd->flags, 2)))
 			write(cmd->fd_pipe_out, "\n", 1);
 	}
-	free(env_lst_finder(sh->env_lst, "?")->content);
-	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
+	ft_set_free_env(sh, "?", ft_itoa(0));
 }
 
 void	ft_set_free_env(t_sh *sh, void *var, void *content)
@@ -52,10 +52,11 @@ void	ft_set_free_env(t_sh *sh, void *var, void *content)
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup(var), content));
 	else
 	{
-		free(ptr->content);
+		if (ptr->content)
+			free(ptr->content);
 		ptr->content = content;
 	}
-}
+}	
 
 /*
 **	voir si besoin de gere le old pwd dans l'env.
@@ -66,22 +67,23 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 {
 	char		*ptr;
 	int			ret;
+	char		*tmp;
 
 	if (!(env_lst_finder(sh->env_lst, "OLDPWD")))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
-	ft_set_free_env(sh, "OLDPWD", get_actual_path());
+	tmp = get_actual_path();
 	if (cmd->str && cmd->str->content)
 		ptr = ft_is_var(cmd->str->content, sh);
-	else
-		ptr = ft_is_var("$HOME", sh);
+	// else
+		// ptr = ft_is_var("$HOME", sh);
 	if (!ptr)//----------------------------IF $VAR NOT SET RETURN ERROR----------------
 	{
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
 		ft_putstr_fd(" not set\n", cmd->fd_pipe_out);
+		free(tmp);
 		return ;
 	}
-// printf("[BIMMMMM]\n");
 	ret = chdir(ptr);
 	free(ptr);
 	if (!ret)
@@ -90,22 +92,24 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 			ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), NULL));
 		ft_set_free_env(sh, "PWD", get_actual_path());
 	}
-	else if (ft_strlen(cmd->str->content/* = rm_guim(cmd->str->content)*/))
+	else if (ft_strlen(cmd->str->content = rm_guim(cmd->str->content)))
 	{
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
-		ft_putstr_fd(" No such file or directory\n", cmd->fd_pipe_out);
+		ft_putstr_fd(": No such file or directory\n", cmd->fd_pipe_out);
+		free(tmp);
 		return ;
 	}
+	ft_set_free_env(sh, "OLDPWD", tmp);
 	ft_set_free_env(sh, "?", ft_itoa(0));
 }
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
 	if (cmd->str)
-		ft_set_free_env(sh, "_", ft_lstlast(cmd->str)->content);
+		ft_set_free_env(sh, "_", ft_strdup(ft_lstlast(cmd->str)->content));
 	else
-		ft_set_free_env(sh, "_", cmd->cmd_str);
+		ft_set_free_env(sh, "_", ft_strdup(cmd->cmd_str));
 	if (cmd->cmd_index == -1)
 		exec_cmd(cmd, sh);
 	else if (cmd->cmd_index == 0)

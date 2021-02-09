@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/06 00:00:50 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:30:48 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,44 @@ static int	chain_maker(t_sh *t)
 			else
 				continue;
 		}
+		if (ptr && !ft_strcmp(ptr->content, ">>"))
+		{
+			cmd_ptr->pipe_out = 3;
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
+		}
+		if (ptr && !ft_strcmp(ptr->content, ">"))
+		{
+			cmd_ptr->pipe_out = 2;
+			
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
+		}
+		if (ptr && !ft_strcmp(ptr->content, "<"))
+		{
+			cmd_ptr->pipe_out = 4;
+			
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
+		}
 		if (ptr && !sep_checker(ptr->content))
 			while(ptr && !sep_checker(ptr->content))
 			{
@@ -135,6 +173,44 @@ static int	chain_maker(t_sh *t)
 				break ;
 			else
 				continue;
+		}
+		if (ptr && !ft_strcmp(ptr->content, ">>"))
+		{
+			cmd_ptr->pipe_out = 3;
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
+		}
+		if (ptr && !ft_strcmp(ptr->content, ">"))
+		{
+			cmd_ptr->pipe_out = 2;
+			
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
+		}
+		if (ptr && !ft_strcmp(ptr->content, "<"))
+		{
+			cmd_ptr->pipe_out = 4;
+			
+			if (!(ptr = ptr->next))
+				break ;
+			while (ptr && !sep_checker(ptr->content))
+			{
+				ft_lstadd_back(&cmd_ptr->red_file, ft_lstnew(ft_strdup(ptr->content)));
+				ptr = ptr->next;
+			}
+			continue;
 		}
 		if (!ptr || !ft_strcmp(ptr->content, ";") || !(ptr = ptr->next))
 			continue ;

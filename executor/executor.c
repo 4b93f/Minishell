@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/06 19:49:47 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:27:51 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,40 +137,61 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	pid = fork();
 	if (pid)
 	{
-		close(ccmd->fd_pipe_out);
+		if (ccmd->fd_pipe_out > 2)
+			close(ccmd->fd_pipe_out);
 		ptr_cmd = ptr_cmd->next;
 		ptr_cmd->pid = pid;
 	}
 	else
 	{
 		ptr_cmd->pid = pid;
-		close(ptr_cmd->fd_pipe_in);
+		if (ptr_cmd->fd_pipe_in > 2)
+			close(ptr_cmd->fd_pipe_in);
 	}
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
 	{	
-		close(ccmd->fd_pipe_in);
+		if (ccmd->fd_pipe_in > 2)
+			close(ccmd->fd_pipe_in);
 		exit(0);
 	}
-	close(ccmd->fd_pipe_out);
+	if (ccmd->fd_pipe_out > 2)
+		close(ccmd->fd_pipe_out);
 	kill(pid, SIGQUIT);
 }
 
 int		executor(t_sh *sh)
 {
 	t_cmd_lst	*ptr_cmd;
+	char		*buf;
 
+	buf = NULL;
 	ptr_cmd = sh->cmd;
 	while (ptr_cmd)
 	{
-		if (ptr_cmd->pipe_out && ptr_cmd->next)
+		if (ptr_cmd->pipe_out == 2)
+			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_WRONLY | O_TRUNC, 0777)) < 0)
+				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+		if (ptr_cmd->pipe_out == 3)
+			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_APPEND | O_WRONLY, 0777)) < 0)
+				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+		if (ptr_cmd->pipe_out == 4)
+			if ((ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content, O_APPEND | O_RDONLY, 0777)) < 0)
+				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+		if (ptr_cmd->pipe_out == 1 && ptr_cmd->next)
 		{
 			fork_piper(ptr_cmd, sh);
-			if (ptr_cmd->fd_pipe_out)
+			if (ptr_cmd->fd_pipe_out > 2)
+				close(ptr_cmd->fd_pipe_out);	
+			if (ptr_cmd->fd_pipe_out && ptr_cmd->next)
 				ptr_cmd = ptr_cmd->next;
 		}
 		else
+		{	
 			commander_exec(ptr_cmd, sh);
+			if (ptr_cmd->fd_pipe_out > 2)
+				close(ptr_cmd->fd_pipe_out);
+		}
 		ptr_cmd = ptr_cmd->next;
 	}
 	return (0);

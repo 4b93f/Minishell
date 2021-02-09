@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 10:29:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:43:12 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/09 20:34:44 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*rest(char *strings)
 
 int		get_next_line(int fd, char **line)
 {
-	static	char	*str[OPEN_MAX];
+	static	char	*str[FOPEN_MAX];
 
 	*line = NULL;
 	if (check_error(fd, str[fd]) < 0 || BUFFER_SIZE < 1)

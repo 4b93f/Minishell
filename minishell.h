@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/06 00:38:48 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:24:20 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "env_cl/ft_env_cl.h"
 # include "cmd_cl/ft_cmd_cl.h"
 # include <stdio.h>
-# include "get_next_line/get_next_line.h"
+# include "get_next_line/get_next_line_bonus.h"
 # include <math.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -54,6 +54,7 @@ typedef struct	s_cmd_lst
 
 	int			pipe_out;
 	int			fd_pipe_out;
+	t_list		*red_file;
 
 	t_list		*str;
 	

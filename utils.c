@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/06 19:53:23 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/09 23:33:41 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	print_env(t_env_lst *lst, int fd, t_sh *sh)
 			ft_putstr_fd(ptr_lst->var, fd);
 			write(fd, "=", 1);
 			ft_putstr_fd(ptr_lst->content, fd);
-			if (fd < 3)
-				write(fd, "\n", 1);
+			// if (fd < 3)
+			write(fd, "\n", 1);
 		}
 		ptr_lst = ptr_lst->next;
 	}

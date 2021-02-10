@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/06 19:59:56 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/10 21:08:38 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 		if(lst)
 		{
 			tmp = ret;
-			// tmpb = rm_guim(ft_strdup(lst->content));
 			ret = ft_strjoin(ret, lst->content);
-			// ret = ft_strjoin(ret, tmpb);
-			// free(tmpb);
+			if (!ret && lst->content)
+				ft_error(MALLOC_ERROR, sh, 1);
 			free(tmp);
 		}
 		i++;
@@ -70,7 +69,7 @@ char	*ft_is_var(char *str, t_sh *sh)
 	return (ptr_str);
 }
 
-char	*rm_guim(char *ptr)
+char	*rm_guim(char *ptr) // supprime les guillemets et free l'ancien.
 {
 	char	*str;
 

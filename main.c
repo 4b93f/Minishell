@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/06 15:22:57 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/10 20:38:28 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*argv_to_str(char **arg)
 	return (str);
 }
 
-int		ft_retval_init(t_sh *sh)
+void	ft_retval_init(t_sh *sh)
 {
 	t_env_lst	*ptr;
 	char		*var;
@@ -67,8 +67,7 @@ int		main(int argc, char **argv, char **env)
 	sh = ft_malloc_sh();
 	if (!sh)
 		ft_error(MALLOC_ERROR, sh, 0);
-	if (!ft_retval_init(sh))
-		ft_error(MALLOC_ERROR, sh, 0);
+	ft_retval_init(sh);
 	if (!env_lst_finder(sh->env_lst, "PWD"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), get_actual_path()));
 	// if (!env_lst_finder(sh->env_lst, "_"))

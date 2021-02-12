@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/10 20:38:28 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/11 22:28:33 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,11 @@ int		main(int argc, char **argv, char **env)
 	if (!sh)
 		ft_error(MALLOC_ERROR, sh, 0);
 	ft_retval_init(sh);
+	ft_env_to_lst(env, sh);
 	if (!env_lst_finder(sh->env_lst, "PWD"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), get_actual_path()));
 	// if (!env_lst_finder(sh->env_lst, "_"))
 		// ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
-		
-	ft_env_to_lst(env, sh);
 	ret = 1;
 	while(ret)
 	{

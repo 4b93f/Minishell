@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/02/10 20:37:23 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/11 22:35:03 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,21 +40,21 @@ OBJ = 		${SRCS:.c=.o}
 FLAGS =		-Wall -Wextra -Werror -g3
 
 %.o: %.c
-			gcc -c -o $@ $?
+			@gcc -c -o $@ $?
 
 $(NAME): ${OBJ}
-			gcc -g3 ${FLAGS} ${OBJ} -o ${NAME}
+			@gcc -g3 ${FLAGS} ${OBJ} -o ${NAME}
 			@echo "[Done !]"
 
 all:		${NAME}
 	
 clean:	
 			@echo "Cleaning..."
-			/bin/rm -f ${OBJ}
+			@/bin/rm -f ${OBJ}
 			@echo "Cleaning complete!"
 
 fclean:		clean
-			rm -f minishell
+			@rm -f minishell
 
 re:			fclean all
 

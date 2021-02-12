@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/10 21:09:54 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/12 01:27:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,33 +131,38 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 
 static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 {
-	int	pid;
+	int			pid;
 	t_cmd_lst	*ccmd;
+	int			fd_backup[2];
 
+	fd_backup[0] = dup(0);
+	fd_backup[1] = dup(1);
 	ccmd = ptr_cmd->next;
+	dup2(ptr_cmd->fd_pipe_out, 1);
+	dup2(ccmd->fd_pipe_in, 0);
 	pid = fork();
 	if (pid)
 	{
-		if (ccmd->fd_pipe_out > 2)
-			close(ccmd->fd_pipe_out);
 		ptr_cmd = ptr_cmd->next;
 		ptr_cmd->pid = pid;
 	}
 	else
-	{
 		ptr_cmd->pid = pid;
-		if (ptr_cmd->fd_pipe_in > 2)
-			close(ptr_cmd->fd_pipe_in);
+	wait(0);
+	if (pid)
+	{
+		dup2(fd_backup[1], 1);
+		dup2(ccmd->fd_pipe_in, 0);
 	}
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
 	{	
-		if (ccmd->fd_pipe_in > 2)
-			close(ccmd->fd_pipe_in);
+		if (ptr_cmd->fd_pipe_out > 2)
+			close(ptr_cmd->fd_pipe_out);
 		exit(0);
 	}
-	if (ccmd->fd_pipe_out > 2)
-		close(ccmd->fd_pipe_out);
+	close(ccmd->fd_pipe_in);
+	dup2(fd_backup[0], 0);
 	kill(pid, SIGQUIT);
 }
 

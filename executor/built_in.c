@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/06 19:29:46 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/12 01:29:16 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,36 +131,26 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	char	**tmp;
 	char	*ptr;
 	char	*sf;
-	int		io[2];
-	int		fd[2];
+	int		portal[2];
 
-	io[0] = dup(STDIN_FILENO);
-	io[1] = dup(STDOUT_FILENO);
-// printf("[%d][%d]\n", STDIN_FILENO, STDOUT_FILENO);
 	sf = ft_search_path(sh, cmd);
 	ptr = ft_strjoin(sf, cmd->cmd_str);
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
-	if (pipe(fd) < 0)
+	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
-	dup2(cmd->fd_pipe_out, STDOUT_FILENO);
-	dup2(cmd->fd_pipe_in, STDIN_FILENO);
 	child_pid = fork();
 	if (!child_pid)
 	{
 		if (execve(ptr, tmp, NULL) == -1)
-			ft_not_found(cmd, sh, child_pid, fd);
+			ft_not_found(cmd, sh, child_pid, portal);
 		else
-			ft_portal(sh, 0, child_pid, fd);
+			ft_portal(sh, 0, child_pid, portal);
 		exit(0);
 	}
 	wait(0);
-	// close(cmd->fd_pipe_in);
-	// close(cmd->fd_pipe_out);
-	dup2(STDIN_FILENO, io[0]);
-	dup2(STDOUT_FILENO, io[1]);
-	ft_portal(sh, 0, child_pid, fd);
+	ft_portal(sh, 0, child_pid, portal);
 	free(ptr);
 	free_tab(tmp);
 }

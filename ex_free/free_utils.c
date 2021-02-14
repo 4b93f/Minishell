@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 00:46:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/09 19:21:19 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/14 16:59:333 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,16 @@ void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 ** Free all malloc and more	
 */
 
+int		ft_print_error(int ret, int c)
+{
+	static char *error[] = {
+	"minishell: syntax error near unexpected token `"	
+	};
+	printf("%s", error[ret]);
+	printf("%c'\n", c);
+	return (1);
+	
+}
 void		ft_error(int ret, t_sh *sh, int ext)
 {
 	static char *error[] = {
@@ -86,7 +96,6 @@ void		ft_error(int ret, t_sh *sh, int ext)
 	"minishell: pipe ERROR",
 	"minishell: syntax error near unexpected token ';'"
 	};
-	if (ret > 0)
 		printf("%s\n", error[ret]);
 	ft_free_sh(sh);
 	exit(ext);

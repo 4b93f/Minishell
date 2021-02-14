@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 12:53:47 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:08:13 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/14 16:27:15 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	ss1 = (unsigned char *)s1;
 	ss2 = (unsigned char *)s2;
 	while (n--)
-		if ((ss1[i] != ss2[i] || !ss1[i] || !ss2[i]) && i++)
-			return (ss1[--i] - ss2[i]);
+	{
+		if ((ss1[i] != ss2[i] || !ss1[i] || !ss2[i]))
+			return (ss1[i] - ss2[i]);
+		i++;
+	}
 	return (0);
 }
+
 /*
 ** Compare n caractères entre S1 et S2
 */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/03 01:53:26 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/11 22:58:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/14 18:01:333 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ static int	cmd_checker(char *str)
 	if (str)
 	{
 		if (!ft_strcmp("exit", str))
-			return (0);
+			return (EXIT);
 		else if (!ft_strcmp("echo", str))
-			return (1);
+			return (ECHO);
 		else if (!ft_strcmp("cd", str))
-			return (2);
+			return (CD);
 		else if (!ft_strcmp("pwd", str))
-			return (3);
+			return (PWD);
 		else if (!ft_strcmp("export", str))
-			return (4);
+			return (EXPORT);
 		else if (!ft_strcmp("unset", str))
-			return (5);
+			return (UNSET);
 		else if (!ft_strcmp("env", str))
-			return (6);
+			return (ENV);
 	}
 	// return (ft_error(1, -1));
-	return (-1);
+	return (OTHER);
 }
 
 /*
@@ -71,6 +71,7 @@ static int	sep_checker(char *str)
 **	cmd_index  6 --> env
 */
 
+/*
 static int	chain_maker(t_sh *t)
 {
 	t_list		*ptr;
@@ -217,13 +218,145 @@ static int	chain_maker(t_sh *t)
 	}
 	return (0);
 }
+*/
 
-int			parser(t_sh *t)
+static void *new_cmd(t_sh *sh)
+{
+	ft_cmd_lstadd_back(&sh->cmd, ft_cmd_lstnew(NULL, NULL,
+		cmd_checker(sh->parser.ptr_lst->content)));
+	sh->parser.ptr_cmd = ft_cmd_lstlast(sh->cmd);
+	sh->parser.ptr_cmd->cmd_str = ft_strdup(sh->parser.ptr_lst->content);
+}
+
+// ptr_lst == lst argument
+
+static int set_pipe(t_sh *sh)
+{
+	pipe(sh->parser.ptr_lst);
+	sh->parser.ptr_cmd->pipe_out = 1;
+	sh->parser.ptr_cmd->fd_pipe_out = sh->parser.piped[1];
+	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
+		return (0);
+	else
+		return (1);
+}
+
+static int set_left_red(t_sh *sh)
+{
+	sh->parser.ptr_cmd->pipe_out = 4;
+	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
+		return (0) ;
+	while (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
+	{
+		ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
+		sh->parser.ptr_lst = sh->parser.ptr_lst->next;
+	}
+	return (1);
+}
+
+static int set_simple_red(t_sh *sh)
+{
+	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, ">"))
+	{
+		sh->parser.ptr_cmd->pipe_out = 2;
+		
+		if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
+			return (0);
+		while (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
+		{
+			ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
+			sh->parser.ptr_lst = sh->parser.ptr_lst->next;
+		}
+		return (1);
+	}
+}
+
+static int set_double_red(t_sh *sh)
+{
+	sh->parser.ptr_cmd->pipe_out = 3;
+	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
+		return (0);
+	while (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
+	{
+		ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
+		sh->parser.ptr_lst = sh->parser.ptr_lst->next;
+	}
+	return (1);
+}
+
+static int set_pipe_red(t_sh *sh)
+{
+	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, "|"))
+		return(set_pipe(sh));
+	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, ">>"))
+		return(set_double_red(sh));
+	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, ">"))
+		return(set_simple_red(sh));
+	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, "<"))
+		return(set_left_red(sh));
+	return (-1);
+}
+
+static int parsing(t_sh *sh)
+{
+	int ret;
+
+	new_cmd(sh);
+	if (sh->parser.piped[0] > -1)
+	{
+		sh->parser.ptr_cmd->fd_pipe_in = sh->parser.piped[0];
+		sh->parser.ptr_cmd->pipe_in = 1;
+		sh->parser.piped[0] = -1;
+	}
+	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
+		return (1);
+	while (sh->parser.ptr_lst && sh->parser.ptr_cmd->cmd_index == ECHO && cmd_flag_check(sh->parser.ptr_lst->content))
+	{
+		free(sh->parser.ptr_cmd->flags);
+		sh->parser.ptr_cmd->flags = ft_strdup(sh->parser.ptr_lst->content);
+		if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
+			return (0);
+	}
+	if (ret = set_pipe_red < 0)
+		return (ret);
+	if (ptr && !sep_checker(ptr->content))
+	{
+		while(ptr && !sep_checker(ptr->content))
+		{
+			ft_lstadd_back(&cmd_ptr->str, ft_lstnew(ft_strdup(ptr->content)));
+			if (!(ptr = ptr->next))
+				break ;
+		}
+	}
+	else
+		if (!ptr || !(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
+			continue ;
+}
+
+pwd 
+static void start_process(t_sh *sh)
+{
+	t_list		*ptr;
+
+	sh->parser.ptr_lst = sh->arg_lst;
+	while (sh->parser.ptr_lst)
+	{
+		if (!ft_strcmp(sh->parser.ptr_lst->content, ";") && (ft_print_error(SYNTAX_ERROR,
+			';')))
+			break ;
+		if (parsing(sh))
+			continue ;
+		else
+			return ;
+	}
+}
+
+void			parser(t_sh *sh)
 {
 	char	*str;
 
 	str = NULL;
-	if (t->arg_lst)
-		str = t->arg_lst->content;
-	return (chain_maker(t));
+	if (sh->arg_lst)
+		str = sh->arg_lst->content;
+	start_process(sh);
 }

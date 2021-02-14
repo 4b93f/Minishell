@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/12 00:48:59 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/14 18:28:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@
 # include <math.h>
 # include <stdlib.h>
 # include <signal.h>
+
+enum		e_print_error
+{
+	SYNTAX_ERROR
+};
+
+enum		e_cmd
+{
+	OTHER = -1,
+	EXIT,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV
+};
 
 enum		e_error
 {
@@ -63,13 +80,20 @@ typedef struct	s_cmd_lst
 	void		*next;
 }				t_cmd_lst;
 
+typedef struct	s_parser
+{
+	int			piped[2];
+	t_list		*ptr_lst;
+	t_cmd_lst	*ptr_cmd;
+}				t_parser;
 
 typedef struct	s_sh
 {
 	char **all_path; //--> liste chainee
 
 	char		*input_str;
-
+	
+	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;
 	t_env_lst	*env_lst;
@@ -99,7 +123,7 @@ void		ft_pwd(t_cmd_lst *cmd, t_sh *sh);
 int			ft_isspace(int c);
 
 void		strtolst(t_sh *t);
-int			parser(t_sh *t);
+void		parser(t_sh *t);
 t_env_lst	*env_lst_finder(t_env_lst *lst, char *var);
 void		sh_free(t_sh *sh);
 void		ft_error(int ret, t_sh *sh, int ext);
@@ -107,6 +131,7 @@ char		*ft_search_path(t_sh *sh, t_cmd_lst *cmd);
 void		ft_free_sh(t_sh *sh);
 char		*rm_guim(char *ptr);
 void		ft_exit(t_cmd_lst *cmd, t_sh *sh);
+int		ft_print_error(int ret, int c);
 
 int			executor(t_sh *sh);
 void		ft_set_free_env(t_sh *sh, void *var, void *content);

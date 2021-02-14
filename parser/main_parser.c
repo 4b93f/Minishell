@@ -319,17 +319,17 @@ static int parsing(t_sh *sh)
 	}
 	if (ret = set_pipe_red < 0)
 		return (ret);
-	if (ptr && !sep_checker(ptr->content))
+	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 	{
-		while(ptr && !sep_checker(ptr->content))
+		while(sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 		{
-			ft_lstadd_back(&cmd_ptr->str, ft_lstnew(ft_strdup(ptr->content)));
-			if (!(ptr = ptr->next))
+			ft_lstadd_back(&sh->parser.ptr_cmd->str, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
+			if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 				break ;
 		}
 	}
 	else
-		if (!ptr || !(ptr = ptr->next) || !ft_strcmp(ptr->content, ";"))
+		if (!sh->parser.ptr_lst || !(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
 			continue ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/12 01:29:16 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 03:05:38 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,6 @@ void	ft_pwd(t_cmd_lst *cmd, t_sh *sh)
 	free(env_lst_finder(sh->env_lst, "?")->content);
 	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
 }
-
-/*
-void ft_cd(t_sh *sh)
-{
-	struct stat buffer;
-	char *path;
-	int i;
-	
-	i = 0;
-	path = NULL;
-	// free(sh->old_pwd);
-	// sh->old_pwd = get_actual_path(); 
-	// if (!strcmp("cd /", sh->input_str))
-		// chdir("/");
-	if (!strcmp("cd ~", sh->input_str) || !strcmp("cd", sh->input_str))
-	{
-		while(strncmp(sh->env[i], "HOME=", ft_strlen("HOME=")))
-			i++;
-		chdir(sh->env[i] + ft_strlen("HOME="));
-	}
-	i = stat("/Users/chly-huc/Desktop/minish", &buffer);
-	path = get_actual_path();
-	path = ft_strjoinfree(path, "/");
-	path = ft_strjoinfree(path, sh->input_str + ft_strlen("cd "));
-	if (i == -1)
-		return ;
-	else
-	{
-		if (S_ISDIR(buffer.st_mode))
-			chdir(path);
-	}
-	free(sh->actual_pwd);
-	sh->actual_pwd = get_actual_path();
-	free(path);
-}
-*/
 
 /*
 **	Convert string of command in double tab.
@@ -229,6 +193,14 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		var = ft_substr(ptr_str->content, 0, equal_pos - 1);
 		if (!var)
 			return;
+		if (equal_pos == 1)
+		{
+			ft_putstr_fd("minishell: export: `", cmd->fd_pipe_out);
+			ft_putstr_fd(ptr_str->content, cmd->fd_pipe_out);
+			ft_putstr_fd("': not a valid identifier\n", cmd->fd_pipe_out);
+			free(env_lst_finder(sh->env_lst, "?")->content);
+			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("1");
+		}
 		var = rm_guim(var);
 		if (ft_str_isalnum(var))
 		{

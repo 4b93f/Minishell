@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/14 18:28:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/14 23:54:43 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,33 +131,37 @@ char		*ft_search_path(t_sh *sh, t_cmd_lst *cmd);
 void		ft_free_sh(t_sh *sh);
 char		*rm_guim(char *ptr);
 void		ft_exit(t_cmd_lst *cmd, t_sh *sh);
-int		ft_print_error(int ret, int c);
+int			ft_print_error(int ret, int c);
 
 int			executor(t_sh *sh);
+int			set_pipe_red(t_sh *sh);
+int			sep_checker(char *str);
+int			lex_to_cmdstr(t_sh *sh);
+
 void		ft_set_free_env(t_sh *sh, void *var, void *content);
 void		ft_portal(t_sh *sh, int ret, int pid, int fd[2]);
 
-void			ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);
-void			ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new);
-void			ft_env_lstclear(t_env_lst **lst, void (*del)(void*));
-void			ft_env_lstdelone(t_env_lst *lst, void (*del)(void*));
-void			ft_env_lstiter(t_env_lst *lst, void (*f)(void *));
-t_env_lst		*ft_env_lstlast(t_env_lst *lst);
-t_env_lst		*ft_env_lstnew(void *var, void *content);
-int				ft_env_lstsize(t_env_lst *lst);
+void		ft_env_lstadd_back(t_env_lst **alst, t_env_lst *new);
+void		ft_env_lstadd_front(t_env_lst **alst, t_env_lst *new);
+void		ft_env_lstclear(t_env_lst **lst, void (*del)(void*));
+void		ft_env_lstdelone(t_env_lst *lst, void (*del)(void*));
+void		ft_env_lstiter(t_env_lst *lst, void (*f)(void *));
+t_env_lst	*ft_env_lstlast(t_env_lst *lst);
+t_env_lst	*ft_env_lstnew(void *var, void *content);
+int			ft_env_lstsize(t_env_lst *lst);
 
-void			ft_cmd_lstadd_back(t_cmd_lst **alst, t_cmd_lst *new);
-void			ft_cmd_lstadd_front(t_cmd_lst **alst, t_cmd_lst *new);
-void			ft_cmd_lstclear(t_cmd_lst **lst, void (*del)(void*));
-void			ft_cmd_lstdelone(t_cmd_lst *lst, void (*del)(void*));
-void			ft_cmd_lstiter(t_cmd_lst *lst, void (*f)(void *));
-t_cmd_lst		*ft_cmd_lstlast(t_cmd_lst *lst);
-t_cmd_lst		*ft_cmd_lstnew(void *str, void *flag, int index);
-int				ft_cmd_lstsize(t_cmd_lst *lst);
+void		ft_cmd_lstadd_back(t_cmd_lst **alst, t_cmd_lst *new);
+void		ft_cmd_lstadd_front(t_cmd_lst **alst, t_cmd_lst *new);
+void		ft_cmd_lstclear(t_cmd_lst **lst, void (*del)(void*));
+void		ft_cmd_lstdelone(t_cmd_lst *lst, void (*del)(void*));
+void		ft_cmd_lstiter(t_cmd_lst *lst, void (*f)(void *));
+t_cmd_lst	*ft_cmd_lstlast(t_cmd_lst *lst);
+t_cmd_lst	*ft_cmd_lstnew(void *str, void *flag, int index);
+int			ft_cmd_lstsize(t_cmd_lst *lst);
 
-void			ft_env_to_lst(char **env, t_sh *sh);
-char			*ft_is_var(char *str, t_sh *sh);
+void		ft_env_to_lst(char **env, t_sh *sh);
+char		*ft_is_var(char *str, t_sh *sh);
 
-void			dbg(t_sh *t);
+void		dbg(t_sh *t);
 
 #endif

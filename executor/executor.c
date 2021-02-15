@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/12 01:27:39 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 02:01:21 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 	{
 		ptr_lst->content = rm_guim(ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);
-// printf("**[%s]**\n", ptr);
 		ft_putstr_fd(ptr, cmd->fd_pipe_out);
 		free(ptr);
 		ptr_lst = ptr_lst->next;

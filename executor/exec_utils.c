@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/10 21:08:38 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 03:15:53 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,14 @@ char	*ft_is_var(char *str, t_sh *sh)
 char	*rm_guim(char *ptr) // supprime les guillemets et free l'ancien.
 {
 	char	*str;
+	// char	*c;
 
+	// if (ptr && (ptr[0] == '\'' || ptr[0] == '\"'))
+		// c = ft_substr(ptr, 0, 1);
+	// str = ft_strtrim(ptr, c);
 	str = ft_strtrim(ptr, "\'\"");
 	free(ptr);
+	// free(c);
 	ptr = NULL;
 	return (str);
 }

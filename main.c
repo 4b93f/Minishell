@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/14 17:05:23 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/15 02:10:13 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int		main(int argc, char **argv, char **env)
 	ft_env_to_lst(env, sh);
 	if (!env_lst_finder(sh->env_lst, "PWD"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), get_actual_path()));
+	if (!env_lst_finder(sh->env_lst, "SHLVL"))
+		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("SHLVL"), "1"));
 	// if (!env_lst_finder(sh->env_lst, "_"))
 		// ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
 	ret = 1;
@@ -93,6 +95,5 @@ int		main(int argc, char **argv, char **env)
 		sh_free(sh);
 	}
 	// printf("[%d]\n", ret);
-	ft_error(0, sh, ft_atoi(env_lst_finder(sh->env_lst, "?")->content));
-	return (0);
+	return (ft_atoi(env_lst_finder(sh->env_lst, "?")->content));
 }

@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/02/11 22:35:03 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/14 23:41:47 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS =	env_cl/ft_envlstadd_back.c env_cl/ft_envlstadd_front.c \
 		cmd_cl/ft_cmdlstclear.c	cmd_cl/ft_cmdlstdelone.c cmd_cl/ft_cmdlstiter.c \
 		cmd_cl/ft_cmdlstlast.c cmd_cl/ft_cmdlstnew.c cmd_cl/ft_cmdlstsize.c \
 		lexer/main_lexer.c \
-		parser/main_parser.c \
+		parser/main_parser.c parser/pipe_n_read.c \
 		libft/ft_atoi.c libft/ft_bzero.c libft/ft_calloc.c libft/ft_isalnum.c libft/ft_isalpha.c libft/ft_isascii.c \
 		libft/ft_isdigit.c libft/ft_isprint.c libft/ft_memccpy.c libft/ft_memchr.c libft/ft_memcmp.c libft/ft_memcpy.c \
 		libft/ft_memmove.c libft/ft_memset.c libft/ft_strchr.c libft/ft_strdup.c libft/ft_strlcat.c libft/ft_strlcpy.c \

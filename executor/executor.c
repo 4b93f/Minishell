@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/15 02:01:21 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 22:10:33 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_set_free_env(t_sh *sh, void *var, void *content)
 
 static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 {
+	// struct stat	buffer;
 	char		*ptr;
 	int			ret;
 	char		*tmp;
@@ -83,7 +84,12 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 		free(tmp);
 		return ;
 	}
-	//---------------
+	// if ((ret = stat(ptr, &buffer)) == -1)
+	// {
+	// 	free(ptr);	
+	// 	free(tmp);	
+	// 	ft_error(0, sh, 0); // *********A CORRIGER*********
+	// }
 	ret = chdir(ptr);
 	free(ptr);
 	if (!ret)
@@ -109,7 +115,7 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 	if (cmd->str)
 		ft_set_free_env(sh, "_", ft_strdup(ft_lstlast(cmd->str)->content));
 	else
-		ft_set_free_env(sh, "_", ft_strdup(cmd->cmd_str));
+		ft_set_free_env(sh, "_", ft_strjoin(ft_search_path(sh, cmd), cmd->cmd_str));
 	if (cmd->cmd_index == -1)
 		exec_cmd(cmd, sh);
 	else if (cmd->cmd_index == 0)
@@ -142,25 +148,27 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	pid = fork();
 	if (pid)
 	{
+		close(ptr_cmd->fd_pipe_out);
 		ptr_cmd = ptr_cmd->next;
 		ptr_cmd->pid = pid;
+		dup2(fd_backup[1], 1);
+		dup2(ptr_cmd->fd_pipe_in, 0);
 	}
 	else
-		ptr_cmd->pid = pid;
-	wait(0);
-	if (pid)
 	{
-		dup2(fd_backup[1], 1);
-		dup2(ccmd->fd_pipe_in, 0);
+		close(ccmd->fd_pipe_in);
+		ptr_cmd->pid = pid;
 	}
+	wait(0);
 	commander_exec(ptr_cmd, sh);
 	if (!pid)
-	{	
+	{
 		if (ptr_cmd->fd_pipe_out > 2)
 			close(ptr_cmd->fd_pipe_out);
 		exit(0);
 	}
-	close(ccmd->fd_pipe_in);
+// printf("", );
+	close(ptr_cmd->fd_pipe_in);
 	dup2(fd_backup[0], 0);
 	kill(pid, SIGQUIT);
 }

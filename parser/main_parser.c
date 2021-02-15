@@ -83,13 +83,35 @@ static void *new_cmd(t_sh *sh)
 **	ptr_lst == lst argument
 */
 
+static void	backsl(t_list *ptr)
+{
+	char	*str;
+	char	*tmp;
+
+	if (!ptr)
+		return ;
+	str = (char *)ptr->content;
+	if (str[0] == '\\' && !str[1])
+	{
+		free(ptr->content);
+		ptr->content = ft_strdup(" ");
+	}
+	else if (str[0] == '\\' && str[1])
+	{
+		tmp = ft_strdup(ptr->content);
+		free(ptr->content);
+		ptr->content = ft_substr(tmp, 1, 1);
+		free(tmp);
+	}
+}
+
 int			lex_to_cmdstr(t_sh *sh)
 {
 	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 	{
-		//printf("!\n");
 		while(sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 		{
+			backsl(sh->parser.ptr_lst); // temporaire a implementer dans le lexer
 			ft_lstadd_back(&sh->parser.ptr_cmd->str, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
 			if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 				return (0);
@@ -106,7 +128,6 @@ static int	parsing(t_sh *sh)
 	int ret;
 
 	new_cmd(sh);
-	//printf("[%s]\n", (sh->parser.ptr_lst->content));
 	if (sh->parser.piped[0] > -1)
 	{
 		sh->parser.ptr_cmd->fd_pipe_in = sh->parser.piped[0];
@@ -115,7 +136,6 @@ static int	parsing(t_sh *sh)
 	}
 	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
 		return (1);
-	//printf("(%s)\n", (sh->parser.ptr_lst->content));
 	while (sh->parser.ptr_lst && sh->parser.ptr_cmd->cmd_index == ECHO && cmd_flag_check(sh->parser.ptr_lst->content))
 	{
 		free(sh->parser.ptr_cmd->flags);
@@ -134,10 +154,9 @@ static int	parsing(t_sh *sh)
 	return (1);
 }
 
+
 static void start_process(t_sh *sh)
 {
-	t_list		*ptr;
-
 	sh->parser.ptr_lst = sh->arg_lst;
 	if (!ft_strcmp(sh->parser.ptr_lst->content, ";") && ft_print_error(SYNTAX_ERROR, ';'))
 		return ;

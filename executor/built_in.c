@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/15 03:05:38 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 20:31:21 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,11 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 			ft_portal(sh, 0, child_pid, portal);
 		exit(0);
 	}
+// printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
+// close(cmd->fd_pipe_in);
+// printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
 	wait(0);
+// printf("[***]\n");
 	ft_portal(sh, 0, child_pid, portal);
 	free(ptr);
 	free_tab(tmp);

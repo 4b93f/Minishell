@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/15 02:10:13 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/15 21:56:06 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		main(int argc, char **argv, char **env)
 {
 	t_sh	*sh;
 	int		ret;
-
 	sh = ft_malloc_sh();
 	if (!sh)
 		ft_error(MALLOC_ERROR, sh, 0);
@@ -72,7 +71,7 @@ int		main(int argc, char **argv, char **env)
 	if (!env_lst_finder(sh->env_lst, "PWD"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), get_actual_path()));
 	if (!env_lst_finder(sh->env_lst, "SHLVL"))
-		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("SHLVL"), "1"));
+		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("SHLVL"), ft_strdup("1")));
 	// if (!env_lst_finder(sh->env_lst, "_"))
 		// ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
 	ret = 1;

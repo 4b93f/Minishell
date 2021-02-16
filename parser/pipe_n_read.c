@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_n_read.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 23:28:35 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/14 23:53:43 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 16:58:07 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	set_left_red(t_sh *sh)
 		ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
 		sh->parser.ptr_lst = sh->parser.ptr_lst->next;
 	}
-	if (ret = lex_to_cmdstr(sh) > -1)
+	if (ret == (lex_to_cmdstr(sh)) > -1)
 		return (ret);
 	return (1);
 }
@@ -55,10 +55,11 @@ static int	set_simple_red(t_sh *sh)
 			ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
 			sh->parser.ptr_lst = sh->parser.ptr_lst->next;
 		}
-		if (ret = lex_to_cmdstr(sh) > -1)
+		if (ret == (lex_to_cmdstr(sh)) > -1)
 			return (ret);
 		return (1);
 	}
+	return (1);
 }
 
 static int	set_double_red(t_sh *sh)
@@ -73,7 +74,7 @@ static int	set_double_red(t_sh *sh)
 		ft_lstadd_back(&sh->parser.ptr_cmd->red_file, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
 		sh->parser.ptr_lst = sh->parser.ptr_lst->next;
 	}
-	if (ret = lex_to_cmdstr(sh) > -1)
+	if (ret == (lex_to_cmdstr(sh)) > -1)
 		return (ret);
 	return (1);
 }

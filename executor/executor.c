@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/15 22:10:33 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 16:54:28 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	char		*ptr;
 	int			ret;
 	char		*tmp;
-
+	errno = 0;
 	if (!(env_lst_finder(sh->env_lst, "OLDPWD")))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
 	tmp = get_actual_path();
@@ -76,6 +76,7 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 		ptr = ft_is_var(cmd->str->content, sh);
 	// else
 		// ptr = ft_is_var("$HOME", sh);
+	
 	if (!ptr)//----------------------------IF $VAR NOT SET RETURN ERROR----------------
 	{
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
@@ -92,6 +93,7 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	// }
 	ret = chdir(ptr);
 	free(ptr);
+	
 	if (!ret)
 	{
 		if (!env_lst_finder(sh->env_lst, "PWD"))
@@ -102,7 +104,10 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	{
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
-		ft_putstr_fd(": No such file or directory\n", cmd->fd_pipe_out);
+		if (errno == PERM_DENIED)
+			ft_putstr_fd(": Permission denied\n", cmd->fd_pipe_out);
+		else
+			ft_putstr_fd(": No such file or directory\n", cmd->fd_pipe_out);
 		free(tmp);
 		return ;
 	}

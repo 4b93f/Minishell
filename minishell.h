@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/14 23:54:43 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 16:52:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # include <math.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <errno.h>
 
+#define PERM_DENIED 13
 enum		e_print_error
 {
 	SYNTAX_ERROR

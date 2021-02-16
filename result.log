@@ -1,0 +1,40 @@
+|> WITH Env
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/Users/chly-huc/Desktop/minishell_test/bin$
+PWD=/Users/chly-huc/Desktop/minishell_test/sandbox$
+SHLVL=1$
+_=/Users/chly-huc/Desktop/minishell_test/bin/Env$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH enV
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/Users/chly-huc/Desktop/minishell_test/bin$
+PWD=/Users/chly-huc/Desktop/minishell_test/sandbox$
+SHLVL=1$
+_=/Users/chly-huc/Desktop/minishell_test/bin/enV$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] Env
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/bin:/usr/bin$
+PWD=/Users/chly-huc/Desktop/minishell_test/sandbox$
+SHLVL=1$
+_=/usr/bin/Env$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] enV
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/bin:/usr/bin$
+PWD=/Users/chly-huc/Desktop/minishell_test/sandbox$
+SHLVL=1$
+_=/usr/bin/enV$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+

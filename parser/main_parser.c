@@ -71,12 +71,13 @@ int			sep_checker(char *str)
 **	cmd_index  6 --> env
 */
 
-static void *new_cmd(t_sh *sh)
+static void new_cmd(t_sh *sh)
 {
 	ft_cmd_lstadd_back(&sh->cmd, ft_cmd_lstnew(NULL, NULL,
 		cmd_checker(sh->parser.ptr_lst->content)));
 	sh->parser.ptr_cmd = ft_cmd_lstlast(sh->cmd);
 	sh->parser.ptr_cmd->cmd_str = ft_strdup(sh->parser.ptr_lst->content);
+	return ;
 }
 
 /*
@@ -107,6 +108,8 @@ static void	backsl(t_list *ptr)
 
 int			lex_to_cmdstr(t_sh *sh)
 {
+	//printf("!\n");
+	//printf("%s\n", sh->parser.ptr_lst->content);
 	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 	{
 		while(sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
@@ -143,11 +146,11 @@ static int	parsing(t_sh *sh)
 		if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
 			return (1);
 	}
-	if (ret = set_pipe_red(sh) > -1)
+	if (ret == (set_pipe_red(sh)) > -1)
 		return (ret);
-	if (ret = lex_to_cmdstr(sh) > -1)
+	if (ret == (lex_to_cmdstr(sh)) > -1)
 		return (ret);
-	if (ret = set_pipe_red(sh) > -1)
+	if (ret == (set_pipe_red(sh)) > -1)
 		return (ret);
 	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
 			return (1);

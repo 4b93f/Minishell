@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
+#    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/02/15 22:09:52 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/16 20:59:35 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ FLAGS =		-Wall -Wextra -Werror -g3
 $(NAME): ${OBJ}
 			@gcc -g3 ${FLAGS} ${OBJ} -o ${NAME}
 			@echo "[Done !]"
+			@rm result.log && cp ../minishell_test/result.log .
 
 all:		${NAME}
 	

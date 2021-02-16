@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/16 16:54:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/16 19:31:554 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		write(cmd->fd_pipe_out, "\n", 1);
 	while (ptr_lst)
 	{
+		//printf("!\n");
+		//printf("{%s}\n", ptr_lst->content);
 		ptr_lst->content = rm_guim(ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);
 		ft_putstr_fd(ptr, cmd->fd_pipe_out);
@@ -43,7 +45,7 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 void	ft_set_free_env(t_sh *sh, void *var, void *content)
 {
 	t_env_lst	*ptr;
-	
+
 	if (!sh)
 		return ;
 	ptr = env_lst_finder(sh->env_lst, var);
@@ -68,39 +70,53 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	char		*ptr;
 	int			ret;
 	char		*tmp;
+
+	ret = 0;
 	errno = 0;
-	if (!(env_lst_finder(sh->env_lst, "OLDPWD")))
-		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
-	tmp = get_actual_path();
+	ptr = NULL;
+	if (env_lst_finder(sh->env_lst, "HOME"))
+	{
+		if (!(env_lst_finder(sh->env_lst, "OLDPWD")))
+			ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
+	}
+	if (!env_lst_finder(sh->env_lst, "PWD"))
+		tmp = NULL;
+	else
+		tmp = ft_strdup(env_lst_finder(sh->env_lst, "PWD")->content);
 	if (cmd->str && cmd->str->content)
 		ptr = ft_is_var(cmd->str->content, sh);
-	// else
-		// ptr = ft_is_var("$HOME", sh);
-	
-	if (!ptr)//----------------------------IF $VAR NOT SET RETURN ERROR----------------
+	if (!ptr && cmd->str && cmd->str)//----------------------------IF $VAR NOT SET RETURN ERROR----------------
 	{
+		//printf("!\n");
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
 		ft_putstr_fd(" not set\n", cmd->fd_pipe_out);
 		free(tmp);
 		return ;
 	}
-	// if ((ret = stat(ptr, &buffer)) == -1)
-	// {
-	// 	free(ptr);	
-	// 	free(tmp);	
-	// 	ft_error(0, sh, 0); // *********A CORRIGER*********
-	// }
-	ret = chdir(ptr);
+	//if ((ret = stat(ptr, &buffer)) == -1)
+	//{
+	//	free(ptr);	
+	//	free(tmp);	
+	//	ft_error(0, sh, 0);
+	//}
+	if (ptr) 
+		ret = chdir(ptr);
 	free(ptr);
-	
-	if (!ret)
+	if (ret == 0)
 	{
+		if (!cmd->str)
+		{
+			if (!env_lst_finder(sh->env_lst, "HOME"))
+				ft_putstr_fd("minishell: cd: HOME not set\n", cmd->fd_pipe_out);
+			else
+				chdir(env_lst_finder(sh->env_lst, "HOME")->content);
+		}
 		if (!env_lst_finder(sh->env_lst, "PWD"))
 			ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), NULL));
 		ft_set_free_env(sh, "PWD", get_actual_path());
 	}
-	else if (ft_strlen(cmd->str->content = rm_guim(cmd->str->content)))
+	else if (cmd->str && ft_strlen(cmd->str->content = rm_guim(cmd->str->content)))
 	{
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
@@ -111,8 +127,11 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 		free(tmp);
 		return ;
 	}
-	ft_set_free_env(sh, "OLDPWD", tmp);
-	ft_set_free_env(sh, "?", ft_itoa(0));
+	if (cmd->str || env_lst_finder(sh->env_lst, "HOME"))
+	{
+		ft_set_free_env(sh, "OLDPWD", tmp);
+		ft_set_free_env(sh, "?", ft_itoa(0));
+	}
 }
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)

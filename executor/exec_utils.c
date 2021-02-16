@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/15 03:15:53 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:43:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*ft_is_var(char *str, t_sh *sh)
 
 char	*rm_guim(char *ptr) // supprime les guillemets et free l'ancien.
 {
+	//printf("!\n");
 	char	*str;
 	// char	*c;
 
@@ -81,6 +82,7 @@ char	*rm_guim(char *ptr) // supprime les guillemets et free l'ancien.
 	free(ptr);
 	// free(c);
 	ptr = NULL;
+	//printf("%s\n", str);
 	return (str);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:33:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/15 20:31:21 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:36:444 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 		return (free_tab(ptr));
 	while(arg_ptr)
 	{
+		arg_ptr->content = rm_guim(arg_ptr->content);
 		ptr[++size] = ft_strdup(arg_ptr->content);
 		if (!ptr)
 			return (free_tab(ptr));
@@ -93,6 +94,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 {
 	pid_t	child_pid;
 	char	**tmp;
+	char	**tmpenv;
 	char	*ptr;
 	char	*sf;
 	int		portal[2];
@@ -102,24 +104,33 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
+	tmpenv = lst_db_tab(sh->env_lst);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
 	if (!child_pid)
 	{
-		if (execve(ptr, tmp, NULL) == -1)
+		if (execve(ptr, tmp, tmpenv) == -1)
+		{
+			printf("!\n");
+			//printf("1\n");
 			ft_not_found(cmd, sh, child_pid, portal);
+		}
 		else
+		{
+			//printf("2\n");
 			ft_portal(sh, 0, child_pid, portal);
+		}
+		//printf("3\n");
 		exit(0);
 	}
 // printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
-// close(cmd->fd_pipe_in);
 // printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
 	wait(0);
 // printf("[***]\n");
 	ft_portal(sh, 0, child_pid, portal);
 	free(ptr);
+	free(tmpenv);
 	free_tab(tmp);
 }
 

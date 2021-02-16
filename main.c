@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/15 21:56:06 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 21:01:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		main(int argc, char **argv, char **env)
 	{
 		get_all_path(sh);
 		write(0, "My Minishell ~> ", 16);
-		
+		//printf("!\n");
 		if (argc == 1 || ft_strcmp(argv[1], "-c")) //	le temps des tests
 			ret = get_next_line(0, &sh->input_str);
 		else
@@ -89,10 +89,10 @@ int		main(int argc, char **argv, char **env)
 		}
 		strtolst(sh);
 		parser(sh);
-
 		executor(sh);
 		sh_free(sh);
 	}
+	//printf("3!\n");
 	// printf("[%d]\n", ret);
 	return (ft_atoi(env_lst_finder(sh->env_lst, "?")->content));
 }

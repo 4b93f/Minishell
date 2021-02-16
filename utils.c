@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/11 23:55:56 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/16 18:58:48 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ void	print_tab(char **tab)
 
 	i = -1;
 	while(tab && tab[++i])
+	{
 		ft_putstr_fd(tab[i], 1);
+		printf("\n");
+	}
 }
 
 int	ft_isspace(int c)

@@ -130,8 +130,8 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 // printf("[***]\n");
 	ft_portal(sh, 0, child_pid, portal);
 	free(ptr);
-	free(tmpenv);
 	free_tab(tmp);
+	free_tab(tmpenv);
 }
 
 /*

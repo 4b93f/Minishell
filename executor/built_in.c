@@ -90,6 +90,36 @@ static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh, int pid, int fd[2])
 	// printf("Send value [127]\n");
 }
 
+static char	**envlst_to_tab(t_env_lst *lst)
+{
+	char		**ptr;
+	t_env_lst	*arg_ptr;
+	char		*tmp1;
+	int			size;
+
+	ptr = NULL;
+	if (!lst)
+		return (NULL);
+	size = ft_env_lstsize(lst);
+	arg_ptr = lst;
+	ptr = ft_calloc(sizeof(char *), size + 2);
+	if (!ptr)
+		return (NULL);
+	size = 0;
+	if (!ptr)
+		return (free_tab(ptr));
+	while(arg_ptr)
+	{
+		tmp1 = ft_strjoin(arg_ptr->var, "=");
+		ptr[size++] = ft_strjoin(tmp1, arg_ptr->content);
+		free(tmp1);
+		if (!ptr)
+			return (free_tab(ptr));
+		arg_ptr = arg_ptr->next;
+	}
+	return (ptr);
+}
+
 void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 {
 	pid_t	child_pid;
@@ -104,30 +134,19 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
-	tmpenv = lst_db_tab(sh->env_lst);
+	tmpenv = envlst_to_tab(sh->env_lst);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
 	if (!child_pid)
 	{
 		if (execve(ptr, tmp, tmpenv) == -1)
-		{
-			printf("!\n");
-			//printf("1\n");
 			ft_not_found(cmd, sh, child_pid, portal);
-		}
 		else
-		{
-			//printf("2\n");
 			ft_portal(sh, 0, child_pid, portal);
-		}
-		//printf("3\n");
 		exit(0);
 	}
-// printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
-// printf("[%s][%d][%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
 	wait(0);
-// printf("[***]\n");
 	ft_portal(sh, 0, child_pid, portal);
 	free(ptr);
 	free_tab(tmp);

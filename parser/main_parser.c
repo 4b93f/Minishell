@@ -152,8 +152,8 @@ static int	parsing(t_sh *sh)
 		return (ret);
 	if (ret == (set_pipe_red(sh)) > -1)
 		return (ret);
-	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
-			return (1);
+	if (sh->parser.ptr_lst && (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";")))
+		return (1);
 	return (1);
 }
 

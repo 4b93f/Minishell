@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/16 21:01:40 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/17 00:25:01 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int		main(int argc, char **argv, char **env)
 {
 	t_sh	*sh;
 	int		ret;
+
 	sh = ft_malloc_sh();
 	if (!sh)
 		ft_error(MALLOC_ERROR, sh, 0);
@@ -79,20 +80,14 @@ int		main(int argc, char **argv, char **env)
 	{
 		get_all_path(sh);
 		write(0, "My Minishell ~> ", 16);
-		//printf("!\n");
 		if (argc == 1 || ft_strcmp(argv[1], "-c")) //	le temps des tests
 			ret = get_next_line(0, &sh->input_str);
-		else
-		{
+		else if (!(ret = 0))
 			sh->input_str = argv_to_str(&argv[2]);
-			ret = 0; //		le temps des tests.
-		}
 		strtolst(sh);
 		parser(sh);
 		executor(sh);
 		sh_free(sh);
 	}
-	//printf("3!\n");
-	// printf("[%d]\n", ret);
 	return (ft_atoi(env_lst_finder(sh->env_lst, "?")->content));
 }

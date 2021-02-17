@@ -27,7 +27,6 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		write(cmd->fd_pipe_out, "\n", 1);
 	while (ptr_lst)
 	{
-		//printf("!\n");
 		//printf("{%s}\n", ptr_lst->content);
 		ptr_lst->content = rm_guim(ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/16 16:52:44 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/19 17:34:04 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,19 @@
 # include <errno.h>
 
 #define PERM_DENIED 13
+
 enum		e_print_error
 {
-	SYNTAX_ERROR
+	SYNTAX_ERROR,
+	NOT_VALID_ID
+};
+
+enum		e_token
+{
+	PIPE = 1,
+	S_RIGHT_RED,
+	D_RIGHT_RED,
+	S_LEFT_RED
 };
 
 enum		e_cmd
@@ -94,11 +104,12 @@ typedef struct	s_sh
 	char **all_path; //--> liste chainee
 
 	char		*input_str;
-	
+	char		**exec_env;
 	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;
 	t_env_lst	*env_lst;
+	
 
 }				t_sh;
 
@@ -133,7 +144,7 @@ char		*ft_search_path(t_sh *sh, t_cmd_lst *cmd);
 void		ft_free_sh(t_sh *sh);
 char		*rm_guim(char *ptr);
 void		ft_exit(t_cmd_lst *cmd, t_sh *sh);
-int			ft_print_error(int ret, int c);
+int			ft_print_error(int ret, char *str);
 
 int			executor(t_sh *sh);
 int			set_pipe_red(t_sh *sh);

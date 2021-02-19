@@ -161,8 +161,14 @@ static int	parsing(t_sh *sh)
 static void start_process(t_sh *sh)
 {
 	sh->parser.ptr_lst = sh->arg_lst;
-	if (!ft_strcmp(sh->parser.ptr_lst->content, ";") && ft_print_error(SYNTAX_ERROR, ';'))
+	if (!sh->parser.ptr_lst)
 		return ;
+	if (!ft_strcmp(sh->parser.ptr_lst->content, ";"))
+	{
+		printf("minishell: ");
+		ft_print_error(SYNTAX_ERROR, sh->parser.ptr_lst->content);
+		return ;
+	}
 	while (sh->parser.ptr_lst)
 	{
 		if (parsing(sh))

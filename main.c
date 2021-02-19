@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/17 00:25:01 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/19 18:26:110 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ int		main(int argc, char **argv, char **env)
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("PWD"), get_actual_path()));
 	if (!env_lst_finder(sh->env_lst, "SHLVL"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("SHLVL"), ft_strdup("1")));
-	// if (!env_lst_finder(sh->env_lst, "_"))
-		// ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
+	else
+		ft_set_free_env(sh, "SHLVL", ft_itoa(ft_atoi((char *)env_lst_finder(sh->env_lst, "SHLVL")->content) + 1));
+	if (!env_lst_finder(sh->env_lst, "_"))
+		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
 	ret = 1;
 	while(ret)
 	{
@@ -86,6 +88,7 @@ int		main(int argc, char **argv, char **env)
 			sh->input_str = argv_to_str(&argv[2]);
 		strtolst(sh);
 		parser(sh);
+		//printf("!\n");
 		executor(sh);
 		sh_free(sh);
 	}

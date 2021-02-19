@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_struct_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/15 21:10:10 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/17 20:56:30 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_sh	ft_create_sh(void)
 	sh.parser.piped[1] = -1;
 	sh.parser.ptr_lst = NULL;
 	sh.parser.ptr_cmd = NULL;
+	sh.exec_env = NULL;
 	return (sh);
 }
 

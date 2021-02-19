@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/14 23:28:35 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/16 17:55:47 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/19 16:58:19 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	set_pipe(t_sh *sh)
 {
 	pipe(sh->parser.piped);
-	sh->parser.ptr_cmd->pipe_out = 1;
+	sh->parser.ptr_cmd->pipe_out = PIPE;
 	sh->parser.ptr_cmd->fd_pipe_out = sh->parser.piped[1];
 	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 		return (0);
@@ -27,7 +27,7 @@ static int	set_left_red(t_sh *sh)
 {
 	int	ret;
 
-	sh->parser.ptr_cmd->pipe_out = 4;
+	sh->parser.ptr_cmd->pipe_out = S_LEFT_RED;
 	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 		return (0) ;
 	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
@@ -46,7 +46,7 @@ static int	set_simple_red(t_sh *sh)
 
 	if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, ">"))
 	{
-		sh->parser.ptr_cmd->pipe_out = 2;
+		sh->parser.ptr_cmd->pipe_out = S_RIGHT_RED;
 		
 		if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 			return (0);
@@ -66,7 +66,7 @@ static int	set_double_red(t_sh *sh)
 {
 	int	ret;
 
-	sh->parser.ptr_cmd->pipe_out = 3;
+	sh->parser.ptr_cmd->pipe_out = D_RIGHT_RED;
 	if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 		return (0);
 	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))

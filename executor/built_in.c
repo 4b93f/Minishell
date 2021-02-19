@@ -102,12 +102,13 @@ static char	**envlst_to_tab(t_env_lst *lst)
 		return (NULL);
 	size = ft_env_lstsize(lst);
 	arg_ptr = lst;
-	ptr = ft_calloc(sizeof(char *), size + 2);
+	ptr = ft_calloc(sizeof(char *), size + 1);
 	if (!ptr)
 		return (NULL);
 	size = 0;
 	if (!ptr)
 		return (free_tab(ptr));
+	
 	while(arg_ptr)
 	{
 		tmp1 = ft_strjoin(arg_ptr->var, "=");
@@ -135,6 +136,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 		return;
 	tmp = lst_db_tab(cmd);
 	tmpenv = envlst_to_tab(sh->env_lst);
+// printf("cmd:[%s]	fd in:[%d]		fd out:[%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
@@ -163,7 +165,7 @@ static char	*ft_str_isalnum(char *str)
 	while (str && *str)
 	{
 		if (!ft_isalnum(*str) && *str != '_' && *str != '\\')
-			return (--str);
+			return (str);
 		str++;
 	}
 	return (NULL);
@@ -207,6 +209,31 @@ void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 	free_tab(tab);
 }
 
+char *ft_backslash(char *s1)
+{
+	int i;
+	int j;
+	char *s2;
+
+	i = -1;
+	j = 0;
+	if (!s1)
+		return (NULL);
+	s2 = malloc(sizeof(char*) * strlen(s1));
+	if (!s2)
+		return (NULL);
+	while (s1[++i])
+	{
+		if (s1[i] == '\\')
+			i++;
+		if (s1[i])
+			s2[j] = s1[i];
+		j++;
+	}
+	free(s1);
+	return (s2);
+}
+
 void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 {
 	int			equal_pos;
@@ -223,29 +250,60 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-		equal_pos = ft_strchr(ptr_str->content, 61) - (char *)ptr_str->content;
+		//printf("<%s>\n",ptr_str->content);
+		if (ft_strchr(ptr_str->content, '\\'))
+		{
+			//printf("<%s>\n",ptr_str->content);
+			ptr_str->content = ft_backslash(ptr_str->content);
+			if (ft_strchr(ptr_str->content, '_'))
+				(void)NULL;
+			else
+			{
+				if (ft_str_isalnum(ptr_str->content))
+				{
+					printf("minishell: export:");
+					ft_print_error(NOT_VALID_ID, ptr_str->content);
+					env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
+					return ;
+				}
+			}
+		}
+		value = ft_strchr(ptr_str->content, '=');
+		if (value)
+			equal_pos = ft_strchr(ptr_str->content, '=') - (char *)ptr_str->content;
+		value = NULL;
+		if (!equal_pos)
+			continue ;
 		var = ft_substr(ptr_str->content, 0, equal_pos - 1);
+		if (ft_atoi(var))
+		{
+			printf("minishell: export:");
+			ft_print_error(NOT_VALID_ID, ptr_str->content);
+			ft_set_free_env(sh, "?", ft_strdup("1"));
+			free(var);
+			return ;
+		}
 		if (!var)
 			return;
 		if (equal_pos == 1)
 		{
-			ft_putstr_fd("minishell: export: `", cmd->fd_pipe_out);
-			ft_putstr_fd(ptr_str->content, cmd->fd_pipe_out);
-			ft_putstr_fd("': not a valid identifier\n", cmd->fd_pipe_out);
-			free(env_lst_finder(sh->env_lst, "?")->content);
-			env_lst_finder(sh->env_lst, "?")->content = ft_strdup("1");
-		}
-		var = rm_guim(var);
-		if (ft_str_isalnum(var))
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token '", cmd->fd_pipe_out);
-			write(cmd->fd_pipe_out, ft_str_isalnum(var), 1);
-			write(cmd->fd_pipe_out, "'\n", 2);
-			free(env_lst_finder(sh->env_lst, "?")->content);
-			env_lst_finder(sh->env_lst, "?")->content = ft_itoa(2);
-			free(var);
+			printf("minishell: export:");
+			ft_print_error(NOT_VALID_ID, ptr_str->content);
+			ft_set_free_env(sh, "?", ft_strdup("1"));
 			return ;
 		}
+		var = rm_guim(var);
+		//if (ft_str_isalnum(var))
+		//{
+			//printf("!\n");
+			//ft_putstr_fd("minishell: syntax error near unexpected token '", cmd->fd_pipe_out);
+			//write(cmd->fd_pipe_out, ft_str_isalnum(var), 1);
+			//write(cmd->fd_pipe_out, "'\n", 2);
+			//free(env_lst_finder(sh->env_lst, "?")->content);
+			//env_lst_finder(sh->env_lst, "?")->content = ft_itoa(2);
+			//free(var);
+			//return ;
+		//}
 		ptr_str = ptr_str->next;
 		free(var);
 	}
@@ -274,8 +332,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		}
 		ptr_str = ptr_str->next;
 	}
-	free(env_lst_finder(sh->env_lst, "?")->content);
-	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
+	ft_set_free_env(sh, "?", ft_strdup("0"));
 }
 
 void	ft_unset(t_cmd_lst *cmd, t_sh *sh)

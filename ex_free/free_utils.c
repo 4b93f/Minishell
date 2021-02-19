@@ -60,6 +60,7 @@ void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 		cmd->str->content = rm_guim(cmd->str->content);
 		str = cmd->str->content;
 	}
+	//printf("{%s}\n", str);
 	ret = ft_atoi(str);
 	i = 0;
 	if (cmd->str && cmd->str->next)
@@ -69,6 +70,7 @@ void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 	else if (cmd->str && ret >= 0 && (ft_strchr(str, '-') || ft_str_digit(str) != 1))
 		ft_error(EXIT_ILLEGAL, sh, 3);
 	ft_free_sh(sh);
+	printf("%d\n", ret);
 	exit(ret);
 }
 
@@ -76,16 +78,20 @@ void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 ** Free all malloc and more	
 */
 
-int		ft_print_error(int ret, int c)
+int		ft_print_error(int ret, char *str)
 {
 	static char *error[] = {
-	"minishell: syntax error near unexpected token `"	
+	"syntax error near unexpected token",
+	"not a valid identifier\n",
 	};
+	if (str && ret != SYNTAX_ERROR)
+		printf(" `%s': ", str);
 	printf("%s", error[ret]);
-	printf("%c'\n", c);
+	if (str && ret == SYNTAX_ERROR)
+		printf(" `%s'\n", str);
 	return (1);
-	
 }
+
 void		ft_error(int ret, t_sh *sh, int ext)
 {
 	static char *error[] = {

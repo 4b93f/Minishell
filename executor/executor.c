@@ -205,16 +205,16 @@ int		executor(t_sh *sh)
 	ptr_cmd = sh->cmd;
 	while (ptr_cmd)
 	{
-		if (ptr_cmd->pipe_out == 2) // commande pour '>'
+		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_WRONLY | O_TRUNC, 0777)) < 0)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
-		if (ptr_cmd->pipe_out == 3) // commande pour '>>'
+		if (ptr_cmd->pipe_out == D_RIGHT_RED) // commande pour '>>'
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_APPEND | O_WRONLY, 0777)) < 0)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
-		if (ptr_cmd->pipe_out == 4) // commande pour '<'
+		if (ptr_cmd->pipe_out == S_LEFT_RED) // commande pour '<'
 			if ((ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content, O_APPEND | O_RDONLY, 0777)) < 0)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
-		if (ptr_cmd->pipe_out == 1 && ptr_cmd->next)
+		if (ptr_cmd->pipe_out == PIPE && ptr_cmd->next)
 		{
 			fork_piper(ptr_cmd, sh);
 			if (ptr_cmd->fd_pipe_out > 2)

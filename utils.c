@@ -6,11 +6,21 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/17 20:39:15 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/20 16:57:10 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int 	tablen(char **tab)
+{
+	int i;
+
+	i = 0;
+	while(tab[i])
+		i++;
+	return (i);
+}
 
 void	*free_tab(char **tab)
 {

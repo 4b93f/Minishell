@@ -77,6 +77,7 @@ static void new_cmd(t_sh *sh)
 		cmd_checker(sh->parser.ptr_lst->content)));
 	sh->parser.ptr_cmd = ft_cmd_lstlast(sh->cmd);
 	sh->parser.ptr_cmd->cmd_str = ft_strdup(sh->parser.ptr_lst->content);
+	printf("|%s|\n", sh->parser.ptr_cmd->cmd_str);
 	return ;
 }
 
@@ -114,7 +115,7 @@ int			lex_to_cmdstr(t_sh *sh)
 	{
 		while(sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 		{
-			backsl(sh->parser.ptr_lst); // temporaire a implementer dans le lexer
+			//backsl(sh->parser.ptr_lst); // temporaire a implementer dans le lexer
 			ft_lstadd_back(&sh->parser.ptr_cmd->str, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
 			if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
 				return (0);

@@ -250,12 +250,15 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-		//printf("<%s>\n",ptr_str->content);
+		printf("|%s|\n",ptr_str->content);
+		//printf("%d\n", tablen(ft_split(ptr_str->content, '_')));
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
+			//printf("!\n");
 			//printf("<%s>\n",ptr_str->content);
 			ptr_str->content = ft_backslash(ptr_str->content);
-			if (ft_strchr(ptr_str->content, '_'))
+			//printf("?%s?\n",ptr_str->content);
+			if (ft_strchr(ptr_str->content, '_') || ft_strchr(ptr_str->content, '0'))
 				(void)NULL;
 			else
 			{

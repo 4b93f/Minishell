@@ -70,7 +70,7 @@ void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 	else if (cmd->str && ret >= 0 && (ft_strchr(str, '-') || ft_str_digit(str) != 1))
 		ft_error(EXIT_ILLEGAL, sh, 3);
 	ft_free_sh(sh);
-	printf("%d\n", ret);
+// printf("%d\n", ret);
 	exit(ret);
 }
 

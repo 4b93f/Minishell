@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/19 21:29:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/20 02:03:26 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
 static void	str_store(t_sh *t, int j, int i, int sep)
 {
 	if (i - j > 0)
-	{
 		ft_lstadd_back(&t->arg_lst, ft_lstnew(ft_substr(t->input_str, j,
 			i - j)));
-	}
 	if (sep && t->input_str[i] && ft_strchr("<>|;", t->input_str[i]))
 		ft_lstadd_back(&t->arg_lst, ft_lstnew(ft_substr(t->input_str,
 			i, sep)));

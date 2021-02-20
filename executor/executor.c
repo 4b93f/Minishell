@@ -191,6 +191,7 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 		exit(0);
 	}
 // printf("", );
+wait(0);
 	close(ptr_cmd->fd_pipe_in);
 	dup2(fd_backup[0], 0);
 	kill(pid, SIGQUIT);

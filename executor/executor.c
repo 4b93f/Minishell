@@ -220,6 +220,7 @@ int		executor(t_sh *sh)
 				// kill(ptr_cmd_prev->pid, 0); //-----------NEED TO KILL PROCESS-----------
 				ft_putstr_fd("minishell: ", ptr_cmd->fd_pipe_out);
 				ft_print_error(NO_SUCH_FILE, (char *)ptr_cmd->red_file->content);
+				return (-1);
 			}
 		ptr_cmd_prev = ptr_cmd;
 		if (ptr_cmd->pipe_out == PIPE && ptr_cmd->next)

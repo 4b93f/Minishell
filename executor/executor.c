@@ -27,9 +27,9 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		write(cmd->fd_pipe_out, "\n", 1);
 	while (ptr_lst)
 	{
-		//printf("{%s}\n", ptr_lst->content);
-		ptr_lst->content = rm_guim(ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);
+		ptr = rm_guim(ptr);
+		ptr = ft_backslash(ptr);
 		ft_putstr_fd(ptr, cmd->fd_pipe_out);
 		free(ptr);
 		ptr_lst = ptr_lst->next;
@@ -86,7 +86,6 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 		ptr = ft_is_var(cmd->str->content, sh);
 	if (!ptr && cmd->str && cmd->str)//----------------------------IF $VAR NOT SET RETURN ERROR----------------
 	{
-		//printf("!\n");
 		ft_putstr_fd("minishell: cd: ", cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->str->content, cmd->fd_pipe_out);
 		ft_putstr_fd(" not set\n", cmd->fd_pipe_out);
@@ -190,7 +189,6 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 			close(ptr_cmd->fd_pipe_out);
 		exit(0);
 	}
-// printf("", );
 wait(0);
 	close(ptr_cmd->fd_pipe_in);
 	dup2(fd_backup[0], 0);
@@ -200,10 +198,12 @@ wait(0);
 int		executor(t_sh *sh)
 {
 	t_cmd_lst	*ptr_cmd;
+	t_cmd_lst	*ptr_cmd_prev;
 	char		*buf;
 
 	buf = NULL;
 	ptr_cmd = sh->cmd;
+	ptr_cmd_prev = NULL;
 	while (ptr_cmd)
 	{
 		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'
@@ -214,7 +214,14 @@ int		executor(t_sh *sh)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
 		if (ptr_cmd->pipe_out == S_LEFT_RED) // commande pour '<'
 			if ((ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content, O_APPEND | O_RDONLY, 0777)) < 0)
-				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+			{
+				// if (ptr_cmd_prev)
+					// write(ptr_cmd_prev->fd_pipe_in, "\0", 1);
+				// kill(ptr_cmd_prev->pid, 0); //-----------NEED TO KILL PROCESS-----------
+				ft_putstr_fd("minishell: ", ptr_cmd->fd_pipe_out);
+				ft_print_error(NO_SUCH_FILE, (char *)ptr_cmd->red_file->content);
+			}
+		ptr_cmd_prev = ptr_cmd;
 		if (ptr_cmd->pipe_out == PIPE && ptr_cmd->next)
 		{
 			fork_piper(ptr_cmd, sh);

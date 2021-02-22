@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/19 17:34:04 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/22 21:14:47 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 enum		e_print_error
 {
 	SYNTAX_ERROR,
-	NOT_VALID_ID
+	NOT_VALID_ID,
+	NO_SUCH_FILE
 };
 
 enum		e_token
@@ -150,6 +151,7 @@ int			executor(t_sh *sh);
 int			set_pipe_red(t_sh *sh);
 int			sep_checker(char *str);
 int			lex_to_cmdstr(t_sh *sh);
+char		*ft_backslash(char *s1);
 
 void		ft_set_free_env(t_sh *sh, void *var, void *content);
 void		ft_portal(t_sh *sh, int ret, int pid, int fd[2]);

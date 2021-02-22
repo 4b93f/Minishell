@@ -20,8 +20,8 @@ void	ft_pwd(t_cmd_lst *cmd, t_sh *sh)
 	if (!buf)
 		return;
 	ft_putstr_fd(buf, cmd->fd_pipe_out);
-	if (!cmd->pipe_out)
-		ft_putstr_fd("\n", cmd->fd_pipe_out);
+// if (!cmd->pipe_out)
+	ft_putstr_fd("\n", cmd->fd_pipe_out);
 	free(buf);
 	free(env_lst_finder(sh->env_lst, "?")->content);
 	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
@@ -171,6 +171,25 @@ static char	*ft_str_isalnum(char *str)
 	return (NULL);
 }
 
+static void	print_declare(t_sh *sh, t_cmd_lst *cmd, char **tab, int i)
+{
+	int		j;
+	char	*ptr;
+
+	j = 0;
+	ptr = (char *)env_lst_finder(sh->env_lst, tab[i])->content;
+	ft_putstr_fd("declare -x ", cmd->fd_pipe_out);
+	ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->var, cmd->fd_pipe_out);
+	ft_putstr_fd("=\"", cmd->fd_pipe_out);
+	while (ptr && ptr[j])
+	{
+		if (ft_strchr("\"$\\", ptr[j]))
+			ft_putchar_fd('\\', cmd->fd_pipe_out);
+		ft_putchar_fd(ptr[j++], cmd->fd_pipe_out);
+	}
+	ft_putstr_fd("\"\n", cmd->fd_pipe_out);
+}
+
 void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 {
 	char		*tmp;
@@ -200,11 +219,7 @@ void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 	{
 		if (!ft_strcmp(tab[i], "?") || !ft_strcmp(tab[i], "_"))
 			continue ;
-		ft_putstr_fd("declare -x ", cmd->fd_pipe_out);
-		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->var, cmd->fd_pipe_out);
-		ft_putstr_fd("=\"", cmd->fd_pipe_out);
-		ft_putstr_fd(env_lst_finder(sh->env_lst, tab[i])->content, cmd->fd_pipe_out);
-		ft_putstr_fd("\"\n", cmd->fd_pipe_out);
+		print_declare(sh, cmd, tab, i);
 	}
 	free_tab(tab);
 }
@@ -230,6 +245,7 @@ char *ft_backslash(char *s1)
 			s2[j] = s1[i];
 		j++;
 	}
+	s2[j] = 0;
 	free(s1);
 	return (s2);
 }
@@ -250,14 +266,9 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-		printf("|%s|\n",ptr_str->content);
-		//printf("%d\n", tablen(ft_split(ptr_str->content, '_')));
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
-			//printf("!\n");
-			//printf("<%s>\n",ptr_str->content);
 			ptr_str->content = ft_backslash(ptr_str->content);
-			//printf("?%s?\n",ptr_str->content);
 			if (ft_strchr(ptr_str->content, '_') || ft_strchr(ptr_str->content, '0'))
 				(void)NULL;
 			else

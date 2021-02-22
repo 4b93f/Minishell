@@ -83,6 +83,7 @@ int		ft_print_error(int ret, char *str)
 	static char *error[] = {
 	"syntax error near unexpected token",
 	"not a valid identifier\n",
+	"No such file or directory\n",
 	};
 	if (str && ret != SYNTAX_ERROR)
 		printf(" `%s': ", str);

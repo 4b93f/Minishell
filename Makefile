@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
+#    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/02/17 00:07:26 by jsilance         ###   ########.fr        #
+#    Updated: 2021/02/26 18:56:16 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,6 @@ NAME = 		minishell
 OBJ = 		${SRCS:.c=.o}
 # FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
 FLAGS =		-Wall -Wextra -Werror -g3
-
 %.o: %.c
 			@gcc -c -o $@ $?
 

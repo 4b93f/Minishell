@@ -166,6 +166,8 @@ static int	parsing(t_sh *sh)
 
 static void start_process(t_sh *sh)
 {
+	//char *str;
+
 	sh->parser.ptr_lst = sh->arg_lst;
 	if (!sh->parser.ptr_lst)
 		return ;
@@ -183,6 +185,19 @@ static void start_process(t_sh *sh)
 				sh->parser.ptr_lst = sh->parser.ptr_lst->next;
 			continue ;
 		}
+		// else if (!sh->parser.ptr_lst && sh->parser.ptr_cmd->pipe_out == PIPE)
+		// {
+		// 	str = NULL;
+		// 	write(1, "> ", 2);
+		// 	get_next_line(0, &str);
+		// 	if (str)
+		// 	{
+		// 		sh->input_str = ft_strjoinfree(sh->input_str, str);
+		// 		strtolst(sh);
+		// 	}
+		// 	free(str);
+		// 	start_process(sh);
+		// }
 		else
 			return ;
 	}
@@ -196,4 +211,5 @@ void			parser(t_sh *sh)
 	if (sh->arg_lst)
 		str = sh->arg_lst->content;
 	start_process(sh);
+
 }

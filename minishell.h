@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/22 21:14:47 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/02/25 21:15:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct	s_sh
 
 	char		*input_str;
 	char		**exec_env;
+	char 		*save_str;
 	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;

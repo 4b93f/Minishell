@@ -20,7 +20,6 @@
 
 void	sh_free(t_sh *sh)
 {
-	free(sh->input_str);
 	sh->input_str = NULL;
 	ft_lstclear(&sh->arg_lst, free);
 	sh->arg_lst = NULL;

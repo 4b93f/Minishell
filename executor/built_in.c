@@ -135,8 +135,8 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
+
 	tmpenv = envlst_to_tab(sh->env_lst);
-// printf("cmd:[%s]	fd in:[%d]		fd out:[%d]\n", cmd->cmd_str, cmd->fd_pipe_in, cmd->fd_pipe_out);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
@@ -250,6 +250,33 @@ char *ft_backslash(char *s1)
 	return (s2);
 }
 
+char *fulltrim(char *s1, int c)
+{
+	char *dup;
+	int i;
+	int j;
+	int first;
+
+	dup = NULL;
+	i = -1;
+	j = -1;
+	dup = malloc(sizeof(char*) * strlen(s1));
+	if (!dup)
+		return (NULL);
+	while (s1[++i])
+	{
+		first = 0;
+		while (s1[i] == c && ++first > 0)
+			i++;
+		if (first > 0)
+			dup[++j] = c;
+		dup[++j] = s1[i];
+	}
+	dup[++j] = '\0';
+	free(s1);
+	return (dup);
+}
+
 void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 {
 	int			equal_pos;
@@ -258,6 +285,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	t_env_lst	*chainon;
 	t_list		*ptr_str;
 
+	value = NULL;
 	ptr_str = cmd->str;
 	if (!ptr_str)
 	{
@@ -266,18 +294,24 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
+
+		//printf("{%s}\n", ptr_str->content);
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
 			ptr_str->content = ft_backslash(ptr_str->content);
+			value = ft_strchr(ptr_str->content, '=');
 			if (ft_strchr(ptr_str->content, '_') || ft_strchr(ptr_str->content, '0'))
 				(void)NULL;
+			else if (ft_strchr(value, ' '))
+				ptr_str->content = fulltrim(ptr_str->content, ' ');
 			else
 			{
-				if (ft_str_isalnum(ptr_str->content))
+				if (ft_str_isalnum(ptr_str->content) || !value)
 				{
 					printf("minishell: export:");
 					ft_print_error(NOT_VALID_ID, ptr_str->content);
 					env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
+					//free(value);
 					return ;
 				}
 			}
@@ -288,6 +322,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		value = NULL;
 		if (!equal_pos)
 			continue ;
+		//printf("{%s}\n", ptr_str->content);
 		var = ft_substr(ptr_str->content, 0, equal_pos - 1);
 		if (ft_atoi(var))
 		{

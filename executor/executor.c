@@ -134,6 +134,7 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
+	//printf("{%d}\n", cmd->cmd_index);
 	if (cmd->str)
 		ft_set_free_env(sh, "_", ft_strdup(ft_lstlast(cmd->str)->content));
 	else
@@ -153,7 +154,9 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 	else if (cmd->cmd_index == 5)
 		ft_unset(cmd, sh);
 	else if (cmd->cmd_index == 6)
+	{
 		print_env(sh->env_lst, cmd->fd_pipe_out, sh);
+	}
 }
 
 static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
@@ -232,7 +235,7 @@ int		executor(t_sh *sh)
 				ptr_cmd = ptr_cmd->next;
 		}
 		else
-		{	
+		{
 			commander_exec(ptr_cmd, sh);
 			if (ptr_cmd->fd_pipe_out > 2)
 				close(ptr_cmd->fd_pipe_out);

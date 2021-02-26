@@ -81,14 +81,19 @@ int		main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		write(0, "My Minishell ~> ", 16);
-		if (argc == 1 || ft_strcmp(argv[1], "-c")) //	le temps des tests
+		if (!sh->save_str)
+			write(0, "My Minishell ~> ", 16);
+		if (argc == 1 || ft_strcmp(argv[1], "-c") && !sh->save_str)
 			ret = get_next_line(0, &sh->input_str);
-		else if (!(ret = 0))
+		else if (!(ret = 0) && !sh->save_str)
 			sh->input_str = argv_to_str(&argv[2]);
+		else
+		{
+			ret = 1;
+			sh->input_str = sh->save_str;
+		}
 		strtolst(sh);
 		parser(sh);
-		//printf("!\n");
 		executor(sh);
 		sh_free(sh);
 	}

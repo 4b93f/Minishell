@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/25 21:15:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/27 16:13:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct	s_sh
 	char		*input_str;
 	char		**exec_env;
 	char 		*save_str;
+	int			flag_c;
 	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/20 16:57:10 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/27 16:54:36 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ void	print_tab(char **tab)
 
 	i = -1;
 	while(tab && tab[++i])
-	{
-		ft_putstr_fd(tab[i], 1);
-		printf("\n");
-	}
+		printf("TAB == %s\n", tab[i]);
 }
 
 int	ft_isspace(int c)

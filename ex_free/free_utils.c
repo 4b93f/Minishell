@@ -86,7 +86,8 @@ int		ft_print_error(int ret, char *str)
 	};
 	if (str && ret != SYNTAX_ERROR)
 		printf(" `%s': ", str);
-	printf("%s", error[ret]);
+	if (ret!= -1)
+		printf("%s", error[ret]);
 	if (str && ret == SYNTAX_ERROR)
 		printf(" `%s'\n", str);
 	return (1);

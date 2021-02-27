@@ -83,9 +83,20 @@ static char	**ft_lst_to_tab(t_env_lst *lst)
 
 static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh, int pid, int fd[2])
 {
+	struct stat *buf;
+	stat(cmd->cmd_str, buf);
 	ft_putstr_fd("minishell: ", cmd->fd_pipe_out);
-	ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
-	ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
+	if (ft_strnstr(cmd->cmd_str, "./", ft_strlen(cmd->cmd_str)))
+	{
+		ft_putstr_fd("permission denied ", cmd->fd_pipe_out);
+		ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
+		ft_putstr_fd("\n", cmd->fd_pipe_out);
+	}
+	else
+	{
+		ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
+		ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
+	}
 	ft_portal(sh, 127, pid, fd);
 	// printf("Send value [127]\n");
 }
@@ -135,14 +146,15 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (!ptr)
 		return;
 	tmp = lst_db_tab(cmd);
-
 	tmpenv = envlst_to_tab(sh->env_lst);
+	//printf("PASS\n");
+	//print_tab(tmp);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
 	if (!child_pid)
 	{
-		if (execve(ptr, tmp, tmpenv) == -1)
+		if(execve(ptr, tmp, tmpenv) == -1)
 			ft_not_found(cmd, sh, child_pid, portal);
 		else
 			ft_portal(sh, 0, child_pid, portal);

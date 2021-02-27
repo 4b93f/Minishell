@@ -134,7 +134,7 @@ static void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
-	//printf("{%d}\n", cmd->cmd_index);
+	//printf("index== %d\n", cmd->cmd_index);
 	if (cmd->str)
 		ft_set_free_env(sh, "_", ft_strdup(ft_lstlast(cmd->str)->content));
 	else
@@ -192,7 +192,7 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 			close(ptr_cmd->fd_pipe_out);
 		exit(0);
 	}
-wait(0);
+	wait(0);
 	close(ptr_cmd->fd_pipe_in);
 	dup2(fd_backup[0], 0);
 	kill(pid, SIGQUIT);
@@ -201,14 +201,16 @@ wait(0);
 int		executor(t_sh *sh)
 {
 	t_cmd_lst	*ptr_cmd;
-	t_cmd_lst	*ptr_cmd_prev;
+	t_cmd_lst	*ptr_cmd_next;
 	char		*buf;
 
 	buf = NULL;
 	ptr_cmd = sh->cmd;
-	ptr_cmd_prev = NULL;
+
 	while (ptr_cmd)
 	{
+		if (ptr_cmd->next)
+			ptr_cmd_next = ptr_cmd->next;
 		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_WRONLY | O_TRUNC, 0777)) < 0)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
@@ -225,14 +227,23 @@ int		executor(t_sh *sh)
 				ft_print_error(NO_SUCH_FILE, (char *)ptr_cmd->red_file->content);
 				return (-1);
 			}
-		ptr_cmd_prev = ptr_cmd;
 		if (ptr_cmd->pipe_out == PIPE && ptr_cmd->next)
 		{
-			fork_piper(ptr_cmd, sh);
-			if (ptr_cmd->fd_pipe_out > 2)
-				close(ptr_cmd->fd_pipe_out);	
-			if (ptr_cmd->fd_pipe_out && ptr_cmd->next)
+
+			if (ptr_cmd_next->cmd_index == 1 && ptr_cmd->cmd_index == -1)
+			{
+				ptr_cmd->fd_pipe_out = 1;
+				fork_piper(ptr_cmd, sh);
 				ptr_cmd = ptr_cmd->next;
+			}
+			else
+			{
+				fork_piper(ptr_cmd, sh);
+				if (ptr_cmd->fd_pipe_out > S_RIGHT_RED)
+					close(ptr_cmd->fd_pipe_out);	
+				if (ptr_cmd->fd_pipe_out && ptr_cmd->next)
+					ptr_cmd = ptr_cmd->next;
+			}
 		}
 		else
 		{

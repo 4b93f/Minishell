@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/27 16:54:36 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/28 19:30:36 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,40 @@ void	print_tab(char **tab)
 int	ft_isspace(int c)
 {
 	return (c == 32 || (c > 8 && c < 14));
+}
+
+int ft_stat(char *filename, t_sh *sh)
+{
+	struct stat buf;
+	if (!ft_strcmp(filename + 2, "."))
+		(void)NULL;
+	else
+	{
+		filename = ft_strtrim(sh->cmd->cmd_str, "./");
+		filename = ft_strtrim(filename, "/");
+	}
+	if (stat(filename, &buf) == 0)
+	{
+		//printf("!\n");
+		if (buf.st_mode & S_IFDIR)
+			return (ft_error_stat(IS_DIR, sh));
+		else if (!(buf.st_mode & S_IXUSR && buf.st_mode & S_IRUSR))
+			return (ft_error_stat(PERM, sh));
+		else
+			return (-1);
+	}
+	return (-1);
+}
+
+int		ft_error_stat(int ret, t_sh *sh)
+{
+	ft_putstr_fd("minishell: ", sh->cmd->fd_pipe_out);
+	static char *error[] = {
+		" Permission denied",
+		" is a directory"
+	};
+	if (sh->cmd->cmd_str)
+		printf("%s:", sh->cmd->cmd_str);
+	printf("%s\n", error[ret]);
+	return(ret);
 }

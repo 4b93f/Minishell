@@ -83,22 +83,21 @@ static char	**ft_lst_to_tab(t_env_lst *lst)
 
 static void	ft_not_found(t_cmd_lst *cmd, t_sh *sh, int pid, int fd[2])
 {
-	struct stat *buf;
-	stat(cmd->cmd_str, buf);
-	ft_putstr_fd("minishell: ", cmd->fd_pipe_out);
-	if (ft_strnstr(cmd->cmd_str, "./", ft_strlen(cmd->cmd_str)))
+	int ret;
+	ret = 0;
+	if (ft_strnstr(cmd->cmd_str, "./", ft_strlen(cmd->cmd_str)) || ft_strchr(cmd->cmd_str, '/'))
 	{
-		ft_putstr_fd("permission denied ", cmd->fd_pipe_out);
-		ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
-		ft_putstr_fd("\n", cmd->fd_pipe_out);
+		ret = ft_stat(cmd->cmd_str, sh);
 	}
 	else
 	{
+		ft_putstr_fd("minishell: ", sh->cmd->fd_pipe_out);
 		ft_putstr_fd(cmd->cmd_str, cmd->fd_pipe_out);
 		ft_putstr_fd(": command not found\n", cmd->fd_pipe_out);
+		ft_portal(sh, 127, pid, fd);
 	}
-	ft_portal(sh, 127, pid, fd);
-	// printf("Send value [127]\n");
+	if (ret == 0 || ret == 1)
+		ft_portal(sh, 126, pid, fd);
 }
 
 static char	**envlst_to_tab(t_env_lst *lst)

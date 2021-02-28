@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/27 16:13:49 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/02/28 17:59:30 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ enum		e_error
 	EXIT_NUM,
 	PIPE_ERROR,
 	ECHO_SYNTAX
+};
+
+enum		e_stat
+{
+	PERM,
+	IS_DIR
 };
 
 typedef struct	s_env_lst
@@ -130,6 +136,8 @@ void		print_tab(char **str);
 void		print_env(t_env_lst *lst, int fd, t_sh *sh);
 void		get_pwd(t_sh *sh);
 void		create_env(t_sh *sh, char *new_env);
+int			ft_error_stat(int ret, t_sh *sh);
+int			ft_stat(char *filename, t_sh *sh);
 void		get_all_path(t_sh *sh);
 void		exec_cmd(t_cmd_lst *cmd, t_sh *sh);
 void		ft_export(t_cmd_lst *cmd, t_sh *sh);
@@ -137,7 +145,6 @@ void		cd_info(t_sh *sh, int num, char *path);
 void		ft_unset(t_cmd_lst *cmd, t_sh *sh);
 void		ft_pwd(t_cmd_lst *cmd, t_sh *sh);
 int			ft_isspace(int c);
-
 void		strtolst(t_sh *t);
 void		parser(t_sh *t);
 t_env_lst	*env_lst_finder(t_env_lst *lst, char *var);

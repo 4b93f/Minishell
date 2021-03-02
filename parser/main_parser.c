@@ -170,8 +170,9 @@ static void start_process(t_sh *sh)
 		return ;
 	if (!ft_strcmp(sh->parser.ptr_lst->content, ";"))
 	{
-		//printf("minishell: ");
+		printf("minishell: ");
 		ft_print_error(SYNTAX_ERROR, sh->parser.ptr_lst->content);
+		ft_set_free_env(sh, "?", ft_itoa(2));
 		return ;
 	}
 	while (sh->parser.ptr_lst)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/22 19:03:11 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/02 16:40:24 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,32 @@ static void	str_cut(t_sh *t, int i, int j)
 		str_store(t, j, i, 0);
 }
 
+static char *del_quote(char *str)
+{
+	char *dup;
+	int i;
+	int j;
+
+	i = -1;
+	j = 0;
+	dup = malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (!dup)
+		return (NULL);
+	while (str[++i])
+	{
+		while (str[i] == '\'' || str[i] == '\"')
+			i++;	
+		dup[j] = str[i];
+		j++;
+	}
+	dup[j] = '\0';
+	free(str);
+	return(dup);
+}
+
 void		strtolst(t_sh *t)
 {
+	//t->input_str = del_quote(t->input_str);
 	str_cut(t, 0, 0);
+	//printf("<%s>\n", t->input_str);
 }

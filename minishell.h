@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/28 17:59:30 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/02 18:44:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ enum		e_error
 	EXIT_ILLEGAL,
 	EXIT_NUM,
 	PIPE_ERROR,
-	ECHO_SYNTAX
+	ECHO_SYNTAX,
 };
 
 enum		e_stat
@@ -133,6 +133,8 @@ char		**delete_env(t_sh *sh, char *delete_env, int len);
 char		*get_actual_path(void);
 void		*free_tab(char **tab);
 void		print_tab(char **str);
+void		last_cmd(t_sh *sh);
+char		**lst_db_tab(t_cmd_lst *cmd);
 void		print_env(t_env_lst *lst, int fd, t_sh *sh);
 void		get_pwd(t_sh *sh);
 void		create_env(t_sh *sh, char *new_env);

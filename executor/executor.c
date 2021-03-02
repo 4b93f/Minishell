@@ -39,6 +39,7 @@ static void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 			write(cmd->fd_pipe_out, "\n", 1);
 	}
 	ft_set_free_env(sh, "?", ft_itoa(0));
+	//last_cmd(sh);
 }
 
 void	ft_set_free_env(t_sh *sh, void *var, void *content)
@@ -209,14 +210,24 @@ int		executor(t_sh *sh)
 
 	while (ptr_cmd)
 	{
+		// if (!ptr_cmd->red_file)
+		// {
+		// 	ft_putstr_fd("minishell: ", ptr_cmd->fd_pipe_out);
+		// 	ft_print_error(SYNTAX_ERROR, "newline");
+		// 	ft_set_free_env(sh, "?", ft_itoa(2));
+		// 	return (-1);
+		// }
 		if (ptr_cmd->next)
 			ptr_cmd_next = ptr_cmd->next;
-		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'
+		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'	
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_WRONLY | O_TRUNC, 0777)) < 0)
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
-		if (ptr_cmd->pipe_out == D_RIGHT_RED) // commande pour '>>'
+		if (ptr_cmd->pipe_out == D_RIGHT_RED)
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_APPEND | O_WRONLY, 0777)) < 0)
+			{
+				printf("HI!\n");
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+			}
 		if (ptr_cmd->pipe_out == S_LEFT_RED) // commande pour '<'
 			if ((ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content, O_APPEND | O_RDONLY, 0777)) < 0)
 			{

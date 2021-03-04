@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/02 18:44:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/03 22:14:28 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ void		parser(t_sh *t);
 t_env_lst	*env_lst_finder(t_env_lst *lst, char *var);
 void		sh_free(t_sh *sh);
 void		ft_error(int ret, t_sh *sh, int ext);
+void		ft_error_two(char *str, t_sh *sh, int ext);
 char		*ft_search_path(t_sh *sh, t_cmd_lst *cmd);
 void		ft_free_sh(t_sh *sh);
 char		*rm_guim(char *ptr);

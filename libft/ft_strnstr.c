@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 14:06:14 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:03:18 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/04 01:06:58 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 				return (&((char *)haystack)[i]);
 	return (NULL);
 }
+
 /*
 ** Cherche aiguilles dans foin tant que len > 0
 */

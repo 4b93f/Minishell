@@ -155,9 +155,7 @@ static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 	else if (cmd->cmd_index == 5)
 		ft_unset(cmd, sh);
 	else if (cmd->cmd_index == 6)
-	{
 		print_env(sh->env_lst, cmd->fd_pipe_out, sh);
-	}
 }
 
 static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)

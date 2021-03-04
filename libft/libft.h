@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 08:47:31 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 01:11:51 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/04 01:03:47 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 
 int					ft_strcmp(const char *s1, const char *s2);
+long				ft_atol(const char *str);
+char				*ft_strnbrstr(const char *haystack, const char *needle, size_t len);
 
 #endif

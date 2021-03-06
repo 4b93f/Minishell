@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/02 16:40:24 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/06 01:13:01 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ static void	str_cut(t_sh *t, int i, int j)
 			i++;
 			while (t->input_str[i] && !ft_strchr("\"'", t->input_str[i]))
 				i++;
+				
+			// if ((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\')
+			// {
+			// 	if (is_double_char(t, i))
+			// 		str_store(t, j, i++, 2);
+			// 	else
+			// 		str_store(t, j, i, 1);
+			// 	j = i + 1;
+			// }
+				
 			str_store(t, j, i + 1, 1);
 			j = i + 1;
 		}

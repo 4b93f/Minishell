@@ -309,8 +309,7 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-
-		//printf("{%s}\n", ptr_str->content);
+		// printf("{%s}\n", ptr_str->content);
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
 			ptr_str->content = ft_backslash(ptr_str->content);
@@ -319,16 +318,13 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 				(void)NULL;
 			else if (ft_strchr(value, ' '))
 				ptr_str->content = fulltrim(ptr_str->content, ' ');
-			else
+			else if (ft_str_isalnum(ptr_str->content) || !value)
 			{
-				if (ft_str_isalnum(ptr_str->content) || !value)
-				{
-					printf("minishell: export:");
-					ft_print_error(NOT_VALID_ID, ptr_str->content);
-					env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
-					//free(value);
-					return ;
-				}
+				printf("minishell: export:");
+				ft_print_error(NOT_VALID_ID, ptr_str->content);
+				env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
+				//free(value);
+				return ;
 			}
 		}
 		value = ft_strchr(ptr_str->content, '=');
@@ -337,9 +333,11 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 		value = NULL;
 		if (!equal_pos)
 			continue ;
-		//printf("{%s}\n", ptr_str->content);
+		// printf("{%s}\n", ptr_str->content);
 		var = ft_substr(ptr_str->content, 0, equal_pos - 1);
-		if (ft_atoi(var))
+		if (!var)
+			return;
+		if (ft_atoi(var) || equal_pos == 1)
 		{
 			printf("minishell: export:");
 			ft_print_error(NOT_VALID_ID, ptr_str->content);
@@ -347,16 +345,8 @@ void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 			free(var);
 			return ;
 		}
-		if (!var)
-			return;
-		if (equal_pos == 1)
-		{
-			printf("minishell: export:");
-			ft_print_error(NOT_VALID_ID, ptr_str->content);
-			ft_set_free_env(sh, "?", ft_strdup("1"));
-			return ;
-		}
 		var = rm_guim(var);
+
 		//if (ft_str_isalnum(var))
 		//{
 			//printf("!\n");

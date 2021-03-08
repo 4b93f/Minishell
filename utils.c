@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 16:15:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/28 19:30:36 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:26:43 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ char	*ft_strjoinfree(const char *s1, const char *s2)
 	return (tab);
 }
 
-/*
-**	env_lst_finder
-**
-**	Renvoie un pointer sur le chainon (lst) correspondant.
-*/
-
 t_env_lst	*env_lst_finder(t_env_lst *lst, char *var)
 {
 	t_env_lst	*ptr_lst;
@@ -102,54 +96,4 @@ void	print_env(t_env_lst *lst, int fd, t_sh *sh)
 	}
 	free(env_lst_finder(sh->env_lst, "?")->content);
 	env_lst_finder(sh->env_lst, "?")->content = ft_itoa(0);
-}
-
-void	print_tab(char **tab)
-{
-	int	i;
-
-	i = -1;
-	while(tab && tab[++i])
-		printf("TAB == %s\n", tab[i]);
-}
-
-int	ft_isspace(int c)
-{
-	return (c == 32 || (c > 8 && c < 14));
-}
-
-int ft_stat(char *filename, t_sh *sh)
-{
-	struct stat buf;
-	if (!ft_strcmp(filename + 2, "."))
-		(void)NULL;
-	else
-	{
-		filename = ft_strtrim(sh->cmd->cmd_str, "./");
-		filename = ft_strtrim(filename, "/");
-	}
-	if (stat(filename, &buf) == 0)
-	{
-		//printf("!\n");
-		if (buf.st_mode & S_IFDIR)
-			return (ft_error_stat(IS_DIR, sh));
-		else if (!(buf.st_mode & S_IXUSR && buf.st_mode & S_IRUSR))
-			return (ft_error_stat(PERM, sh));
-		else
-			return (-1);
-	}
-	return (-1);
-}
-
-int		ft_error_stat(int ret, t_sh *sh)
-{
-	ft_putstr_fd("minishell: ", sh->cmd->fd_pipe_out);
-	static char *error[] = {
-		" Permission denied",
-		" is a directory"
-	};
-	if (sh->cmd->cmd_str)
-		printf("%s:", sh->cmd->cmd_str);
-	printf("%s\n", error[ret]);
-	return(ret);
 }

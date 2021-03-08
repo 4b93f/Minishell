@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/16 18:43:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:15:51 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+// #include "../minishell.h"
+#include "executor.h"
 
 static char	*ft_multi_var(char *str, t_sh *sh)
 {
@@ -43,7 +44,6 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 
 /*
 **	Detecte si str est une variable d'env ou non et renvoie le resultat aproprie.
-**	/!\	gerer le $?.
 */
 
 char	*ft_is_var(char *str, t_sh *sh)
@@ -69,20 +69,13 @@ char	*ft_is_var(char *str, t_sh *sh)
 	return (ptr_str);
 }
 
-char	*rm_guim(char *ptr) // supprime les guillemets et free l'ancien.
+char	*rm_guim(char *ptr)
 {
-	//printf("!\n");
 	char	*str;
-	// char	*c;
 
-	// if (ptr && (ptr[0] == '\'' || ptr[0] == '\"'))
-		// c = ft_substr(ptr, 0, 1);
-	// str = ft_strtrim(ptr, c);
 	str = ft_strtrim(ptr, "\'\"");
 	free(ptr);
-	// free(c);
 	ptr = NULL;
-	//printf("%s\n", str);
 	return (str);
 }
 
@@ -111,4 +104,35 @@ void	ft_portal(t_sh *sh, int ret, int pid, int fd[2])
 		free(ptr);
 		close(fd[0]);
 	}
+}
+
+/*
+**	Convert string of command in double tab.
+*/
+
+char	**lst_db_tab(t_cmd_lst *cmd)
+{
+	char	**ptr;
+	t_list	*arg_ptr;
+	int		size;
+
+	ptr = NULL;
+	size = ft_lstsize(cmd->str);
+	arg_ptr = cmd->str;
+	ptr = ft_calloc(sizeof(char *), size + 2);
+	if (!ptr)
+		return (NULL);
+	size = -1;
+	ptr[++size] = ft_strdup(cmd->cmd_str);
+	if (!ptr)
+		return (free_tab(ptr));
+	while(arg_ptr)
+	{
+		arg_ptr->content = rm_guim(arg_ptr->content);
+		ptr[++size] = ft_strdup(arg_ptr->content);
+		if (!ptr)
+			return (free_tab(ptr));
+		arg_ptr = arg_ptr->next;
+	}
+	return (ptr);
 }

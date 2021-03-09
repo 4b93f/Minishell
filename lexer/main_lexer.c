@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/06 01:13:01 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/09 01:21:31 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 static void	str_store(t_sh *t, int j, int i, int sep)
 {
+	// write(1, "***", 3);
+	// write(1, &t->input_str[j], i - j);
+	// write(1, "***\n", 4);
 	if (i - j > 0)
 		ft_lstadd_back(&t->arg_lst, ft_lstnew(ft_substr(t->input_str, j,
 			i - j)));
@@ -43,30 +46,23 @@ static void	str_cut(t_sh *t, int i, int j)
 {
 	while (t->input_str && t->input_str[i])
 	{
-		if ((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\')
+		if ((t->input_str[i] == '\"' || t->input_str[i] == '\'') && t->input_str[i - 1] != '\\' && (ft_strchr(" ><|;", t->input_str[i - 1]) || ft_isspace(t->input_str[i - 1])))
+		{
+			// printf("[%s]\n", &t->input_str[i]);
+			i++;
+			while (t->input_str[i] && (!ft_strchr("\"\'", t->input_str[i]) || ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])))
+				i++;
+			if (!((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\'))
+				continue ;
+			str_store(t, j, i + 1, 1);
+			j = i + 1;
+		}
+		else if ((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\')
 		{
 			if (is_double_char(t, i))
 				str_store(t, j, i++, 2);
 			else
 				str_store(t, j, i, 1);
-			j = i + 1;
-		}
-		else if (t->input_str[i] == '"' || t->input_str[i] == '\'')
-		{
-			i++;
-			while (t->input_str[i] && !ft_strchr("\"'", t->input_str[i]))
-				i++;
-				
-			// if ((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\')
-			// {
-			// 	if (is_double_char(t, i))
-			// 		str_store(t, j, i++, 2);
-			// 	else
-			// 		str_store(t, j, i, 1);
-			// 	j = i + 1;
-			// }
-				
-			str_store(t, j, i + 1, 1);
 			j = i + 1;
 		}
 		i++;

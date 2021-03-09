@@ -14,7 +14,7 @@
 
 static void new_cmd(t_sh *sh)
 {
-
+	sh->parser.ptr_lst->content = rm_guim(sh->parser.ptr_lst->content);
 	ft_cmd_lstadd_back(&sh->cmd, ft_cmd_lstnew(NULL, NULL,
 		cmd_checker(sh->parser.ptr_lst->content)));
 	sh->parser.ptr_cmd = ft_cmd_lstlast(sh->cmd);

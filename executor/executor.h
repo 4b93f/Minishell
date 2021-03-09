@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:12:12 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:19:44 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/08 21:45:12 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,6 @@
 # define EXECUTOR_H
 
 # include "../minishell.h"
-
-// typedef struct	s_parser
-// {
-// 	int			piped[2];
-// 	t_list		*ptr_lst;
-// 	t_cmd_lst	*ptr_cmd;
-// }				t_parser;
-
-// typedef struct	s_sh
-// {
-// 	char **all_path;
-
-// 	char		*input_str;
-// 	char		**exec_env;
-// 	char 		*save_str;
-// 	int			flag_c;
-// 	t_parser	parser;
-// 	t_list		*arg_lst;
-// 	t_cmd_lst	*cmd;
-// 	t_env_lst	*env_lst;
-// }				t_sh;
 
 void		ft_cd(t_cmd_lst *cmd, t_sh *sh);
 

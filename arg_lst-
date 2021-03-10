@@ -1,0 +1,1 @@
+minishell: printf(arg_str =============================== [%s]\n, t->arg_lst->content);: command not found

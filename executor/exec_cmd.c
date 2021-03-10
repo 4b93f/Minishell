@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:16:59 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:15:46 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/10 19:39:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
+	printf("HERE\n");
 	if (!child_pid)
 	{
 		if (execve(ptr, tmp, tmpenv) == -1)

@@ -95,6 +95,89 @@ void last_cmd(t_sh *sh)
 }
 */
 
+char *del_char(char *s1, int c)
+{
+	char *dup;
+	int i;
+	int j;
+
+	dup = NULL;
+	i = -1;
+	j = -1;
+	dup = malloc(sizeof(char*) * strlen(s1));
+	if (!dup)
+		return (NULL);
+	while (s1[++i])
+	{
+		while (s1[i] == c)
+			i++;
+		dup[++j] = s1[i];
+	}
+	dup[++j] = '\0';
+	free(s1);
+	return (dup);
+}
+
+/*
+void parse_input(t_sh *sh)
+{
+	int i;
+
+	i = -1;
+	char **tab;
+
+	tab = ft_split(sh->input_str, ' ');
+	while(tab[++i])
+	{
+		if (ft_strchr(tab[i], '"'))
+			tab[i] = del_char(tab[i], '"');
+		if (ft_strchr(tab[i], '\''))
+			tab[i] = del_char(tab[i], '\'');
+	}
+	i = -1;
+	free(sh->input_str);
+	sh->input_str = NULL;
+	//printf("<<%s>>\n", sh->input_str);
+	//print_tab(tab);
+	while(tab[++i])
+	{
+		sh->input_str = ft_strjoin(sh->input_str, tab[i]);
+		if (tab[i + 1])
+			sh->input_str = ft_strjoin(sh->input_str, " ");
+	}
+	printf("<<%s>>\n", sh->input_str);
+	return ;
+}
+*/
+
+int parse_input(t_sh *sh)
+{
+	int i;
+	int j;
+	char *str;
+
+	i = -1;
+	j = -1;
+	str = NULL;
+	str = calloc(sizeof(char), ft_strlen(sh->input_str) + 1);
+	while (sh->input_str[++i])
+	{
+		if (sh->input_str[i] == '\'')
+			while (sh->input_str[++i] && sh->input_str[i] != '\'')
+				str[++j] = sh->input_str[i];
+		else if (sh->input_str[i] == '\"')
+			while (sh->input_str[++i] && sh->input_str[i] != '\"')
+				str[++j] = sh->input_str[i];
+		else
+			str[++j] = sh->input_str[i];
+		
+	}
+	str[i] = '\0';
+	sh->cmd->cmd_str = str;
+	printf("str == %s\n", str);
+	return (1);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_sh	*sh;

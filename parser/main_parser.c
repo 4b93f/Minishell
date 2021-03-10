@@ -78,7 +78,6 @@ void		parser(t_sh *sh)
 	{
 		if (parsing(sh))
 		{
-
 			if (sh->parser.ptr_lst && !ft_strcmp(sh->parser.ptr_lst->content, ";"))
 				sh->parser.ptr_lst = sh->parser.ptr_lst->next;
 		}

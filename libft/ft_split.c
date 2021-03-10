@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 02:10:35 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:32:05 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/10 20:31:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char		*malloc_word(char *str, char c)
 	while (str[i] && str[i] != c)
 		i++;
 	word = malloc(sizeof(char) * (i + 1));
-	if(!word)
+	if (!word)
 		return (NULL);
 	i = -1;
 	while (str[++i] && str[i] != c)

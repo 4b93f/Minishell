@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 15:20:02 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/04 00:49:28 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/13 20:57:38 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi(const char *str)
 	return ((neg == 1) ? -nbr : nbr);
 }
 
-long	ft_atol(const char *str)
+long long	ft_atol(const char *str)
 {
 	int			neg;
 	int			cou;

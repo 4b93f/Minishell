@@ -16,8 +16,8 @@
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
 	//printf("<%d>\n", cmd->cmd);
-	if (!parse_input(sh))
-		printf("KEKW\n");
+// if (!parse_input(sh))
+	// printf("KEKW\n");
 
 	// int i = -1;
 	// while (sh->stock[++i])
@@ -113,7 +113,7 @@ int		executor(t_sh *sh)
 		if (ptr_cmd->pipe_out == D_RIGHT_RED)
 			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_APPEND | O_WRONLY, 0777)) < 0)
 			{
-				printf("HI!\n");
+				// printf("HI!\n");
 				ft_error(0, sh, 1); // --------****A CORRIGER****----------
 			}
 		if (ptr_cmd->pipe_out == S_LEFT_RED) // commande pour '<'

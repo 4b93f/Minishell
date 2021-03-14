@@ -6,7 +6,7 @@
 #    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/03/08 13:51:49 by jsilance         ###   ########.fr        #
+#    Updated: 2021/03/14 19:00:43 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ENV_U =		env_utils/ft_struct_env.c \
 
 GNL =		get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 
-LEXER =		lexer/main_lexer.c \
+LEXER =		lexer/main_lexer.c lexer/lexer_utils.c \
 
 PARSER =	parser/main_parser.c parser/pipe_n_read.c parser/parser_utils.c \
 
@@ -77,7 +77,7 @@ fclean:		clean
 
 re:			fclean all
 
-test:		re clean
+test:		all clean
 			./${NAME}
 
 .PHONY : fclean all re clean test

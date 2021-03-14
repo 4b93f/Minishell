@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:33:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:16:04 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/14 18:22:12 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *ft_backslash(char *s1)
 		return (NULL);
 	while (s1[++i])
 	{
-		if (s1[i] == '\\')
+		if (s1[i] == '\\' && ft_strchr("tnrvf$/\"", s1[i + 1]))
 			i++;
 		if (s1[i])
 			s2[j] = s1[i];

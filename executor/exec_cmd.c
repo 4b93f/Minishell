@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:16:59 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/10 19:39:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/14 19:33:56 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	char	*sf;
 	int		portal[2];
 	int		errno;
+	int		ret;
 
 	sf = ft_search_path(sh, cmd);
 	ptr = ft_strjoin(sf, cmd->cmd_str);
@@ -51,16 +52,14 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
 	child_pid = fork();
-	printf("HERE\n");
 	if (!child_pid)
 	{
-		if (execve(ptr, tmp, tmpenv) == -1)
+		if ((errno = execve(ptr, tmp, tmpenv)) == -1)
 			ft_not_found(cmd, sh, child_pid, portal);
 		else
 			ft_portal(sh, errno, child_pid, portal);
 		exit(0);
 	}
-	//printf("!\n");
 	wait(0);
 	ft_portal(sh, errno, child_pid, portal);
 	free(ptr);

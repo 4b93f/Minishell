@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/10 19:18:16 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/14 14:51:26 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ void		ft_error_two(char *str, t_sh *sh, int ext);
 void		strtolst(t_sh *t);
 
 
+char		*quoting(char *str);
+void		str_store(t_sh *t, int j, int i, int sep);
+int			is_double_char(t_sh *t, int i);
+
+
 void		parser(t_sh *t);
 
 int			sep_checker(char *str);
@@ -56,7 +61,7 @@ int			set_pipe_red(t_sh *sh);
 
 
 void		dbg(t_sh *t);
-int		parse_input(t_sh *sh);
+int			parse_input(t_sh *sh);
 
 
 char		*get_actual_path(void);

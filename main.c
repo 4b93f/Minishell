@@ -58,42 +58,6 @@ void	ft_retval_init(t_sh *sh)
 	ft_env_lstadd_back(&sh->env_lst, ptr);
 	
 }
-/*
-char *ft_str_cut(char *str, int c)
-{
-	char *dup;
-	int i;
-
-	i = -1;
-
-	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	while (str[++i] != c)
-		dup[i] = c;
-	dup[i] = '\0';
-	return (dup);
-}
-
-void last_cmd(t_sh *sh)
-{
-	char *str;
-	char **tab;
-	int i;
-
-	i = 0;
-	tab = lst_db_tab(sh->cmd);
-	//print_tab(tab);
-	while ((!ft_strnstr(tab[i], "echo", ft_strlen(tab[i]))) && (!ft_strnstr(tab[i], "$_", ft_strlen(tab[i]))))
-		i++;
-	if (!tab[i])
-		return;
-	printf("[%s]\n", tab[i]);
-	str = ft_strdup(tab[i]);
-	printf("<%s>\n", str);
-	if (!str)
-		return ;
-	ft_set_free_env(sh, "_", str);
-}
-*/
 
 char *del_char(char *s1, int c)
 {
@@ -117,38 +81,6 @@ char *del_char(char *s1, int c)
 	free(s1);
 	return (dup);
 }
-
-/*
-void parse_input(t_sh *sh)
-{
-	int i;
-
-	i = -1;
-	char **tab;
-
-	tab = ft_split(sh->input_str, ' ');
-	while(tab[++i])
-	{
-		if (ft_strchr(tab[i], '"'))
-			tab[i] = del_char(tab[i], '"');
-		if (ft_strchr(tab[i], '\''))
-			tab[i] = del_char(tab[i], '\'');
-	}
-	i = -1;
-	free(sh->input_str);
-	sh->input_str = NULL;
-	//printf("<<%s>>\n", sh->input_str);
-	//print_tab(tab);
-	while(tab[++i])
-	{
-		sh->input_str = ft_strjoin(sh->input_str, tab[i]);
-		if (tab[i + 1])
-			sh->input_str = ft_strjoin(sh->input_str, " ");
-	}
-	printf("<<%s>>\n", sh->input_str);
-	return ;
-}
-*/
 
 int parse_input(t_sh *sh)
 {
@@ -174,7 +106,7 @@ int parse_input(t_sh *sh)
 	}
 	str[i] = '\0';
 	sh->cmd->cmd_str = str;
-	printf("str == %s\n", str);
+	// printf("str == %s\n", str);
 	return (1);
 }
 

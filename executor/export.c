@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:54:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:16:28 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/17 16:07:34 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-		// printf("{%s}\n", ptr_str->content);
+		//printf("{%s}\n", ptr_str->content);
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
 			ptr_str->content = ft_backslash(ptr_str->content);
@@ -78,6 +78,7 @@ void		ft_export(t_cmd_lst *cmd, t_sh *sh)
 				printf("minishell: export:");
 				ft_print_error(NOT_VALID_ID, ptr_str->content);
 				env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
+				//printf("PASS\n");
 				//free(value);
 				return ;
 			}

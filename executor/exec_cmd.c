@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:16:59 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/14 19:33:56 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/17 16:49:01 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	char	*ptr;
 	char	*sf;
 	int		portal[2];
-	int		errno;
 	int		ret;
+	int errno;
 
+	errno = 0;
 	sf = ft_search_path(sh, cmd);
 	ptr = ft_strjoin(sf, cmd->cmd_str);
 	if (!ptr)
@@ -51,6 +52,7 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	tmpenv = envlst_to_tab(sh->env_lst);
 	if (pipe(portal) < 0)
 		ft_error(PIPE_ERROR, sh, 0);
+	//printf("!\n");
 	child_pid = fork();
 	if (!child_pid)
 	{
@@ -62,6 +64,9 @@ void	exec_cmd(t_cmd_lst *cmd, t_sh *sh)
 	}
 	wait(0);
 	ft_portal(sh, errno, child_pid, portal);
+	//printf("errno==%d\n", errno);
+	if (errno == 2)
+		strerror(errno);
 	free(ptr);
 	free_tab(tmp);
 	free_tab(tmpenv);

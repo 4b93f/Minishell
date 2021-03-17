@@ -15,17 +15,6 @@
 
 static void	commander_exec(t_cmd_lst *cmd, t_sh *sh)
 {
-	//printf("<%d>\n", cmd->cmd);
-// if (!parse_input(sh))
-	// printf("KEKW\n");
-
-	// int i = -1;
-	// while (sh->stock[++i])
-	// {
-	// if (ft_strchr(sh->stock[i] ))
-	// }
-	//printf("arg_str =============================== [%s]\n", sh->arg_lst->content);
-	//printf("cmd_str =============================== [%s]\n", sh->cmd->cmd_str);
 	if (cmd->str)
 		ft_set_free_env(sh, "_", ft_strdup(ft_lstlast(cmd->str)->content));
 	else
@@ -75,6 +64,7 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	}
 	wait(0);
 	commander_exec(ptr_cmd, sh);
+	//printf("!\n");
 	if (!pid)
 	{
 		if (ptr_cmd->fd_pipe_out > 2)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
+#    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/03/08 13:51:49 by jsilance         ###   ########.fr        #
+#    Updated: 2021/03/20 21:00:18 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,14 +55,14 @@ NAME = 		minishell
 
 OBJ = 		${SRCS:.c=.o}
 
-# FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS =		-Wall -Wextra -Werror -g3
+ FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
+#FLAGS =		-Wall -Wextra -Werror -g3
 
 %.o: %.c
-			@gcc -c -o $@ $?
+			@gcc -c -g3 -o $@ $?
 
 $(NAME): ${OBJ}
-			@gcc -g3 ${FLAGS} ${OBJ} -o ${NAME}
+			@gcc -g3  -ltermcap -lncurses ${FLAGS} ${OBJ} -o ${NAME}
 			@echo "[Done !]"
 
 all:		${NAME}

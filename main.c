@@ -11,6 +11,11 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <term.h>
+#include <curses.h>
+#include <termios.h>
+#include <unistd.h>
+
 
 char	*get_actual_path(void)
 {
@@ -95,6 +100,91 @@ void last_cmd(t_sh *sh)
 }
 */
 
+void actual_cursor_pos(int *i, int *j)
+{
+	char tmp;
+	char *buf;
+	char *cmd="\033[6n";
+	int x;
+	int ret;
+
+	x = 0;
+	*i = 0;
+	*j = 0;
+	buf = calloc(sizeof(char), 30);
+	write(1, cmd, sizeof(cmd));
+	while (tmp != 'R')
+	{
+		read(1, &tmp, 1);
+		buf[x] = tmp;
+		x++;
+		//printf("buf[%d]={%c} %d\n", i, tmp, tmp);
+		//printf("{%s}\n", buf);
+	}
+	x = 1;
+	while(buf[++x] != ';')
+		*i = *i * 10 + (buf[x] - '0');
+	while(buf[++x] != 'R')
+		*j = *j * 10 + (buf[x] - '0');
+	return ;
+}
+
+int		termcap(t_sh *sh)
+{
+	int ret;
+	int col_count;
+	int line_count;
+	char *term_type; 
+	char *cm_cap;
+	char *cl_cap;
+	int actual_pos;
+	struct termios term;
+	struct termios restore;
+	char tmp;
+	static int j;
+	static int i;
+
+	tcgetattr(0, &term);
+	tcgetattr(0, &restore);
+	term.c_lflag &= ~(ICANON|ECHO);
+	tcsetattr(0, TCSANOW, &term);
+	actual_cursor_pos(&i, &j);
+	tcsetattr(0, TCSANOW, &restore);
+	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
+	//printf("<%s>\n", term_type);
+	ret = tgetent(NULL, term_type);
+	if (ret == -1)
+	{
+		printf("Base de données non accesible\n");
+		exit(0);
+	}
+	if (ret == 0)
+	{
+		printf("Pas d'info dans le base de données, ou trop peu\n");
+		exit(0);
+	}
+	ret = setupterm(NULL, STDOUT_FILENO, NULL);
+	//printf("ret==%d\n", ret);
+	
+	col_count = tgetnum("co");
+	line_count = tgetnum("li");
+	actual_pos = tgetnum("clim");
+	//printf("cli=%d\n", actual_pos);
+	col_count = tgetnum("cols");
+	line_count = tgetnum("lines");
+
+	//printf("col=%d li=%d\n", col_count, line_count);
+	cl_cap = tgetstr("cl", NULL);
+	tputs(cl_cap, 1, putchar);
+
+	cl_cap = tgetstr("cl", NULL);
+	tputs(cl_cap, 1, putchar);
+	
+	cm_cap = tgetstr("co", NULL);
+	tputs(tgoto(cm_cap, i, j++), 1, putchar);
+	return (1);
+}
+
 int		main(int argc, char **argv, char **env)
 {
 	t_sh	*sh;
@@ -128,6 +218,7 @@ int		main(int argc, char **argv, char **env)
 			ret = 1;
 			sh->input_str = sh->save_str;
 		}
+		termcap(sh);
 		strtolst(sh);
 		parser(sh);
 		executor(sh);

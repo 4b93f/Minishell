@@ -6,58 +6,48 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/09 01:21:31 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/14 18:35:46 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 /*
-**	need to trim when " or ' is used.
-*/
-
-static void	str_store(t_sh *t, int j, int i, int sep)
-{
-	// write(1, "***", 3);
-	// write(1, &t->input_str[j], i - j);
-	// write(1, "***\n", 4);
-	if (i - j > 0)
-		ft_lstadd_back(&t->arg_lst, ft_lstnew(ft_substr(t->input_str, j,
-			i - j)));
-	if (sep && t->input_str[i] && ft_strchr("<>|;", t->input_str[i]))
-		ft_lstadd_back(&t->arg_lst, ft_lstnew(ft_substr(t->input_str,
-			i, sep)));
-}
-
-static int	is_double_char(t_sh *t, int i)
-{
-	return ((t->input_str[i] == '>' && t->input_str[i + 1] == '>') ||
-		(t->input_str[i] == '<' && t->input_str[i + 1] == '<') ||
-		(t->input_str[i] == '|' && t->input_str[i + 1] == '|') ||
-		(t->input_str[i] == '&' && t->input_str[i + 1] == '&'));
-}
-
-/*
 **	if double ; return error and no commands executed.
 **	suppression du &.
 */
+
 
 static void	str_cut(t_sh *t, int i, int j)
 {
 	while (t->input_str && t->input_str[i])
 	{
-		if ((t->input_str[i] == '\"' || t->input_str[i] == '\'') && t->input_str[i - 1] != '\\' && (ft_strchr(" ><|;", t->input_str[i - 1]) || ft_isspace(t->input_str[i - 1])))
+		if (t->input_str[i] && t->input_str[i] == '\"')
 		{
-			// printf("[%s]\n", &t->input_str[i]);
 			i++;
-			while (t->input_str[i] && (!ft_strchr("\"\'", t->input_str[i]) || ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])))
+			while (t->input_str[i] && t->input_str[i] != '\"')
+			{
+				if (t->input_str[i] == '\\')
+					i++;
 				i++;
-			if (!((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\'))
-				continue ;
-			str_store(t, j, i + 1, 1);
-			j = i + 1;
+			}
+			i++;
+			continue ;
 		}
-		else if ((ft_strchr(" ><|;", t->input_str[i]) || ft_isspace(t->input_str[i])) && t->input_str[i - 1] != '\\')
+		if (t->input_str[i] && t->input_str[i] == '\'')
+		{
+			i++;
+			while (t->input_str[i] && t->input_str[i] != '\'')
+			{
+				if (t->input_str[i] == '\\')
+					i++;
+				i++;
+			}
+			i++;
+			continue ;
+		}
+// printf("{i:%d	j:%d}\n", i, j);
+		if ((ft_strchr(" ><|;", t->input_str[i]) && t->input_str[i - 1] != '\\'))
 		{
 			if (is_double_char(t, i))
 				str_store(t, j, i++, 2);
@@ -71,32 +61,7 @@ static void	str_cut(t_sh *t, int i, int j)
 		str_store(t, j, i, 0);
 }
 
-static char *del_quote(char *str)
-{
-	char *dup;
-	int i;
-	int j;
-
-	i = -1;
-	j = 0;
-	dup = malloc(sizeof(char) * ft_strlen(str) + 1);
-	if (!dup)
-		return (NULL);
-	while (str[++i])
-	{
-		while (str[i] == '\'' || str[i] == '\"')
-			i++;	
-		dup[j] = str[i];
-		j++;
-	}
-	dup[j] = '\0';
-	free(str);
-	return(dup);
-}
-
 void		strtolst(t_sh *t)
 {
-	//t->input_str = del_quote(t->input_str);
 	str_cut(t, 0, 0);
-	//printf("<%s>\n", t->input_str);
 }

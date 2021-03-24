@@ -6,7 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2021/03/23 19:38:31 by chly-huc         ###   ########.fr       */
+=======
+/*   Updated: 2021/03/10 21:10:53 by chly-huc         ###   ########.fr       */
+>>>>>>> 91cb9830c8a5e542651239a46337474315bfa7c1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +33,16 @@ t_sh	ft_create_sh(void)
 	sh.input_str = NULL;
 	sh.save_str = NULL;
 	sh.flag_c = 0;
+<<<<<<< HEAD
 	sh.cursor_i = 0;
 	sh.cursor_j = 0;
 	sh.tc_kl = NULL;
 	sh.tc_kr = NULL;
 	sh.tc_ku = NULL;
 	sh.tc_kd = NULL;
+=======
+	sh.stock = 0;
+>>>>>>> 91cb9830c8a5e542651239a46337474315bfa7c1
 	return (sh);
 }
 

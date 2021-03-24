@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:20:19 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/23 19:37:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/24 15:55:41 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ typedef struct	s_sh
 	t_cmd_lst	*cmd;
 	t_env_lst	*env_lst;
 	
-
 }				t_sh;
 
 #endif

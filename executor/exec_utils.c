@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 22:15:02 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/17 16:48:23 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,21 @@ char	*ft_is_var(char *str, t_sh *sh)
 char	*rm_guim(char *ptr)
 {
 	char	*str;
-	char	*tmp;
 
 	if (!ptr)
 		return (NULL);
 	if (ptr[0] == '\'')
-		tmp = ft_strdup("\'");
+	{
+		str = ft_strtrim(ptr, "\'");
+		free(ptr);	
+	}
+	else if (ptr[0] == '\"')
+	{
+		str = ft_strtrim(ptr, "\"");
+		free(ptr);
+	}
 	else
-		tmp = ft_strdup("\"");
-	str = ft_strtrim(ptr, tmp);
-	free(tmp);
-	free(ptr);
+		return (ptr);
 	ptr = NULL;
 	return (str);
 }

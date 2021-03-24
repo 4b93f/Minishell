@@ -63,42 +63,57 @@ void	ft_retval_init(t_sh *sh)
 	ft_env_lstadd_back(&sh->env_lst, ptr);
 	
 }
-/*
-char *ft_str_cut(char *str, int c)
+
+char *del_char(char *s1, int c)
 {
 	char *dup;
 	int i;
+	int j;
 
+	dup = NULL;
 	i = -1;
-
-	dup = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	while (str[++i] != c)
-		dup[i] = c;
-	dup[i] = '\0';
+	j = -1;
+	dup = malloc(sizeof(char*) * strlen(s1));
+	if (!dup)
+		return (NULL);
+	while (s1[++i])
+	{
+		while (s1[i] == c)
+			i++;
+		dup[++j] = s1[i];
+	}
+	dup[++j] = '\0';
+	free(s1);
 	return (dup);
 }
 
-void last_cmd(t_sh *sh)
+int parse_input(t_sh *sh)
 {
-	char *str;
-	char **tab;
 	int i;
+	int j;
+	char *str;
 
-	i = 0;
-	tab = lst_db_tab(sh->cmd);
-	//print_tab(tab);
-	while ((!ft_strnstr(tab[i], "echo", ft_strlen(tab[i]))) && (!ft_strnstr(tab[i], "$_", ft_strlen(tab[i]))))
-		i++;
-	if (!tab[i])
-		return;
-	printf("[%s]\n", tab[i]);
-	str = ft_strdup(tab[i]);
-	printf("<%s>\n", str);
-	if (!str)
-		return ;
-	ft_set_free_env(sh, "_", str);
+	i = -1;
+	j = -1;
+	str = NULL;
+	str = calloc(sizeof(char), ft_strlen(sh->input_str) + 1);
+	while (sh->input_str[++i])
+	{
+		if (sh->input_str[i] == '\'')
+			while (sh->input_str[++i] && sh->input_str[i] != '\'')
+				str[++j] = sh->input_str[i];
+		else if (sh->input_str[i] == '\"')
+			while (sh->input_str[++i] && sh->input_str[i] != '\"')
+				str[++j] = sh->input_str[i];
+		else
+			str[++j] = sh->input_str[i];
+		
+	}
+	str[i] = '\0';
+	sh->cmd->cmd_str = str;
+	// printf("str == %s\n", str);
+	return (1);
 }
-*/
 
 void actual_cursor_pos(t_sh *sh)
 {

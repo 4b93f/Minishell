@@ -100,19 +100,19 @@ void last_cmd(t_sh *sh)
 }
 */
 
-void actual_cursor_pos(int *i, int *j)
+void actual_cursor_pos(t_sh *sh)
 {
 	char tmp;
 	char *buf;
-	char *cmd="\033[6n";
 	int x;
 	int ret;
 
 	x = 0;
-	*i = 0;
-	*j = 0;
+
+	sh->cursor_i = 0;
+	sh->cursor_j = 0;
 	buf = calloc(sizeof(char), 30);
-	write(1, cmd, sizeof(cmd));
+	write(1, "\033[6n", 5);
 	while (tmp != 'R')
 	{
 		read(1, &tmp, 1);
@@ -123,9 +123,9 @@ void actual_cursor_pos(int *i, int *j)
 	}
 	x = 1;
 	while(buf[++x] != ';')
-		*i = *i * 10 + (buf[x] - '0');
+		sh->cursor_i = sh->cursor_i * 10 + (buf[x] - '0');
 	while(buf[++x] != 'R')
-		*j = *j * 10 + (buf[x] - '0');
+		sh->cursor_j = sh->cursor_j * 10 + (buf[x] - '0');
 	return ;
 }
 
@@ -134,24 +134,22 @@ int		termcap(t_sh *sh)
 	int ret;
 	int col_count;
 	int line_count;
-	char *term_type; 
+	char *term_type;
 	char *cm_cap;
 	char *cl_cap;
 	int actual_pos;
 	struct termios term;
 	struct termios restore;
-	char tmp;
-	static int j;
-	static int i;
 
 	tcgetattr(0, &term);
 	tcgetattr(0, &restore);
 	term.c_lflag &= ~(ICANON|ECHO);
+	term.c_cc[VMIN] = 1;
+    term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
-	actual_cursor_pos(&i, &j);
-	tcsetattr(0, TCSANOW, &restore);
+	//actual_cursor_pos(sh);
+	//printf("%d et %d\n", sh->cursor_i, sh->cursor_j);
 	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
-	//printf("<%s>\n", term_type);
 	ret = tgetent(NULL, term_type);
 	if (ret == -1)
 	{
@@ -164,26 +162,66 @@ int		termcap(t_sh *sh)
 		exit(0);
 	}
 	ret = setupterm(NULL, STDOUT_FILENO, NULL);
-	//printf("ret==%d\n", ret);
-	
-	col_count = tgetnum("co");
-	line_count = tgetnum("li");
-	actual_pos = tgetnum("clim");
-	//printf("cli=%d\n", actual_pos);
-	col_count = tgetnum("cols");
-	line_count = tgetnum("lines");
+	tcsetattr(0, TCSANOW, &restore);
+	//char *ks = tgetstr("ks", NULL);
 
-	//printf("col=%d li=%d\n", col_count, line_count);
-	cl_cap = tgetstr("cl", NULL);
-	tputs(cl_cap, 1, putchar);
-
-	cl_cap = tgetstr("cl", NULL);
-	tputs(cl_cap, 1, putchar);
-	
-	cm_cap = tgetstr("co", NULL);
-	tputs(tgoto(cm_cap, i, j++), 1, putchar);
+	sh->tc_kl = tgetstr("kl", NULL);
+	sh->tc_kr = tgetstr("kr", NULL);
+	sh->tc_ku = tgetstr("ku", NULL);
+	sh->tc_kd = tgetstr("kd", NULL);
+	char buf[64] = {0};
+	ret = read(STDIN_FILENO, buf, 64);
+	buf[ret] = '\0';
+    if (buf[0] == 27)
+    {
+        if (buf[1] == '[')
+        {
+            if (buf[2] == sh->tc_ku[2])
+            	printf("fleche du haut\n");
+        	else if (buf[2] == sh->tc_kd[2])
+                printf("fleche du bas\n");
+            else if (buf[2] == sh->tc_kr[2])
+				 printf("fleche de droite\n");
+            else if (buf[2] == sh->tc_kl[2])
+            	printf("fleche gauche\n");
+        }
+    }
+	exit(0);
 	return (1);
 }
+/*
+int termcap(t_sh *sh)
+{
+	char *buf;
+	WINDOW *ecran;
+	char *term_type;
+	int success;
+	int height;
+	int width;
+	char *cl;
+	char *cm;
+	char PC;
+	char *BC;
+	char *UP;
+
+	buf = calloc(sizeof(char), 48);
+	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
+	printf("%s\n", term_type);
+	success = tgetent(buf, term_type);
+	if (success < 0)
+		printf("Could not access the termcap data base.\n");
+	if (success == 0)
+		printf("Terminal type is not defined\n");
+	cl = tgetstr("cl", &buf);
+	cm = tgetstr("cm", &buf);
+	height = tgetnum ("li");
+  	width = tgetnum ("co");
+	BC = tgetstr ("le", &buf);
+	UP = tgetstr ("up", &buf);
+	getmaxy();
+	exit(0);
+}
+*/
 
 int		main(int argc, char **argv, char **env)
 {

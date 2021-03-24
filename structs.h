@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:20:19 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:23:50 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/03/23 19:37:28 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ typedef struct	s_sh
 	char		**exec_env;
 	char 		*save_str;
 	int			flag_c;
+	int			cursor_i;
+	int			cursor_j;
+	char		*tc_ku;
+	char		*tc_kl;
+	char		*tc_kr;
+	char		*tc_kd;
 	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;

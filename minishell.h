@@ -6,11 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2021/03/20 16:27:19 by chly-huc         ###   ########.fr       */
-=======
-/*   Updated: 2021/03/14 14:51:26 by jsilance         ###   ########.fr       */
->>>>>>> 07cf445451a5e57f8818aa53374460f5d4ed34aa
+/*   Updated: 2021/03/25 18:19:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +29,7 @@
 # include <errno.h>
 
 #define PERM_DENIED 13
+#define	UP 1
 
 t_sh		ft_create_sh(void);
 t_sh		*ft_malloc_sh(void);

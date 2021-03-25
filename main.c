@@ -144,15 +144,43 @@ void actual_cursor_pos(t_sh *sh)
 	return ;
 }
 
-int		termcap(t_sh *sh)
+int	ft_putchar(int c)
+{
+	write(1, &c, 1);
+	return (0);
+}
+
+void cmd_history(t_sh *sh, t_history *history, int cmd)
+{
+	int i;
+
+	i = -1;
+	if (history)
+	{
+		char *cl = tgetstr("dl", NULL);
+		tputs(cl, 1, &ft_putchar);
+		char *cl1 = tigetstr("dll");
+		tputs(cl1, 1, &ft_putchar);
+		write(0, "My Minishell ~> ", 16);
+		sh->input_str = ft_strdup(history->content);
+		history = history->next;
+		while (sh->input_str[++i])
+			ft_putchar(sh->input_str[i]);
+	}
+}
+
+void delete(t_sh *sh)
+{
+	char *dl = tgetstr("dc", NULL);
+	tputs(dl, 1, &ft_putchar);
+	char *dl1 = tigetstr("dchl");
+	tputs(dl1 , 1, &ft_putchar);
+}
+
+int		termcap(t_sh *sh, t_history *history)
 {
 	int ret;
-	int col_count;
-	int line_count;
 	char *term_type;
-	char *cm_cap;
-	char *cl_cap;
-	int actual_pos;
 	struct termios term;
 	struct termios restore;
 
@@ -162,7 +190,7 @@ int		termcap(t_sh *sh)
 	term.c_cc[VMIN] = 1;
     term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
-	//actual_cursor_pos(sh);
+	actual_cursor_pos(sh);
 	//printf("%d et %d\n", sh->cursor_i, sh->cursor_j);
 	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
 	ret = tgetent(NULL, term_type);
@@ -176,72 +204,96 @@ int		termcap(t_sh *sh)
 		printf("Pas d'info dans le base de données, ou trop peu\n");
 		exit(0);
 	}
+	char *buf;
+	while(1)
+	{
+		buf = calloc(sizeof(char), 10);
+		read(0, buf, 10);
+		if (buf[0] == 127)
+		{
+			printf("!\n");
+			tcsetattr(0, TCSANOW, &restore);
+			delete(sh);
+			tcsetattr(0, TCSANOW, &term);
+		}	
+		if (buf[0] == '\n')
+			break;
+		if (buf[0] == 27)
+		{
+			if (buf[1] == '[')
+			{
+				if (buf[2] == 'A')
+				{
+					cmd_history(sh, history, UP);
+					tcsetattr(0, TCSANOW, &term);
+				}
+			}
+		}
+		else
+		{
+			tcsetattr(0, TCSANOW, &restore);
+			write(1, buf, 1);
+			sh->input_str = ft_strjoin(sh->input_str, buf);
+			tcsetattr(0, TCSANOW, &term);
+		}
+	}
+	if (buf[0] == '\n' && sh->input_str)
+		printf("\n");
 	ret = setupterm(NULL, STDOUT_FILENO, NULL);
 	tcsetattr(0, TCSANOW, &restore);
-	//char *ks = tgetstr("ks", NULL);
-
-	sh->tc_kl = tgetstr("kl", NULL);
-	sh->tc_kr = tgetstr("kr", NULL);
-	sh->tc_ku = tgetstr("ku", NULL);
-	sh->tc_kd = tgetstr("kd", NULL);
-	char buf[64] = {0};
-	ret = read(STDIN_FILENO, buf, 64);
-	buf[ret] = '\0';
-    if (buf[0] == 27)
-    {
-        if (buf[1] == '[')
-        {
-            if (buf[2] == sh->tc_ku[2])
-            	printf("fleche du haut\n");
-        	else if (buf[2] == sh->tc_kd[2])
-                printf("fleche du bas\n");
-            else if (buf[2] == sh->tc_kr[2])
-				 printf("fleche de droite\n");
-            else if (buf[2] == sh->tc_kl[2])
-            	printf("fleche gauche\n");
-        }
-    }
-	exit(0);
 	return (1);
 }
-/*
-int termcap(t_sh *sh)
-{
-	char *buf;
-	WINDOW *ecran;
-	char *term_type;
-	int success;
-	int height;
-	int width;
-	char *cl;
-	char *cm;
-	char PC;
-	char *BC;
-	char *UP;
 
-	buf = calloc(sizeof(char), 48);
-	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
-	printf("%s\n", term_type);
-	success = tgetent(buf, term_type);
-	if (success < 0)
-		printf("Could not access the termcap data base.\n");
-	if (success == 0)
-		printf("Terminal type is not defined\n");
-	cl = tgetstr("cl", &buf);
-	cm = tgetstr("cm", &buf);
-	height = tgetnum ("li");
-  	width = tgetnum ("co");
-	BC = tgetstr ("le", &buf);
-	UP = tgetstr ("up", &buf);
-	getmaxy();
-	exit(0);
+t_history	*ft_historylast(t_history *lst)
+{
+	t_history	*ptr;
+
+	ptr = NULL;
+	while (lst)
+	{
+		ptr = lst;
+		lst = lst->next;
+	}
+	return (ptr);
 }
-*/
+
+void	ft_historyadd_front(t_history **alst, t_history *new)
+{
+	if (!alst || !new)
+		return ;
+	new->next = *alst;
+	*alst = new;
+}
+
+t_history	*ft_historynew(void *content)
+{
+	t_history	*ptr;
+	
+	ptr = malloc(sizeof(t_history));
+	if (!ptr)
+		return (NULL);
+	ptr->content = content;
+	ptr->next = NULL;
+	return (ptr);
+}
+
+void	ft_print_history(t_history *lst)
+{
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		printf("{,%s,}\n", lst->content);
+		lst = lst->next;
+	}
+}
 
 int		main(int argc, char **argv, char **env)
 {
 	t_sh	*sh;
+	t_history *history;
 	int		ret;
+	char	buf[200];
 
 	sh = ft_malloc_sh();
 	if (!sh)
@@ -259,19 +311,27 @@ int		main(int argc, char **argv, char **env)
 	ret = 1;
 	while(ret)
 	{
-		get_all_path(sh);
 		if (!sh->save_str)
 			write(0, "My Minishell ~> ", 16);
-		if ((argc == 1 || ft_strcmp(argv[1], "-c")) && !sh->save_str)
-			ret = get_next_line(0, &sh->input_str);
-		else if (!(ret = 0) && !sh->save_str)
-			sh->input_str = argv_to_str(&argv[2]);
-		else
+		ret = termcap(sh, history);
+		if (!sh->input_str)
 		{
-			ret = 1;
-			sh->input_str = sh->save_str;
+			printf("\n");
+			continue;
 		}
-		termcap(sh);
+		ft_historyadd_front(&history, ft_historynew(sh->input_str));
+		ft_print_history(history);
+		//printf("{%s}\n", sh->input_str);
+		get_all_path(sh);
+		//if ((argc == 1 || ft_strcmp(argv[1], "-c")) && !sh->save_str)
+		//	ret = get_next_line(0, &sh->input_str);
+		//else if (!(ret = 0) && !sh->save_str)
+		//	sh->input_str = argv_to_str(&argv[2]);
+		//else
+		//{
+		//	ret = 1;
+		//	sh->input_str = sh->save_str;
+		//}
 		strtolst(sh);
 		parser(sh);
 		executor(sh);

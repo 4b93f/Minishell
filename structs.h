@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:20:19 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/24 15:55:41 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/25 17:03:28 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ typedef struct	s_parser
 	t_cmd_lst	*ptr_cmd;
 }				t_parser;
 
+typedef struct s_history
+{
+	char *content;
+	void *next;
+}				t_history;
 typedef struct	s_sh
 {
 	char **all_path;
@@ -85,7 +90,6 @@ typedef struct	s_sh
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;
 	t_env_lst	*env_lst;
-	
 }				t_sh;
 
 #endif

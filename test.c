@@ -6,7 +6,26 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 18:23:44 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/24 15:54:08 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/25 16:16:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
+int main()
+{
+	char buf[200];
+	read(0, buf, 1);
+	if (buf[0] == 27)
+	{
+		read(0, buf, 1);
+		//printf("%d\n", buf);
+		if (buf[0] == '[')
+		{
+			read(0, buf, 1);
+			//printf("%s\n", buf);
+			if (buf[0] == 'A')
+				printf("POG\n");
+		}
+	}
+}

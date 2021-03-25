@@ -6,11 +6,7 @@
 #    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2021/03/20 21:00:18 by chly-huc         ###   ########.fr        #
-=======
-#    Updated: 2021/03/17 16:53:48 by chly-huc         ###   ########.fr        #
->>>>>>> 07cf445451a5e57f8818aa53374460f5d4ed34aa
+#    Updated: 2021/03/25 16:14:11 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,13 +55,8 @@ NAME = 		minishell
 
 OBJ = 		${SRCS:.c=.o}
 
-<<<<<<< HEAD
  FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
 #FLAGS =		-Wall -Wextra -Werror -g3
-=======
-#FLAGS =		-Wall -Wextra -Werror -g3 -fsanitize=address
-FLAGS =		-Wall -Wextra -Werror -g3
->>>>>>> 07cf445451a5e57f8818aa53374460f5d4ed34aa
 
 %.o: %.c
 			@gcc -c -g3 -o $@ $?

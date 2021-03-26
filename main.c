@@ -283,6 +283,7 @@ int		termcap(t_sh *sh, t_history *history)
 	{
 		buf = calloc(sizeof(char), 10);
 		read(0, buf, 10);
+		//printf("{%c}\n", buf[0]);
 		if (buf[0] == 127)
 		{
 			actual_cursor_pos(sh);
@@ -326,7 +327,7 @@ int		termcap(t_sh *sh, t_history *history)
 		{
 			sh->cursor_j++;
 			tcsetattr(0, TCSANOW, &restore);
-			write(1, buf, 1);
+			write(1, buf, sizeof(buf));
 			sh->input_str = ft_strjoin(sh->input_str, buf);
 			tcsetattr(0, TCSANOW, &term);
 		}

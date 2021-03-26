@@ -150,31 +150,104 @@ int	ft_putchar(int c)
 	return (0);
 }
 
-void cmd_history(t_sh *sh, t_history *history, int cmd)
+int		ft_historysize(t_history *lst)
 {
 	int i;
 
-	i = -1;
-	if (history)
+	if (!lst)
+		return (0);
+	i = 0;
+	while (lst != NULL)
 	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+
+void cmd_history_up(t_sh *sh, t_history *history, int cmd)
+{
+	int i;
+	int j;
+
+	t_history *keep_track_history;
+	keep_track_history = history;
+	i = -1;
+	j = -1;
+	if (sh->index_history == -1)
+		sh->index_history += 2;
+	//printf("<%d>\n", sh->index_history);
+	while (++j < sh->index_history)
+		keep_track_history = keep_track_history->next;
+	if (history && keep_track_history)
+	{
+		//printf("!\n");
 		char *cl = tgetstr("dl", NULL);
 		tputs(cl, 1, &ft_putchar);
 		char *cl1 = tigetstr("dll");
 		tputs(cl1, 1, &ft_putchar);
 		write(0, "My Minishell ~> ", 16);
-		sh->input_str = ft_strdup(history->content);
-		history = history->next;
+		sh->input_str = ft_strdup(keep_track_history->content);
+		keep_track_history = keep_track_history->next;
 		while (sh->input_str[++i])
 			ft_putchar(sh->input_str[i]);
+		if (sh->index_history < ft_historysize(history))
+			sh->index_history++;
 	}
+	//printf("{UP}\n");
+	//printf("index={%d}\n", sh->index_history);
+}
+
+void cmd_history_down(t_sh *sh, t_history *history, int cmd)
+{
+	int i;
+	int j;
+
+	t_history *keep_track_history;
+	keep_track_history = history;
+	i = -1;
+	j = -1;
+	if (sh->index_history >= ft_historysize(history))
+		sh->index_history -= 2;
+	while (++j < sh->index_history)
+		keep_track_history = keep_track_history->next;
+	//printf("{%d}\n", sh->index_history);
+	if (history && keep_track_history)
+	{
+		//printf("!\n");
+		char *cl = tgetstr("dl", NULL);
+		tputs(cl, 1, &ft_putchar);
+		char *cl1 = tigetstr("dll");
+		tputs(cl1, 1, &ft_putchar);
+		sh->input_str = ft_strdup(keep_track_history->content);
+		write(0, "My Minishell ~> ", 16);
+		keep_track_history = keep_track_history->next;
+		while (sh->input_str[++i])
+			ft_putchar(sh->input_str[i]);
+		if (sh->index_history >= 0)
+			sh->index_history--;
+	}
+	//printf("{DOWN}\n");
+	//printf("index={%d}\n", sh->index_history);
 }
 
 void delete(t_sh *sh)
 {
-	char *dl = tgetstr("dc", NULL);
-	tputs(dl, 1, &ft_putchar);
-	char *dl1 = tigetstr("dchl");
-	tputs(dl1 , 1, &ft_putchar);
+	int cut;
+
+	if (sh->cursor_j >= 17)
+	{
+		cut = ft_strlen(sh->input_str);
+		sh->cursor_j--;
+		char *cm = tgetstr("cm", NULL);
+		char *cm1 = tigetstr("cup");
+		tputs(tgoto(cm, sh->cursor_j, sh->cursor_i), 1, &ft_putchar);
+		char *dl = tgetstr("dc", NULL);
+		tputs(dl, 1, &ft_putchar);
+		char *dl1 = tigetstr("dchl");
+		tputs(dl1 , 1, &ft_putchar);
+		sh->input_str[cut - 1] = '\0';
+	}
 }
 
 int		termcap(t_sh *sh, t_history *history)
@@ -190,8 +263,9 @@ int		termcap(t_sh *sh, t_history *history)
 	term.c_cc[VMIN] = 1;
     term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
-	actual_cursor_pos(sh);
 	//printf("%d et %d\n", sh->cursor_i, sh->cursor_j);
+	sh->cursor_j -= 1;
+	sh->cursor_i -= 1;
 	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
 	ret = tgetent(NULL, term_type);
 	if (ret == -1)
@@ -211,26 +285,46 @@ int		termcap(t_sh *sh, t_history *history)
 		read(0, buf, 10);
 		if (buf[0] == 127)
 		{
-			printf("!\n");
+			actual_cursor_pos(sh);
+			sh->cursor_j -= 1;
+			sh->cursor_i -= 1;
 			tcsetattr(0, TCSANOW, &restore);
 			delete(sh);
 			tcsetattr(0, TCSANOW, &term);
+			continue;
 		}	
 		if (buf[0] == '\n')
+		{
+			sh->index_history = 0;
 			break;
+		}
 		if (buf[0] == 27)
 		{
 			if (buf[1] == '[')
 			{
 				if (buf[2] == 'A')
 				{
-					cmd_history(sh, history, UP);
+					cmd_history_up(sh, history, UP);
+					actual_cursor_pos(sh);
+					sh->cursor_j -= 1;
+					sh->cursor_i -= 1;
 					tcsetattr(0, TCSANOW, &term);
+					continue;
+				}
+				if (buf[2] == 'B')
+				{
+					cmd_history_down(sh, history, UP);
+					actual_cursor_pos(sh);
+					sh->cursor_j -= 1;
+					sh->cursor_i -= 1;
+					tcsetattr(0, TCSANOW, &term);
+					continue;
 				}
 			}
 		}
 		else
 		{
+			sh->cursor_j++;
 			tcsetattr(0, TCSANOW, &restore);
 			write(1, buf, 1);
 			sh->input_str = ft_strjoin(sh->input_str, buf);

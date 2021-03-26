@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 20:02:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/25 16:14:21 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/26 16:47:29 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_sh	ft_create_sh(void)
 	sh.tc_kr = NULL;
 	sh.tc_ku = NULL;
 	sh.tc_kd = NULL;
+	sh.index_history = 0;
 	return (sh);
 }
 

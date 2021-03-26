@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:20:19 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/25 17:03:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/03/26 16:47:17 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct	s_sh
 	char		*tc_kl;
 	char		*tc_kr;
 	char		*tc_kd;
+	int			index_history;
 	t_parser	parser;
 	t_list		*arg_lst;
 	t_cmd_lst	*cmd;

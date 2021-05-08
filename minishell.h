@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:05:21 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/25 18:19:44 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/05/08 17:11:19 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@
 
 #define PERM_DENIED 13
 #define	UP 1
+
+/* termcap */
+void		actual_cursor_pos(t_sh *sh);
+int			termcap(t_sh *sh, t_history *history);
+void		delete(t_sh *sh);
+void		cmd_history_down(t_sh *sh, t_history *history, int cmd);
+void		cmd_history_up(t_sh *sh, t_history *history, int cmd);
+t_history	*ft_historylast(t_history *lst);
+void		ft_historyadd_front(t_history **alst, t_history *new);
+t_history	*ft_historynew(void *content);
+
 
 t_sh		ft_create_sh(void);
 t_sh		*ft_malloc_sh(void);
@@ -85,5 +96,7 @@ int			ft_isspace(int c);
 int			ft_stat(char *filename, t_sh *sh);
 int			ft_error_stat(int ret, t_sh *sh);
 void		ft_env_to_lst(char **env, t_sh *sh);
+
+int	ft_putchar(int c);
 
 #endif

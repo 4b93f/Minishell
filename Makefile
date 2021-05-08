@@ -6,7 +6,7 @@
 #    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/03/25 16:14:11 by chly-huc         ###   ########.fr        #
+#    Updated: 2021/05/08 17:10:51 by chly-huc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CMD_CL =	cmd_cl/ft_cmdlstadd_back.c cmd_cl/ft_cmdlstadd_front.c \
 			cmd_cl/ft_cmdlstclear.c cmd_cl/ft_cmdlstdelone.c cmd_cl/ft_cmdlstiter.c \
 			cmd_cl/ft_cmdlstlast.c cmd_cl/ft_cmdlstnew.c cmd_cl/ft_cmdlstsize.c \
 
-ROOT =		main.c path.c utils.c utils2.c \
+ROOT =		main.c path.c utils.c utils2.c utils3.c\
 
 ENV_U =		env_utils/ft_struct_env.c \
 
@@ -45,8 +45,10 @@ EXECUTOR =	executor/executor.c executor/exec_utils.c executor/exec_utils2.c exec
 
 EX_FREE =	ex_free/free_utils.c
 
+TERMCAP = struct/struct_history.c termcap/history.c termcap/termcap_setup.c
+
 SRCS =	$(EXECUTOR) $(LIBFT) $(PARSER) $(LEXER) $(GNL) $(EX_FREE) $(ENV_U) \
-		$(ROOT) $(ENV_CL) $(CMD_CL) \
+		$(ROOT) $(ENV_CL) $(CMD_CL) $(TERMCAP) \
 		
 HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h executor/executor.h structs.h \
 			get_next_line/get_next_line.h

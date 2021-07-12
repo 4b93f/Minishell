@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 08:47:31 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/05/25 23:18:04 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:59:04 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include <fcntl.h>
 # include <string.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
-	char			*content;
+	void			*content;
 	struct s_list	*next;
 }					t_list;
 
@@ -43,7 +43,6 @@ void				*ft_memset(void *b, int c, size_t n);
 char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *s);
 size_t				ft_strlcat(char *dest, const char *src, size_t size);
-size_t				ft_strlcpy(char *dest, const char *src, size_t size);
 int					ft_strlen(const char *str);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				*ft_strnstr(const char *haystack, const char
@@ -69,9 +68,13 @@ void				ft_lstadd_back(t_list **alst, t_list *new);
 void				ft_lstdelone(t_list *lst, void (*del)(void*));
 void				ft_lstclear(t_list **lst, void (*del)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
-
-int					ft_strcmp(const char *s1, const char *s2);
-long long			ft_atol(const char *str);
-char				*ft_strnbrstr(const char *haystack, const char *needle, size_t len);
+void				ft_print_lst(t_list *lst);
+int					ft_isspace(int c);
+int					tablen(char **tab);
+void				*free_tab(char **tab);
+void				print_tab(char **tab);
+int					ft_strcmp(char *s1, char *s2);
+long				ft_atoli(const char *str);
+void				ft_free_int_tab(int **tab);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 12:53:47 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/14 16:27:15 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/04/23 17:45:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int				i;
 	unsigned char	*ss1;
@@ -25,13 +25,12 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n)
 	ss2 = (unsigned char *)s2;
 	while (n--)
 	{
-		if ((ss1[i] != ss2[i] || !ss1[i] || !ss2[i]))
+		if (ss1[i] != ss2[i] || ss1[i] == '\0' || ss2[i] == '\0')
 			return (ss1[i] - ss2[i]);
 		i++;
 	}
 	return (0);
 }
-
 /*
 ** Compare n caractères entre S1 et S2
 */

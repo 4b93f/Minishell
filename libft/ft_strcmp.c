@@ -5,22 +5,21 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/23 21:49:38 by jsilance          #+#    #+#             */
-/*   Updated: 2021/05/25 23:25:01 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/04/23 17:50:33 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/04/27 20:02:05 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
-	size_t	count;
-	
-	count = -1;
-	while (s1 && s2 && s1[++count] && s2[count])
-		if ((unsigned char)s1[count] != (unsigned char)s2[count])
-			return ((unsigned char)s1[count] - (unsigned char)s2[count]);
-	if (s1 && s2 && (unsigned char)s1[count] != (unsigned char)s2[count])
-		return ((unsigned char)s1[count] - (unsigned char)s2[count]);
-	return (0);
+	int	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (1);
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return (s1[i] - s2[i]);
 }

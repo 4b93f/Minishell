@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 03:44:51 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/14 18:48:59 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/04/23 17:22:26 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		nbnb(int nb)
+static int	nbnb(int nb)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	if (nb <= 0)
@@ -27,7 +27,7 @@ static int		nbnb(int nb)
 	return (len);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int		i;
 	char	*str;
@@ -37,16 +37,19 @@ char			*ft_itoa(int n)
 	if (!str)
 		return (NULL);
 	str[i--] = '\0';
-	if (n == 0 && (str[0] = '0'))
+	if (n == 0)
+	{
+		str[0] = '0';
 		return (str);
+	}
 	if (n < 0)
 		str[0] = '-';
 	while (n != 0)
 	{
 		if (str[0] == '-')
-			str[i--] = '0' - (n % 10);
+			str[i--] = '0' + -(n % 10);
 		else
-			str[i--] = '0' + n % 10;
+			str[i--] = '0' + (n % 10);
 		n = n / 10;
 	}
 	return (str);

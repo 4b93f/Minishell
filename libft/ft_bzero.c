@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 09:50:27 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:29:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:24:20 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_bzero(void *b, size_t n)
 	str = (unsigned char *)b;
 	while (n--)
 		*str++ = '\0';
+	return ;
 }
-
 /*
 ** Remplir de '\0'
 */

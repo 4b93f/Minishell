@@ -74,7 +74,7 @@ int first_parsing(t_parsing *parser, char *cmd)
 			i++;
 		}
 		if (cmd[i] == '$' && parser->quote != QUOTE)
-			//do_dollars
+			(void)NULL;//do_dollars
 		if (cmd[i] == ' ')
 		{
 			if (parser->quote == NONE)
@@ -97,6 +97,7 @@ int 	isolate_cmd(char *dest, char **str)
 	int count;
 	char *tmp;
 
+	count = 0;
 	while(**str != ' ')
 	{
 		(*str)++;
@@ -134,11 +135,12 @@ int main(int argc, char **argv)
 	int ret;
 	char *input_str;
 	t_parsing parser;
-	t_cmd cmd;
+	//t_cmd cmd;
 
 	init_parser(&parser);
 	ret = 1;
 	(void)argc;
+	(void)argv;
 	input_str = NULL;
 	while(ret)
 	{
@@ -148,6 +150,7 @@ int main(int argc, char **argv)
 		ret = 0;
 	}
 	return (1);
+
 	//if (first_parsing(&parser, argv[1]) == -1)
 	//{
 	//	printf("PARSING_ERROR");

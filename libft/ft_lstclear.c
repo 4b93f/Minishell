@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 17:38:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/01/29 00:50:45 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/04/23 17:26:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_list	*ptr;
 	t_list	*tmp;
 
-	if (!lst || !*lst || !del)
+	if (!lst || !del)
 		return ;
-	tmp = NULL;
-	ptr = *lst;
-	while (ptr)
+	while (*lst)
 	{
-		tmp = ptr->next;
-		ft_lstdelone(ptr, (*del));
-		ptr = tmp;
+		tmp = (*lst)->next;
+		ft_lstclear(*lst, del);
+		(*lst) = tmp;
 	}
-	*lst = NULL;
 }
 /*
 ** Clear une liste chainée

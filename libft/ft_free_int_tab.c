@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*   ft_free_int_tab.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jehaenec <jehaenec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/13 13:18:19 by jehaenec          #+#    #+#             */
-/*   Updated: 2019/10/23 11:09:45 by jehaenec         ###   ########.fr       */
+/*   Created: 2021/04/27 14:58:09 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/04/27 20:01:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "libft.h"
 
-char	*ft_strcpy(char *dest, const char *src)
+void	ft_free_int_tab(int **tab)
 {
-	char	*tmp;
+	int	i;
 
-	tmp = dest;
-	while (*src)
-	{
-		*tmp = *src;
-		tmp++;
-		src++;
-	}
-	*tmp = 0;
-	return (dest);
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
 }

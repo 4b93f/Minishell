@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jehaenec <jehaenec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 14:45:55 by jehaenec          #+#    #+#             */
-/*   Updated: 2019/10/13 13:22:18 by jehaenec         ###   ########.fr       */
+/*   Created: 2021/03/13 16:33:32 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/04/27 14:57:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "libft.h"
 
-char	*ft_strdup(const char *s1)
+void	*free_tab(char **tab)
 {
-	char	*dup;
-	int		n;
+	int	i;
 
-	n = ft_strlen(s1);
-	if (!(dup = (char*)malloc(sizeof(char) * (n + 1))))
-		return (0);
-	ft_strcpy(dup, s1);
-	return (dup);
+	i = -1;
+	while (tab && tab[++i])
+		free(tab[i]);
+	if (tab)
+		free(tab);
+	tab = NULL;
+	return (NULL);
 }

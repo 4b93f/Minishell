@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_print_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jehaenec <jehaenec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:48:03 by jehaenec          #+#    #+#             */
-/*   Updated: 2020/03/06 13:07:52 by jehaenec         ###   ########.fr       */
+/*   Created: 2021/03/13 16:34:27 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/03/17 21:05:03 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "libft.h"
 
-size_t		ft_strlen(const char *str)
+void	print_tab(char **tab)
 {
-	size_t	i;
+	int	i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	i = -1;
+	while (tab && tab[++i])
+	{
+		ft_putendl_fd(tab[i], 1);
+	}
 }

@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 09:53:04 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/01/09 23:26:23 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/04/23 17:16:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_isalpha(int c)
+int	ft_isalpha(int c)
 {
 	return (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'));
 }

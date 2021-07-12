@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memccpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 09:51:04 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:21:01 by jsilance         ###   ########.fr       */
+/*   Updated: 2020/01/09 23:27:31 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 	while (n--)
 	{
 		ds[i] = source[i];
-		if (source[i++] == (unsigned char)c)
-			return (ds + i);
+		if (source[i] == (unsigned char)c)
+			return (ds + i + 1);
+		i++;
 	}
 	return (NULL);
 }

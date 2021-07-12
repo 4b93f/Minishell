@@ -130,11 +130,13 @@ int		fill_cmd(t_cmd *cmd, char *str)
 	return (0);
 }
 
+
 int main(int argc, char **argv)
 {
 	int ret;
 	char *input_str;
 	t_parsing parser;
+	t_sh *sh;
 	//t_cmd cmd;
 
 	init_parser(&parser);
@@ -146,7 +148,12 @@ int main(int argc, char **argv)
 	{
 		write(0, "My Minishell ~> ", 16);
 		get_next_line(0, &input_str);
-		printf("%s\n", input_str);
+		while(sh->input_str)
+		{
+			str_to_lst(sh->input_str);
+			sh->cmd = sh->cmd->next;
+		}
+		//printf("%s\n", input_str);
 		ret = 0;
 	}
 	return (1);

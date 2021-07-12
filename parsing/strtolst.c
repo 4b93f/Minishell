@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   strtolst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/12 17:44:37 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/12 18:21:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCT_H
-#define STRUCT_H
-#include "../cmd/cmd.h"
-#include "../env/env.h"
-#include "../libft/libft.h"
-#include "../get_next_line/get_next_line.h"
-#include "../parser.h"
+#include "../struct/struct.h"
 
-typedef struct	s_sh
+
+void str_to_lst(char *str, t_sh *sh)
 {
-	char *input_str;
-	char **all_path;
+	int i;
 
-	t_lst_cmd *cmd;
-}				t_sh;
+	i = -1;
 
-#endif
+	while(str[++i] != ' ')
+		;
+	cmd_lstadd_back(&sh->cmd->cmd, cmd_lstnew(ft_substr(str, 0, i)));
+	str = &str + i;
+}

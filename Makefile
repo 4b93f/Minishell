@@ -8,7 +8,7 @@ MAIN_SRC = main.c utils.c \
 
 LIB = libft/libft.a \
 
-ALL_SRCS = $(ENV_SRC) $(CMD_SRC) $(SRC) $(GNL_SRC) $(MAIN_SRC) \
+ALL_SRCS = $(ENV_SRC) $(CMD_SRC) $(GNL_SRC) $(MAIN_SRC) \
 
 OBJ = $(ALL_SRCS:.c=.o) \
 
@@ -27,7 +27,7 @@ NAME = minishell
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I $(INC) $< -c -o $@
+	@gcc -c -g3 -o $@ $?
 
 $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"

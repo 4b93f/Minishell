@@ -6,21 +6,19 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/12 17:18:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/12 17:45:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
 #define CMD_H
-#include "../struct/struct.h"
+#include "stdlib.h"
 
 typedef struct	s_lst_cmd
 {
 	char	*cmd;
 	void	*next;
 }				t_lst_cmd;
-
-
 
 void		cmd_lstadd_back(t_lst_cmd **alst, t_lst_cmd *new);
 void		cmd_lstadd_front(t_lst_cmd **alst, t_lst_cmd *new);

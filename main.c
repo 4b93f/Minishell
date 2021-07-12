@@ -73,15 +73,12 @@ int first_parsing(t_parsing *parser, char *cmd)
 			parser->quote = quoting(parser, cmd[i]);
 			i++;
 		}
-		if (cmd[i] == '$' && parser->quote != QUOTE)
-			(void)NULL;//do_dollars
-		if (cmd[i] == ' ')
+		//else if (cmd[i] == '$' && parser->quote != QUOTE)
+			//do_dollars
+		else if (cmd[i] == ' ')
 		{
 			if (parser->quote == NONE)
-			{
-				while (cmd[i + 1] == ' ')
-					i++;
-			}
+				cmd[i] = -1;
 		}
 		if (c_in_buff(parser, cmd[i]) == -1)
 			return (-1);
@@ -91,44 +88,6 @@ int first_parsing(t_parsing *parser, char *cmd)
 	return (0);
 }
 
-int 	isolate_cmd(char *dest, char **str)
-{
-	int i;
-	int count;
-	char *tmp;
-
-	count = 0;
-	while(**str != ' ')
-	{
-		(*str)++;
-		count++;
-	}
-	while (**str + 1 == ' ')
-	{
-		(*str)++;
-		count++;
-	}
-	dest = malloc(sizeof(char) * count);
-	if (dest == NULL)
-		return (-1);
-	i = 0;
-	tmp = *str;
-	while (i < count)
-	{
-		dest[i] = tmp[i];
-		i++;
-	}
-	return (0);
-}
-
-int		fill_cmd(t_cmd *cmd, char *str)
-{
-	while (*str == ' ')
-		str++;
-	if (isolate_cmd(cmd->cmd, &str) == -1)
-		return (-1);
-	return (0);
-}
 
 
 int main(int argc, char **argv)

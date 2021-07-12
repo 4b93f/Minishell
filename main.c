@@ -134,26 +134,28 @@ int		fill_cmd(t_cmd *cmd, char *str)
 int main(int argc, char **argv)
 {
 	int ret;
-	char *input_str;
+	char *tmp;
 	t_parsing parser;
 	t_sh *sh;
 	//t_cmd cmd;
 
 	init_parser(&parser);
+	sh = ft_malloc_sh();
 	ret = 1;
 	(void)argc;
 	(void)argv;
-	input_str = NULL;
 	while(ret)
 	{
 		write(0, "My Minishell ~> ", 16);
-		get_next_line(0, &input_str);
-		while(sh->input_str)
+		get_next_line(0, &sh->input_str);
+		tmp = sh->input_str;
+		while (*tmp)
 		{
-			str_to_lst(sh->input_str);
+			//tmp = sh->input_str;
+			tmp = str_to_lst(tmp, sh);
+			printf("{%s}\n", sh->cmd->cmd);
 			sh->cmd = sh->cmd->next;
 		}
-		//printf("%s\n", input_str);
 		ret = 0;
 	}
 	return (1);

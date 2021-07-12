@@ -4,7 +4,7 @@ CMD_SRC = cmd/cmd_lstaddback.c cmd/cmd_lstaddfront.c cmd/cmd_lstclear.c cmd/cmd_
 
 GNL_SRC = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 
-MAIN_SRC = main.c utils.c \
+MAIN_SRC = main.c utils.c parsing/strtolst.c struct/ft_struct_sh.c\
 
 LIB = libft/libft.a \
 

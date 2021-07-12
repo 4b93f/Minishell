@@ -1,32 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct.h                                           :+:      :+:    :+:   */
+/*   ft_struct_sh.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/12 21:58:34 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/12 18:57:09 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRUCT_H
-#define STRUCT_H
-#include "../cmd/cmd.h"
-#include "../env/env.h"
-#include "../libft/libft.h"
-#include "../get_next_line/get_next_line.h"
-#include "../parser.h"
+#include "struct.h"
 
-typedef struct	s_sh
+t_sh	ft_create_sh(void)
 {
-	char *input_str;
-	char **all_path;
+	t_sh sh;
 
-	t_lst_cmd *cmd;
-}				t_sh;
+	sh.all_path = NULL;
+	sh.input_str = NULL;
+	return (sh);
+}
 
-char *str_to_lst(char *str, t_sh *sh);
-t_sh	*ft_malloc_sh(void);
+t_sh	*ft_malloc_sh(void)
+{
+	t_sh *malloc_sh;
 
-#endif
+	if (!(malloc_sh = malloc(sizeof(t_sh))))
+		return (NULL);
+	*malloc_sh = ft_create_sh();
+	return (malloc_sh);
+}
+
+void	ft_free_sh(t_sh *sh)
+{
+	if (!sh)
+		return ;
+	free(sh);
+}

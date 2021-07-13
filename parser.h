@@ -23,4 +23,7 @@ typedef struct s_cmd
 	char sep;
 }				t_cmd;
 
+char *parsing(t_parsing *parser, char *cmd);
+int flush_buff(t_parsing *parser);
+int	c_in_buff(t_parsing *parser, char c);
 #endif

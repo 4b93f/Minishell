@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/23 22:54:42 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/15 00:25:08 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:49:15 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_env_to_lst(char **env, t_sh *sh)
 {
-	int		i;
-	int		equal_pos;
-	char	*var;
-	char	*value;
+	int			i;
+	int			equal_pos;
+	char		*var;
+	char		*value;
 	t_env_lst	*new;
 
 	i = -1;
@@ -27,7 +27,7 @@ void	ft_env_to_lst(char **env, t_sh *sh)
 		var = ft_substr(env[i], 0, equal_pos - 1);
 		if (!var)
 			ft_error(MALLOC_ERROR, sh, 0);
-		value = ft_substr(env[i], equal_pos, ft_strlen(env[i])); // ne pas equal + 1
+		value = ft_substr(env[i], equal_pos, ft_strlen(env[i]));
 		if (!value)
 		{
 			free(var);

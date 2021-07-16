@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jehaenec <jehaenec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 10:26:51 by jehaenec          #+#    #+#             */
-/*   Updated: 2019/10/23 14:19:52 by jehaenec         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:36:51 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static int		ft_isset(char c, char *set)
+static int	ft_isset(char c, char *set)
 {
 	while (*set)
 	{
@@ -23,7 +23,7 @@ static int		ft_isset(char c, char *set)
 	return (0);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
 	char	*dst;
@@ -39,15 +39,14 @@ char			*ft_strtrim(char const *s1, char const *set)
 		i--;
 	while (i >= 0 && ft_isset(*tmp++, (char *)set))
 		i--;
-	if (!(dst = (char *)malloc(sizeof(char) * (i + 2))))
+	dst = (char *)malloc(sizeof(char) * (i + 2));
+	if (!dst)
 		return (NULL);
 	ret = dst;
 	tmp--;
 	if (i > 0)
-	{
 		while (i-- >= 0)
 			*dst++ = *tmp++;
-	}
 	*dst = '\0';
 	return (ret);
 }

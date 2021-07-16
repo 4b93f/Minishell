@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 12:52:02 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:37:50 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@
 
 # include "../libft/libft.h"
 
-typedef struct	s_env_lst
+typedef struct s_env_lst
 {
 	char		*var;
 	void		*content;
-	
 	void		*next;
 }				t_env_lst;
 

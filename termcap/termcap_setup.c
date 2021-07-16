@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   termcap_setup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 16:56:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/05/08 17:06:59 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:33:59 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 #include <curses.h>
 #include <termios.h>
 
-void actual_cursor_pos(t_sh *sh)
+void	actual_cursor_pos(t_sh *sh)
 {
-	char tmp;
-	char *buf;
-	int x;
-	int ret;
+	char	tmp;
+	char	*buf;
+	int		x;
+	int		ret;
 
 	x = 0;
-
 	sh->cursor_i = 0;
 	sh->cursor_j = 0;
 	buf = calloc(sizeof(char), 30);
@@ -35,46 +34,50 @@ void actual_cursor_pos(t_sh *sh)
 		x++;
 	}
 	x = 1;
-	while(buf[++x] != ';')
+	while (buf[++x] != ';')
 		sh->cursor_i = sh->cursor_i * 10 + (buf[x] - '0');
-	while(buf[++x] != 'R')
+	while (buf[++x] != 'R')
 		sh->cursor_j = sh->cursor_j * 10 + (buf[x] - '0');
 	return ;
 }
 
-void delete(t_sh *sh)
+void	delete(t_sh *sh)
 {
-	int cut;
+	int		cut;
+	char	*cm;
+	char	*cm1;
+	char	*dl;
+	char	*dl1;
 
 	if (sh->cursor_j >= 17)
 	{
 		cut = ft_strlen(sh->input_str);
 		sh->cursor_j--;
-		char *cm = tgetstr("cm", NULL);
-		char *cm1 = tigetstr("cup");
+		cm = tgetstr("cm", NULL);
+		cm1 = tigetstr("cup");
 		tputs(tgoto(cm, sh->cursor_j, sh->cursor_i), 1, &ft_putchar);
-		char *dl = tgetstr("dc", NULL);
+		dl = tgetstr("dc", NULL);
 		tputs(dl, 1, &ft_putchar);
-		char *dl1 = tigetstr("dchl");
-		tputs(dl1 , 1, &ft_putchar);
+		dl1 = tigetstr("dchl");
+		tputs(dl1, 1, &ft_putchar);
 		sh->input_str[cut - 1] = '\0';
 	}
 }
 
-int		termcap(t_sh *sh, t_history *history)
+int	termcap(t_sh *sh, t_history *history)
 {
-	int ret;
-	char *term_type;
-	struct termios term;
-	struct termios restore;
+	int				ret;
+	char			*term_type;
+	struct termios	term;
+	struct termios	restore;
+	char			*buf;
 
 	tcgetattr(0, &term);
 	tcgetattr(0, &restore);
-	term.c_lflag &= ~(ICANON|ECHO);
+	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
-    term.c_cc[VTIME] = 0;
+	term.c_cc[VTIME] = 0;
 	tcsetattr(0, TCSANOW, &term);
-	//printf("%d et %d\n", sh->cursor_i, sh->cursor_j);
 	sh->cursor_j -= 1;
 	sh->cursor_i -= 1;
 	term_type = env_lst_finder(sh->env_lst, "TERM")->content;
@@ -89,12 +92,10 @@ int		termcap(t_sh *sh, t_history *history)
 		printf("Pas d'info dans le base de données, ou trop peu\n");
 		exit(0);
 	}
-	char *buf;
-	while(1)
+	while (1)
 	{
 		buf = calloc(sizeof(char), 10);
 		read(0, buf, 10);
-		//printf("{%c}\n", buf[0]);
 		if (buf[0] == 127)
 		{
 			actual_cursor_pos(sh);
@@ -103,12 +104,12 @@ int		termcap(t_sh *sh, t_history *history)
 			tcsetattr(0, TCSANOW, &restore);
 			delete(sh);
 			tcsetattr(0, TCSANOW, &term);
-			continue;
+			continue ;
 		}	
 		if (buf[0] == '\n')
 		{
 			sh->index_history = 0;
-			break;
+			break ;
 		}
 		if (buf[0] == 27)
 		{
@@ -121,7 +122,7 @@ int		termcap(t_sh *sh, t_history *history)
 					sh->cursor_j -= 1;
 					sh->cursor_i -= 1;
 					tcsetattr(0, TCSANOW, &term);
-					continue;
+					continue ;
 				}
 				if (buf[2] == 'B')
 				{
@@ -130,7 +131,7 @@ int		termcap(t_sh *sh, t_history *history)
 					sh->cursor_j -= 1;
 					sh->cursor_i -= 1;
 					tcsetattr(0, TCSANOW, &term);
-					continue;
+					continue ;
 				}
 			}
 		}

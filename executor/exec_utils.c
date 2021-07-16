@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:57:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/17 16:48:23 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:59:18 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 	int			i;
 	char		*ret;
 	char		*tmp;
-	// char		*tmpb;
 	t_env_lst	*lst;
 
 	i = 0;
@@ -28,7 +27,7 @@ static char	*ft_multi_var(char *str, t_sh *sh)
 	while (ptr && ptr[i])
 	{
 		lst = env_lst_finder(sh->env_lst, ptr[i]);
-		if(lst)
+		if (lst)
 		{
 			tmp = ret;
 			ret = ft_strjoin(ret, lst->content);
@@ -50,7 +49,7 @@ char	*ft_is_var(char *str, t_sh *sh)
 {
 	t_env_lst	*ptr;
 	char		*ptr_str;
-	
+
 	ptr = NULL;
 	ptr_str = NULL;
 	if (!str)
@@ -78,7 +77,7 @@ char	*rm_guim(char *ptr)
 	if (ptr[0] == '\'')
 	{
 		str = ft_strtrim(ptr, "\'");
-		free(ptr);	
+		free(ptr);
 	}
 	else if (ptr[0] == '\"')
 	{
@@ -138,7 +137,7 @@ char	**lst_db_tab(t_cmd_lst *cmd)
 	ptr[++size] = ft_strdup(cmd->cmd_str);
 	if (!ptr)
 		return (free_tab(ptr));
-	while(arg_ptr)
+	while (arg_ptr)
 	{
 		arg_ptr->content = rm_guim(arg_ptr->content);
 		ptr[++size] = ft_strdup(arg_ptr->content);

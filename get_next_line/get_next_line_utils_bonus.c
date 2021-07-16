@@ -6,13 +6,13 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 11:24:12 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/09 20:35:33 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:23:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int		check_error(int fd, char *str)
+int	check_error(int fd, char *str)
 {
 	int		i;
 	char	buf[BUFFER_SIZE + 1];

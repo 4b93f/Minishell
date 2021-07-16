@@ -1,5 +1,5 @@
 NAME=parser
-SRC= parsing.c ft_split.c ft_strdup.c ft_strlen.c ft_strtrim.c ft_strjoin.c ft_strcpy.c
+SRC= parsing.c parsing_utils.c ft_split.c ft_strdup.c ft_strlen.c ft_strtrim.c ft_strjoin.c ft_strcpy.c
 OBJ= $(SRC:.c=.o)
 CC= gcc
 INC = .

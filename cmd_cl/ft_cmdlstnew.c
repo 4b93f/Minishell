@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 02:44:47 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/09 18:45:25 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 20:26:18 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ t_cmd_lst	*ft_cmd_lstnew(void *str, void *flag, int index)
 {
 	t_cmd_lst	*ptr;
 
-	if (!(ptr = (t_cmd_lst *)malloc(sizeof(t_cmd_lst))))
+	ptr = (t_cmd_lst *)malloc(sizeof(t_cmd_lst));
+	if (!ptr)
 		return (NULL);
 	ptr->str = str;
 	ptr->cmd_str = NULL;
@@ -27,6 +28,7 @@ t_cmd_lst	*ft_cmd_lstnew(void *str, void *flag, int index)
 	ptr->pipe_out = 0;
 	ptr->fd_pipe_out = STDOUT_FILENO;
 	ptr->pid = -1;
+	ptr->child_pid = -1;
 	ptr->next = NULL;
 	ptr->red_file = NULL;
 	return (ptr);

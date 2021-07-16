@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 10:54:40 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/17 16:07:34 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:08:38 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ static void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 	{
 		j = i;
 		while (++j < size)
+		{
 			if (ft_strcmp(tab[i], tab[j]) > 0)
 			{
 				tmp = tab[i];
 				tab[i] = tab[j];
 				tab[j] = tmp;
 			}
+		}
 	}
 	i = -1;
 	while (tab && tab[++i])
@@ -47,7 +49,7 @@ static void	ft_sort_export(t_sh *sh, t_cmd_lst *cmd)
 	free_tab(tab);
 }
 
-void		ft_export(t_cmd_lst *cmd, t_sh *sh)
+void	ft_export(t_cmd_lst *cmd, t_sh *sh)
 {
 	int			equal_pos;
 	char		*var;
@@ -64,7 +66,6 @@ void		ft_export(t_cmd_lst *cmd, t_sh *sh)
 	}
 	while (ptr_str)
 	{
-		//printf("{%s}\n", ptr_str->content);
 		if (ft_strchr(ptr_str->content, '\\'))
 		{
 			ptr_str->content = ft_backslash(ptr_str->content);
@@ -78,7 +79,6 @@ void		ft_export(t_cmd_lst *cmd, t_sh *sh)
 				printf("minishell: export:");
 				ft_print_error(NOT_VALID_ID, ptr_str->content);
 				env_lst_finder(sh->env_lst, "?")->content = ft_itoa(1);
-				//printf("PASS\n");
 				//free(value);
 				return ;
 			}

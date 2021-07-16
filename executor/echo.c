@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:06:15 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/17 16:45:48 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:43:35 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	ft_echo(t_cmd_lst *cmd, t_sh *sh)
 		write(cmd->fd_pipe_out, "\n", 1);
 	while (ptr_lst)
 	{
-// printf("{%s}\n", ptr_lst->content);
 		ptr = ft_is_var(ptr_lst->content, sh);
-		// ptr = rm_guim(ptr);
 		ptr = ft_backslash(ptr);
 		ft_putstr_fd(ptr, cmd->fd_pipe_out);
 		free(ptr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 01:19:10 by jsilance          #+#    #+#             */
-/*   Updated: 2021/02/16 19:31:554 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/16 22:34:20 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,16 @@ static void	fork_piper(t_cmd_lst *ptr_cmd, t_sh *sh)
 	kill(pid, SIGQUIT);
 }
 
-int		executor(t_sh *sh)
+int	executor(t_sh *sh)
 {
 	t_cmd_lst	*ptr_cmd;
 	t_cmd_lst	*ptr_cmd_next;
 	char		*buf;
+	int			ret;
+	char		*str;
 
 	buf = NULL;
 	ptr_cmd = sh->cmd;
-
 	while (ptr_cmd)
 	{
 		// if (!ptr_cmd->red_file)
@@ -95,30 +96,51 @@ int		executor(t_sh *sh)
 		// 	ft_set_free_env(sh, "?", ft_itoa(2));
 		// 	return (-1);
 		// }
+		ptr_cmd_next = NULL;
 		if (ptr_cmd->next)
 			ptr_cmd_next = ptr_cmd->next;
-		if (ptr_cmd->pipe_out == S_RIGHT_RED) // commande pour '>'	
-			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_WRONLY | O_TRUNC, 0777)) < 0)
-				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+		if (ptr_cmd->pipe_out == S_RIGHT_RED)
+		{
+			ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content,
+					O_CREAT | O_WRONLY | O_TRUNC, 0777);
+			if (ptr_cmd->fd_pipe_out < 0)
+				ft_error(0, sh, 1);
+		}
 		if (ptr_cmd->pipe_out == D_RIGHT_RED)
-			if ((ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content, O_CREAT | O_APPEND | O_WRONLY, 0777)) < 0)
-			{
-				// printf("HI!\n");
-				ft_error(0, sh, 1); // --------****A CORRIGER****----------
+		{
+			ptr_cmd->fd_pipe_out = open(ptr_cmd->red_file->content,
+					O_CREAT | O_APPEND | O_WRONLY, 0777);
+			if (ptr_cmd->fd_pipe_out < 0)
+				ft_error(0, sh, 1);
+		}
+		if (ptr_cmd->pipe_in == S_LEFT_RED)
+		{
+			if (ptr_cmd->red_file)
+			{	
+				ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content,
+						O_APPEND | O_RDONLY, 0777);
+				ret = 1;
 			}
-		if (ptr_cmd->pipe_out == S_LEFT_RED) // commande pour '<'
-			if ((ptr_cmd->fd_pipe_in = open(ptr_cmd->red_file->content, O_APPEND | O_RDONLY, 0777)) < 0)
+			else
 			{
-				// if (ptr_cmd_prev)
-					// write(ptr_cmd_prev->fd_pipe_in, "\0", 1);
-				// kill(ptr_cmd_prev->pid, 0); //-----------NEED TO KILL PROCESS-----------
+				printf("minishell: No such file or directory.\n");
+				return (-1);
+			}
+			while (ret)
+			{
+				ret = get_next_line(ptr_cmd->fd_pipe_in, &str);
+				ft_putstr_fd(str, 0);
+				free(str);
+			}
+			if (ptr_cmd->fd_pipe_in < 0)
+			{
 				ft_putstr_fd("minishell: ", ptr_cmd->fd_pipe_out);
 				ft_print_error(NO_SUCH_FILE, (char *)ptr_cmd->red_file->content);
 				return (-1);
 			}
+		}
 		if (ptr_cmd->pipe_out == PIPE && ptr_cmd->next)
 		{
-
 			if (ptr_cmd_next->cmd_index == 1 && ptr_cmd->cmd_index == -1)
 			{
 				ptr_cmd->fd_pipe_out = 1;
@@ -129,7 +151,7 @@ int		executor(t_sh *sh)
 			{
 				fork_piper(ptr_cmd, sh);
 				if (ptr_cmd->fd_pipe_out > S_RIGHT_RED)
-					close(ptr_cmd->fd_pipe_out);	
+					close(ptr_cmd->fd_pipe_out);
 				if (ptr_cmd->fd_pipe_out && ptr_cmd->next)
 					ptr_cmd = ptr_cmd->next;
 			}
@@ -139,6 +161,11 @@ int		executor(t_sh *sh)
 			commander_exec(ptr_cmd, sh);
 			if (ptr_cmd->fd_pipe_out > 2)
 				close(ptr_cmd->fd_pipe_out);
+		}
+		if (ptr_cmd->pipe_in == S_LEFT_RED)
+		{
+			kill(ptr_cmd->child_pid, 1);
+			write(0, "\n", 1);	
 		}
 		ptr_cmd = ptr_cmd->next;
 	}

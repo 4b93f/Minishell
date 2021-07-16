@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 17:36:40 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/03 03:14:34 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:18:15 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 	if (!s1)
 		return (ft_strdup(s2));
-	i = ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1;
+	i = ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1;
 	tab = malloc(i);
 	if (!tab)
 		return (NULL);

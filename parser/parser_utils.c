@@ -6,43 +6,47 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:56:35 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 22:15:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:30:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		sep_checker(char *str)
+int	sep_checker(char *str)
 {
-	if (!ft_strcmp(str, ">") || 
-		!ft_strcmp(str, ">>") ||
-		!ft_strcmp(str, "<") ||
-		!ft_strcmp(str, "<<") ||
-		!ft_strcmp(str, "|") ||
-		!ft_strcmp(str, "||") ||
-		!ft_strcmp(str, ";") ||
-		!ft_strcmp(str, "&&"))
+	if (!ft_strcmp(str, ">")
+		|| !ft_strcmp(str, ">>")
+		|| !ft_strcmp(str, "<")
+		|| !ft_strcmp(str, "<<")
+		|| !ft_strcmp(str, "|")
+		|| !ft_strcmp(str, "||")
+		|| !ft_strcmp(str, ";")
+		|| !ft_strcmp(str, "&&"))
 		return (1);
 	return (0);
 }
 
-int		lex_to_cmdstr(t_sh *sh)
+int	lex_to_cmdstr(t_sh *sh)
 {
 	if (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 	{
-		while(sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
+		while (sh->parser.ptr_lst && !sep_checker(sh->parser.ptr_lst->content))
 		{
-			ft_lstadd_back(&sh->parser.ptr_cmd->str, ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
-			if (!(sh->parser.ptr_lst = sh->parser.ptr_lst->next))
+			ft_lstadd_back(&sh->parser.ptr_cmd->str,
+				ft_lstnew(ft_strdup(sh->parser.ptr_lst->content)));
+			sh->parser.ptr_lst = sh->parser.ptr_lst->next;
+			if (!sh->parser.ptr_lst)
 				return (0);
 		}
 	}
-	else if (!sh->parser.ptr_lst || !(sh->parser.ptr_lst = sh->parser.ptr_lst->next) || !ft_strcmp(sh->parser.ptr_lst->content, ";"))
-			return (0);
+	else if (!sh->parser.ptr_lst
+		|| !(sh->parser.ptr_lst = sh->parser.ptr_lst->next)
+		|| !ft_strcmp(sh->parser.ptr_lst->content, ";"))
+		return (0);
 	return (-1);
 }
 
-int		cmd_checker(char *str)
+int	cmd_checker(char *str)
 {
 	if (str)
 	{
@@ -64,7 +68,7 @@ int		cmd_checker(char *str)
 	return (OTHER);
 }
 
-int		cmd_flag_check(char *str)
+int	cmd_flag_check(char *str)
 {
 	if (!ft_strncmp("-n", str, 2))
 		return (1);

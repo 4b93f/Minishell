@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 21:04:42 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/19 18:26:110 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/16 22:16:05 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*get_actual_path(void)
 {
 	char	*buf;
 	char	*str;
-    size_t	size;
+	size_t	size;
 
 	buf = NULL;
 	str = NULL;
-    size = 10000;
+	size = 10000;
 	str = getcwd(buf, size);
 	return (str);
 }
@@ -56,19 +56,18 @@ void	ft_retval_init(t_sh *sh)
 	if (!ptr)
 		ft_error(MALLOC_ERROR, sh, 0);
 	ft_env_lstadd_back(&sh->env_lst, ptr);
-	
 }
 
-char *del_char(char *s1, int c)
+char	*del_char(char *s1, int c)
 {
-	char *dup;
-	int i;
-	int j;
+	char	*dup;
+	int		i;
+	int		j;
 
 	dup = NULL;
 	i = -1;
 	j = -1;
-	dup = malloc(sizeof(char*) * strlen(s1));
+	dup = malloc(sizeof(char *) * strlen(s1));
 	if (!dup)
 		return (NULL);
 	while (s1[++i])
@@ -82,11 +81,11 @@ char *del_char(char *s1, int c)
 	return (dup);
 }
 
-int parse_input(t_sh *sh)
+int	parse_input(t_sh *sh)
 {
-	int i;
-	int j;
-	char *str;
+	int		i;
+	int		j;
+	char	*str;
 
 	i = -1;
 	j = -1;
@@ -102,19 +101,18 @@ int parse_input(t_sh *sh)
 				str[++j] = sh->input_str[i];
 		else
 			str[++j] = sh->input_str[i];
-		
 	}
 	str[i] = '\0';
 	sh->cmd->cmd_str = str;
 	return (1);
 }
 
-int		main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	t_sh	*sh;
-	t_history *history;
-	int		ret;
-	char	buf[200];
+	t_sh		*sh;
+	t_history	*history;
+	int			ret;
+	char		buf[200];
 
 	sh = ft_malloc_sh();
 	if (!sh)
@@ -130,29 +128,30 @@ int		main(int argc, char **argv, char **env)
 	if (!env_lst_finder(sh->env_lst, "_"))
 		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("_"), NULL));
 	ret = 1;
-	while(ret)
+	while (ret)
 	{
 		if (!sh->save_str)
-			write(0, "My Minishell ~> ", 16);
-		ret = termcap(sh, history);
-		if (!sh->input_str)
-		{
-			printf("\n");
-			continue;
-		}
-		ft_historyadd_front(&history, ft_historynew(sh->input_str));
+			write(0, "My Minishell1 ~> ", 16);
+		//ret = termcap(sh, history);
+		//if (!sh->input_str)
+		//{
+		//    printf("\n");
+		//    continue;
+		//}
+		//ft_historyadd_front(&history, ft_historynew(sh->input_str));
 		//ft_print_history(history);
 		//printf("{%s}\n", sh->input_str);
 		get_all_path(sh);
-		//if ((argc == 1 || ft_strcmp(argv[1], "-c")) && !sh->save_str)
-		//	ret = get_next_line(0, &sh->input_str);
-		//else if (!(ret = 0) && !sh->save_str)
-		//	sh->input_str = argv_to_str(&argv[2]);
-		//else
-		//{
-		//	ret = 1;
-		//	sh->input_str = sh->save_str;
-		//}
+		ret = 0;
+		if ((argc == 1 || ft_strcmp(argv[1], "-c")) && !sh->save_str)
+			ret = get_next_line(0, &sh->input_str);
+		else if (!sh->save_str)
+			sh->input_str = argv_to_str(&argv[2]);
+		else
+		{
+			ret = 1;
+			sh->input_str = sh->save_str;
+		}
 		strtolst(sh);
 		parser(sh);
 		executor(sh);

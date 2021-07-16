@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 14:46:08 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/17 16:00:34 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:22:07 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*quoting(char *str)
 	char	*new_str;
 	int		i;
 	int		j;
-
 
 	new_str = ft_calloc(1, ft_strlen(str));
 	i = 0;
@@ -65,16 +64,16 @@ void	str_store(t_sh *t, int j, int i, int sep)
 {
 	if (i - j > 0)
 		ft_lstadd_back(&t->arg_lst, ft_lstnew(quoting(ft_substr(t->input_str, j,
-			i - j))));
+						i - j))));
 	if (sep && t->input_str[i] && ft_strchr("<>|;", t->input_str[i]))
 		ft_lstadd_back(&t->arg_lst, ft_lstnew(quoting(ft_substr(t->input_str,
-			i, sep))));
+						i, sep))));
 }
 
-int		is_double_char(t_sh *t, int i)
+int	is_double_char(t_sh *t, int i)
 {
-	return ((t->input_str[i] == '>' && t->input_str[i + 1] == '>') ||
-		(t->input_str[i] == '<' && t->input_str[i + 1] == '<') ||
-		(t->input_str[i] == '|' && t->input_str[i + 1] == '|') ||
-		(t->input_str[i] == '&' && t->input_str[i + 1] == '&'));
+	return ((t->input_str[i] == '>' && t->input_str[i + 1] == '>')
+		|| (t->input_str[i] == '<' && t->input_str[i + 1] == '<')
+		|| (t->input_str[i] == '|' && t->input_str[i + 1] == '|')
+		|| (t->input_str[i] == '&' && t->input_str[i + 1] == '&'));
 }

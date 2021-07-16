@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:03:53 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:15:33 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:41:32 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 {
-	// struct stat	buffer;
 	char		*ptr;
 	int			ret;
 	char		*tmp;
@@ -24,10 +23,9 @@ void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	errno = 0;
 	ptr = NULL;
 	if (env_lst_finder(sh->env_lst, "HOME"))
-	{
 		if (!(env_lst_finder(sh->env_lst, "OLDPWD")))
-			ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
-	}
+			ft_env_lstadd_back(&sh->env_lst,
+				ft_env_lstnew(ft_strdup("OLDPWD"), NULL));
 	if (!env_lst_finder(sh->env_lst, "PWD"))
 		tmp = NULL;
 	else
@@ -48,7 +46,7 @@ void	ft_cd(t_cmd_lst *cmd, t_sh *sh)
 	//	free(tmp);	
 	//	ft_error(0, sh, 0);
 	//}
-	if (ptr) 
+	if (ptr)
 		ret = chdir(ptr);
 	free(ptr);
 	if (ret == 0)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jehaenec <jehaenec@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:03:40 by jehaenec          #+#    #+#             */
-/*   Updated: 2019/10/24 11:18:26 by jehaenec         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:31:59 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-static char		**ft_free(char **tab, int z)
+static char	**ft_free(char **tab, int z)
 {
 	while (z--)
 		free(tab[z]);
@@ -20,7 +20,7 @@ static char		**ft_free(char **tab, int z)
 	return (NULL);
 }
 
-static char		**ft_mallword(char *str, char **tab, char c)
+static char	**ft_mallword(char *str, char **tab, char c)
 {
 	char	*tmp;
 	int		m;
@@ -35,19 +35,21 @@ static char		**ft_mallword(char *str, char **tab, char c)
 			m++;
 		if (*tmp == c && m > 0)
 		{
-			if ((tab[z] = (char*)malloc(sizeof(char) * (m + 1))) == 0)
+			tab[z] = (char *)malloc(sizeof(char) * (m + 1));
+			if (tab[z] == 0)
 				return (ft_free(tab, z - 1));
 			m = 0;
 			z++;
 		}
 		tmp++;
 	}
-	if ((tab[z] = (char*)malloc(sizeof(char) * (m + 1))) == 0)
+	tab[z] = (char *)malloc(sizeof(char) * (m + 1));
+	if (tab[z] == 0)
 		return (ft_free(tab, z - 1));
 	return (tab);
 }
 
-static char		**ft_mktab(char *str, char **tab, char c)
+static char	**ft_mktab(char *str, char **tab, char c)
 {
 	char	*tmp;
 	int		z;
@@ -75,7 +77,7 @@ static char		**ft_mktab(char *str, char **tab, char c)
 	return (tab);
 }
 
-char			**ft_split(const char *str, char c)
+char	**ft_split(const char *str, char c)
 {
 	char	**tab;
 	char	*split;
@@ -84,7 +86,8 @@ char			**ft_split(const char *str, char c)
 
 	if (!str)
 		return (NULL);
-	if (!(split = ft_strtrim(str, &c)))
+	split = ft_strtrim(str, &c);
+	if (!split)
 		return (NULL);
 	count = 0;
 	i = 0;
@@ -94,7 +97,8 @@ char			**ft_split(const char *str, char c)
 			count++;
 		i++;
 	}
-	if ((tab = (char**)malloc(sizeof(char*) * (count + 1))) == 0)
+	tab = (char **)malloc(sizeof(char *) * (count + 1));
+	if (tab == 0)
 		return (0);
 	tab = ft_mallword(split, tab, c);
 	tab = ft_mktab(split, tab, c);

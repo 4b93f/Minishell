@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsilance <jsilance@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:24:25 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/13 21:23:22 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:07:16 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,39 +55,42 @@ static int	ft_long_verif(const char *str)
 	cou = 0;
 	if (!ft_strcmp(str, "-9223372036854775808"))
 		return (1);
-	while (str[cou] == '\t' || str[cou] == '\n' || str[cou] == '\r' ||
-		str[cou] == '\v' || str[cou] == '\f' || str[cou] == ' ')
+	while ((str[cou] >= 9 && str[cou] <= 13) || str[cou] == ' ')
 		cou++;
 	cou += (str[cou] == '-' || str[cou] == '+');
 	while (ft_isdigit(str[cou]))
-		if ((nbr = (nbr * 10) + (str[cou++] - 48)) < 0)
+	{
+		nbr = (nbr * 10) + (str[cou++] - 48);
+		if (nbr < 0)
 			return (0);
-	if (nbr & (unsigned long long)1<<63)
+	}
+	if (nbr & (unsigned long long)1 << 63)
 		return (0);
 	return (1);
 }
 
 void	ft_exit(t_cmd_lst *cmd, t_sh *sh)
 {
-	int		i;
 	unsigned long long	ret;
-	char	*str;
+	char				*str;
 
 	str = NULL;
-	i = 0;
 	ret = 0;
 	if (cmd->str)
 	{
 		cmd->str->content = rm_guim(cmd->str->content);
 		str = cmd->str->content;
 	}
-	if (str && ft_long_verif(str) && (ft_atol(str) || ft_isdigit(str[0]) || ft_isdigit(str[1])))
+	if (str && ft_long_verif(str) && (ft_atol(str) || ft_isdigit(str[0])
+			|| ft_isdigit(str[1])))
 		ret = ft_atol(str);
 	if (!ft_strcmp(str, "-9223372036854775808"))
 		ret = 0;
 	if (str && !ft_long_verif(str) && ft_strlen(str) >= 20 + (str[0] == '-'))
 		ft_error_two(str, sh, 255);
-	else if ((ft_long_verif(str) && ft_after_digit(str)) || !ft_long_verif(str) || (ft_strlen(str) == 20 && ret == 0 && str[0] != '-'))
+	else if ((ft_long_verif(str) && ft_after_digit(str))
+		|| !ft_long_verif(str)
+		|| (ft_strlen(str) == 20 && ret == 0 && str[0] != '-'))
 		ft_error_two(str, sh, 255);
 	else if (cmd->str && cmd->str->next)
 		ft_error(EXIT_TO_MANY_ARG, sh, 1);

@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 17:46:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/14 18:35:46 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:19:04 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 **	suppression du &.
 */
 
-
 static void	str_cut(t_sh *t, int i, int j)
 {
 	while (t->input_str && t->input_str[i])
@@ -26,11 +25,8 @@ static void	str_cut(t_sh *t, int i, int j)
 		{
 			i++;
 			while (t->input_str[i] && t->input_str[i] != '\"')
-			{
-				if (t->input_str[i] == '\\')
+				if (t->input_str[i++] == '\\')
 					i++;
-				i++;
-			}
 			i++;
 			continue ;
 		}
@@ -38,15 +34,11 @@ static void	str_cut(t_sh *t, int i, int j)
 		{
 			i++;
 			while (t->input_str[i] && t->input_str[i] != '\'')
-			{
-				if (t->input_str[i] == '\\')
+				if (t->input_str[i++] == '\\')
 					i++;
-				i++;
-			}
 			i++;
 			continue ;
 		}
-// printf("{i:%d	j:%d}\n", i, j);
 		if ((ft_strchr(" ><|;", t->input_str[i]) && t->input_str[i - 1] != '\\'))
 		{
 			if (is_double_char(t, i))
@@ -61,7 +53,7 @@ static void	str_cut(t_sh *t, int i, int j)
 		str_store(t, j, i, 0);
 }
 
-void		strtolst(t_sh *t)
+void	strtolst(t_sh *t)
 {
 	str_cut(t, 0, 0);
 }

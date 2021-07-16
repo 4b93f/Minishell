@@ -6,10 +6,9 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 10:34:53 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/09 20:28:35 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:23:33 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_history.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/08 17:02:38 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/05/08 17:06:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:06:57 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_historyadd_front(t_history **alst, t_history *new)
 t_history	*ft_historynew(void *content)
 {
 	t_history	*ptr;
-	
+
 	ptr = malloc(sizeof(t_history));
 	if (!ptr)
 		return (NULL);

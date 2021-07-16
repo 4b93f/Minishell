@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 13:25:17 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/16 20:57:48 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 14:45:17 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 
 char	*ft_search_path(t_sh *sh, t_cmd_lst *cmd)
 {
-	struct stat buffer;
-	char *tmp;
-	int i;
+	struct stat	buffer;
+	char		*tmp;
+	int			i;
 
 	i = -1;
-	while(sh->all_path && sh->all_path[++i])
+	while (sh->all_path && sh->all_path[++i])
 	{
 		tmp = ft_strjoin(sh->all_path[i], cmd->cmd_str);
 		if (!tmp)
@@ -49,7 +49,7 @@ void	get_all_path(t_sh *sh)
 	lst_ptr = sh->env_lst;
 	while (lst_ptr && ft_strcmp(lst_ptr->var, "PATH"))
 		lst_ptr = lst_ptr->next;
-	if(!lst_ptr)
+	if (!lst_ptr)
 		return ;
 	sh->all_path = ft_split(lst_ptr->content, ':');
 	if (!sh->all_path)

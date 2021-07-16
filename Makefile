@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/21 18:49:23 by chly-huc          #+#    #+#              #
-#    Updated: 2021/05/08 17:10:51 by chly-huc         ###   ########.fr        #
+#    Updated: 2021/07/15 16:46:04 by jsilance         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,10 +45,11 @@ EXECUTOR =	executor/executor.c executor/exec_utils.c executor/exec_utils2.c exec
 
 EX_FREE =	ex_free/free_utils.c
 
-TERMCAP = struct/struct_history.c termcap/history.c termcap/termcap_setup.c
+#TERMCAP = struct/struct_history.c termcap/history.c termcap/termcap_setup.c
 
 SRCS =	$(EXECUTOR) $(LIBFT) $(PARSER) $(LEXER) $(GNL) $(EX_FREE) $(ENV_U) \
-		$(ROOT) $(ENV_CL) $(CMD_CL) $(TERMCAP) \
+		$(ROOT) $(ENV_CL) $(CMD_CL) \
+		# $(ROOT) $(ENV_CL) $(CMD_CL) $(TERMCAP) \
 		
 HEADERS =	minishell.h cmd_cl/ft_cmd_cl.h executor/executor.h structs.h \
 			get_next_line/get_next_line.h
@@ -64,7 +65,8 @@ OBJ = 		${SRCS:.c=.o}
 			@gcc -c -g3 -o $@ $?
 
 $(NAME): ${OBJ}
-			@gcc -g3  -ltermcap -lncurses ${FLAGS} ${OBJ} -o ${NAME}
+#			@gcc -g3 -ltermcap -lncurses ${FLAGS} ${OBJ} -o ${NAME}
+			@gcc -g3 -ltermcap -lncurses -ltinfo ${FLAGS} ${OBJ} -o ${NAME}
 			@echo "[Done !]"
 
 all:		${NAME}

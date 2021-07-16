@@ -6,15 +6,15 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 19:15:13 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/02/09 23:12:38 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:17:33 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void			ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!s || fd < 0)

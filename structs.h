@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 13:20:19 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/26 16:47:17 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:09:39 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ enum		e_stat
 	IS_DIR
 };
 
-typedef struct	s_parser
+typedef struct s_parser
 {
 	int			piped[2];
 	t_list		*ptr_lst;
@@ -69,16 +69,26 @@ typedef struct	s_parser
 
 typedef struct s_history
 {
-	char *content;
-	void *next;
+	char	*content;
+	void	*next;
 }				t_history;
-typedef struct	s_sh
+
+typedef struct s_hist_s
 {
-	char **all_path;
+	int			i;
+	int			j;
+	char		*cl;
+	char		*cl1;
+	t_history	*keep_track_history;
+}				t_hist_s;
+
+typedef struct s_sh
+{
+	char		**all_path;
 
 	char		*input_str;
 	char		**exec_env;
-	char 		*save_str;
+	char		*save_str;
 	int			flag_c;
 	int			cursor_i;
 	int			cursor_j;

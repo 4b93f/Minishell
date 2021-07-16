@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:33:45 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/17 16:09:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 15:34:24 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "../minishell.h"
 #include "executor.h"
 
-char *fulltrim(char *s1, int c)
+char	*fulltrim(char *s1, int c)
 {
-	char *dup;
-	int i;
-	int j;
-	int first;
+	char	*dup;
+	int		i;
+	int		j;
+	int		first;
 
 	dup = NULL;
 	i = -1;
 	j = -1;
-	dup = malloc(sizeof(char*) * strlen(s1));
+	dup = malloc(sizeof(char *) * strlen(s1));
 	if (!dup)
 		return (NULL);
 	while (s1[++i])
@@ -40,18 +40,17 @@ char *fulltrim(char *s1, int c)
 	return (dup);
 }
 
-
-char *ft_backslash(char *s1)
+char	*ft_backslash(char *s1)
 {
-	int i;
-	int j;
-	char *s2;
+	int		i;
+	int		j;
+	char	*s2;
 
 	i = -1;
 	j = 0;
 	if (!s1)
 		return (NULL);
-	s2 = malloc(sizeof(char*) * strlen(s1));
+	s2 = malloc(sizeof(char *) * strlen(s1));
 	if (!s2)
 		return (NULL);
 	while (s1[++i])

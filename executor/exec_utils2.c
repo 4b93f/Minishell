@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/08 11:02:44 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 13:15:59 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:00:59 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	ft_set_free_env(t_sh *sh, void *var, void *content)
 		return ;
 	ptr = env_lst_finder(sh->env_lst, var);
 	if (!ptr)
-		ft_env_lstadd_back(&sh->env_lst, ft_env_lstnew(ft_strdup(var), content));
+		ft_env_lstadd_back(&sh->env_lst,
+			ft_env_lstnew(ft_strdup(var), content));
 	else
 	{
 		if (ptr->content)
@@ -59,7 +60,7 @@ char	**ft_lst_to_tab(t_env_lst *lst)
 	if (!ptr)
 		return (NULL);
 	size = -1;
-	while(arg_ptr)
+	while (arg_ptr)
 	{
 		ptr[++size] = ft_strdup(arg_ptr->var);
 		if (!ptr)
@@ -71,8 +72,8 @@ char	**ft_lst_to_tab(t_env_lst *lst)
 
 char	**envlst_to_tab(t_env_lst *lst)
 {
-	char		**ptr;
 	t_env_lst	*arg_ptr;
+	char		**ptr;
 	char		*tmp1;
 	int			size;
 
@@ -87,8 +88,7 @@ char	**envlst_to_tab(t_env_lst *lst)
 	size = 0;
 	if (!ptr)
 		return (free_tab(ptr));
-	
-	while(arg_ptr)
+	while (arg_ptr)
 	{
 		tmp1 = ft_strjoin(arg_ptr->var, "=");
 		ptr[size++] = ft_strjoin(tmp1, arg_ptr->content);

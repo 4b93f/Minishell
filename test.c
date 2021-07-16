@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 18:23:44 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/03/25 16:16:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/15 16:35:09 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+int	main(void)
 {
-	char buf[200];
+	char	buf[200];
+
 	read(0, buf, 1);
 	if (buf[0] == 27)
 	{
 		read(0, buf, 1);
-		//printf("%d\n", buf);
 		if (buf[0] == '[')
 		{
 			read(0, buf, 1);
-			//printf("%s\n", buf);
 			if (buf[0] == 'A')
 				printf("POG\n");
 		}

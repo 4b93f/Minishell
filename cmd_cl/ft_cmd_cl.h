@@ -6,7 +6,7 @@
 /*   By: jsilance <jsilance@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/03/08 12:50:58 by jsilance         ###   ########.fr       */
+/*   Updated: 2021/07/15 20:28:31 by jsilance         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include "../libft/libft.h"
 
-typedef struct	s_cmd_lst
+typedef struct s_cmd_lst
 {
 	int			cmd_index;
 	char		*cmd_str;
@@ -30,9 +30,8 @@ typedef struct	s_cmd_lst
 	t_list		*red_file;
 
 	t_list		*str;
-	
 	int			pid;
-	
+	pid_t		child_pid;
 	void		*next;
 }				t_cmd_lst;
 

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/21 20:08:12 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 20:50:52 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int main(int argc, char **argv, char **env)
 		write(0, "My Minishell ~> ", 16);
 		get_next_line(0, &sh->input_str);
 		tmp = dollarz(sh, sh->input_str);
+		str_tolst(tmp, sh);
+		ft_print_lst(sh->lst_cmd);
 		printf("<<%s>>\n", tmp);
 		//tmp = parsing(&parser, sh->input_str);
 		//if (tmp == NULL)

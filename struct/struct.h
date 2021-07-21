@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 20:11:14 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 20:29:08 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ typedef struct	s_sh
 	t_lst_env *lst_env;
 }				t_sh;
 
-char *str_to_lst(char *str, t_sh *sh);
+void str_tolst(char *str, t_sh *sh);
+void	ft_print_lst(t_lst_cmd *lst);
 t_sh	*ft_malloc_sh(void);
 void	env_tolst(char **env, t_sh *sh);
 char *env_lstcontent(t_sh *sh, char *str);
 char *dollarz(t_sh *sh, char *str);
 void env_setup(t_sh *sh, char **env);
 void is_quote_open(char *str, int *squote, int *dquote, int i);
+t_lst_env	*env_lstfinder(t_lst_env *lst, char *var);
+char	*get_actual_path(void);
 
 #endif

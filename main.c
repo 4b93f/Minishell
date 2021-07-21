@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/21 22:13:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 22:59:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ int main(int argc, char **argv, char **env)
 	{
 		write(0, "My Minishell ~> ", 16);
 		get_next_line(0, &sh->input_str);
-		tmp = dollarz(sh, sh->input_str);
-		str_tolst(tmp, sh);
+		if (!ft_strcmp(sh->input_str, ""))	
+			continue;
+		sh->input_str = dollarz(sh, sh->input_str);
+		str_tolst(sh->input_str, sh);
 		start(sh);
-		free(tmp);
+		free(sh->input_str);
+		sh_free(sh);
 		//ft_print_lst(sh->lst_cmd);
 		//printf("<<%s>>\n", tmp);
 		//tmp = parsing(&parser, sh->input_str);

@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start.c                                            :+:      :+:    :+:   */
+/*   ex_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 23:00:02 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/21 22:56:52 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void start(t_sh *sh)
+void sh_free(t_sh *sh)
 {
-	sh->ptr_cmd = sh->lst_cmd;
-	if (!ft_strcmp(sh->ptr_cmd->cmd, "echo"))
-		ft_echo(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "env"))
-		print_env(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "pwd"))
-		ft_pwd(sh);
+	cmd_lstclear(&sh->lst_cmd, free);
 }

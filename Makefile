@@ -1,4 +1,4 @@
-MAIN_SRC = main.c utils.c parsing/strtolst.c parsing/buffact.c parsing/clear_string.c struct/ft_struct_sh.c parsing/dollarz.c parsing/quote.c builtin/echo.c engine/start.c builtin/env.c\
+MAIN_SRC = main.c utils.c parsing/strtolst.c parsing/buffact.c parsing/clear_string.c struct/ft_struct_sh.c parsing/dollarz.c parsing/quote.c builtin/echo.c engine/start.c builtin/env.c builtin/pwd.c ex_free/ex_free.c\
 
 GNL_SRC = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 

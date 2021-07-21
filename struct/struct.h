@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 22:26:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 22:54:59 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ void ft_echo(t_sh *sh);
 char *ft_remove_char(char *str, int c);
 void start(t_sh *sh);
 void	print_env(t_sh *sh);
+void ft_pwd(t_sh *sh);
+void sh_free(t_sh *sh);
 
 #endif

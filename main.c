@@ -1,5 +1,16 @@
-#include "parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
+/*   Updated: 2021/07/20 17:06:27 by shyrno           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "struct/struct.h"
 
 void	init_parser(t_parsing *parser)
 {
@@ -10,7 +21,7 @@ void	init_parser(t_parsing *parser)
 
 
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
 	int ret;
 	char *tmp;
@@ -18,6 +29,7 @@ int main(int argc, char **argv)
 	t_sh *sh;
 
 	init_parser(&parser);
+	env_tolst(env, sh);
 	sh = ft_malloc_sh();
 	ret = 1;
 	(void)argc;

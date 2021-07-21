@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/21 20:50:52 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 22:13:26 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	init_parser(t_parsing *parser)
 	parser->pos = 0;
 	parser->final = NULL;
 }
-
 
 int main(int argc, char **argv, char **env)
 {
@@ -39,8 +38,10 @@ int main(int argc, char **argv, char **env)
 		get_next_line(0, &sh->input_str);
 		tmp = dollarz(sh, sh->input_str);
 		str_tolst(tmp, sh);
-		ft_print_lst(sh->lst_cmd);
-		printf("<<%s>>\n", tmp);
+		start(sh);
+		free(tmp);
+		//ft_print_lst(sh->lst_cmd);
+		//printf("<<%s>>\n", tmp);
 		//tmp = parsing(&parser, sh->input_str);
 		//if (tmp == NULL)
 		//{
@@ -55,7 +56,6 @@ int main(int argc, char **argv, char **env)
 			printf("{%s}\n", sh->cmd->cmd);
 			sh->cmd = sh->cmd->next;
 		}*/
-		ret = 0;
 	}
 	return (1);
 

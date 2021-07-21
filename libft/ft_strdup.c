@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:04:16 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/04/23 17:44:08 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 22:36:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*ft_strdup(const char *s)
 		i++;
 	}
 	dest[i] = '\0';
-	free((char *)s);
+	//free((char *)s);
 	return (dest);
 }
 

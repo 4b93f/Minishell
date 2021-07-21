@@ -1,10 +1,11 @@
-MAIN_SRC = main.c utils.c parsing/strtolst.c parsing/buffact.c parsing/clear_string.c struct/ft_struct_sh.c \
+MAIN_SRC = main.c utils.c parsing/strtolst.c parsing/buffact.c parsing/clear_string.c struct/ft_struct_sh.c parsing/dollarz.c parsing/quote.c\
 
 GNL_SRC = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 
 CMD_SRC = cmd/cmd_lstaddback.c cmd/cmd_lstaddfront.c cmd/cmd_lstclear.c cmd/cmd_lstdelone.c cmd/cmd_lstiter.c cmd/cmd_lstlast.c cmd/cmd_lstnew.c cmd/cmd_lstsize.c \
 
-ENV_SRC = env/env_lstaddback.c env/env_lstaddfront.c env/env_lstclear.c env/env_lstdelone.c env/env_lstiter.c env/env_lstlast.c env/env_lstnew.c env/env_lstsize.c env/env_lst_utils.c\
+ENV_SRC = env/env_lstaddback.c env/env_lstaddfront.c env/env_lstclear.c env/env_lstdelone.c env/env_lstiter.c env/env_lstlast.c env/env_lstnew.c \
+          env/env_lstsize.c env/env_lst_utils.c env/env.c\
 
 LIB = libft/libft.a \
 

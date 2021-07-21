@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_lst_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 16:04:46 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/20 17:02:53 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/07/21 16:21:38 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char *env_lstcontent(t_sh *sh, char *str)
 {
 	t_lst_env	*ptr_lst;
 
-	ptr_lst = sh->env;
+	ptr_lst = sh->lst_env;
 	if (!ptr_lst || !str)
 		return (NULL);
 	while (ptr_lst)
@@ -78,10 +78,10 @@ void	env_tolst(char **env, t_sh *sh)
 	while (env && env[++i])
 	{
 		equal_pos = ft_strchr(env[i], '=') - env[i];
-		var = ft_substr(env[i], 0, equal_pos - 1);
+		var = ft_substr(env[i], 0, equal_pos);
 		if (!var)
 			return ;
-		value = ft_substr(env[i], equal_pos, ft_strlen(env[i]));
+		value = ft_substr(env[i], equal_pos + 1, ft_strlen(env[i]));
 		if (!value)
 		{
 			free(var);
@@ -94,6 +94,6 @@ void	env_tolst(char **env, t_sh *sh)
 			free(value);
 			return ;
 		}
-		env_lstaddback(&sh->env, new);
+		env_lstaddback(&sh->lst_env, new);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/20 17:06:27 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/07/21 20:08:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_parser(t_parsing *parser)
 }
 
 
-
 int main(int argc, char **argv, char **env)
 {
 	int ret;
@@ -28,9 +27,9 @@ int main(int argc, char **argv, char **env)
 	t_parsing parser;
 	t_sh *sh;
 
-	init_parser(&parser);
-	env_tolst(env, sh);
 	sh = ft_malloc_sh();
+	//init_parser(&parser);
+	env_setup(sh, env);
 	ret = 1;
 	(void)argc;
 	(void)argv;
@@ -38,13 +37,15 @@ int main(int argc, char **argv, char **env)
 	{
 		write(0, "My Minishell ~> ", 16);
 		get_next_line(0, &sh->input_str);
-		tmp = parsing(&parser, sh->input_str);
-		if (tmp == NULL)
-		{
-			write(1, "parsing error\n", 14);
-			return (-1);
-		}
-		printf("tmp = %s\n", tmp);
+		tmp = dollarz(sh, sh->input_str);
+		printf("<<%s>>\n", tmp);
+		//tmp = parsing(&parser, sh->input_str);
+		//if (tmp == NULL)
+		//{
+		//	write(1, "parsing error\n", 14);
+		//	return (-1);
+		//}
+		//printf("tmp = %s\n", tmp);
 		/*while (*tmp)
 		{
 			//tmp = sh->input_str;

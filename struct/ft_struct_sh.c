@@ -6,9 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/12 18:57:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/21 16:05:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "struct.h"
 
 #include "struct.h"
 
@@ -18,6 +20,8 @@ t_sh	ft_create_sh(void)
 
 	sh.all_path = NULL;
 	sh.input_str = NULL;
+	sh.lst_env = NULL;
+	sh.lst_cmd = NULL;
 	return (sh);
 }
 

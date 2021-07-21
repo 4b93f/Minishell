@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:23:54 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/20 17:15:12 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/07/21 15:57:29 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 #define ENV_H
-#include "../struct/struct.h"
 
 typedef struct	s_lst_env
 {
@@ -21,6 +20,8 @@ typedef struct	s_lst_env
 	
 	void		*next;
 }				t_lst_env;
+
+#include "../struct/struct.h"
 
 void	env_lstaddback(t_lst_env **alst, t_lst_env *new);
 void	env_lstadd_front(t_lst_env **alst, t_lst_env *new);

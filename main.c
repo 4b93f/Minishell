@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/23 16:52:03 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 23:36:25 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int main(int argc, char **argv, char **env)
 	{
 		if ((sh->input_str = readline("My Minishell ~> ")) != NULL)
 			add_history(sh->input_str);
+		if (!ft_strcmp(sh->input_str, ""))
+			continue;
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
 		ft_print_lst(sh->lst_cmd);
@@ -43,6 +45,7 @@ int main(int argc, char **argv, char **env)
 		start(sh);
 		free(sh->input_str);
 		sh_free(sh);
+		
 		//tmp = parsing(&parser, sh->input_str);
 		//if (tmp == NULL)
 		//{

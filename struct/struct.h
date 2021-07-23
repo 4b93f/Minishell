@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 17:01:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 23:52:28 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_sh
 	char *input_str;
 	char **all_path;
 	int flag_n;
+	char *free_ptr;
 	
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;
@@ -59,6 +60,12 @@ void sh_free(t_sh *sh);
 void ft_exit(t_sh *sh);
 void ft_export(t_sh *sh);
 void ft_print_tab(char **str);
+int env_lstdupe(t_sh *sh, char *var, char *value);
+void	ft_print_env(t_lst_env *lst);
+void 	env_lstedit(t_sh *sh, char *var, char *value);
+char	**lst_to_tab(t_lst_env *lst);
+void ft_unset(t_sh *sh);
+void env_lstdel(t_sh *sh, t_lst_env *delcontent);
 
 
 #endif

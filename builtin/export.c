@@ -6,35 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 14:26:34 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 17:19:16 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 23:44:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
-
-static char	**lst_to_tab(t_lst_env *lst)
-{
-	char		**ptr;
-	t_lst_env	*arg_ptr;
-	int			size;
-
-	ptr = NULL;
-	size = env_lstsize(lst);
-	arg_ptr = lst;
-	ptr = ft_calloc(sizeof(char *), size + 1);
-	if (!ptr)
-		return (NULL);
-	size = -1;
-	while (arg_ptr)
-	{
-		ptr[++size] = ft_strdup(arg_ptr->var);
-		if (!ptr)
-			return (free_tab(ptr));
-		arg_ptr = arg_ptr->next;
-	}
-	return (ptr);
-}
-
 
 void print_export(t_sh *sh, char **tab)
 {
@@ -42,13 +18,14 @@ void print_export(t_sh *sh, char **tab)
 
 	i = 0;
 	sh->ptr_env = sh->lst_env;
-	while (sh->ptr_cmd && tab[i])
+	while (sh->ptr_env)
 	{
-		ft_putstr_fd(tab[i], 1);
-		write(1, "=", 1);
-		ft_putendl_fd(sh->ptr_env->content, 1);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(sh->ptr_env->var, 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(sh->ptr_env->content, 1);
+		ft_putstr_fd("\"\n", 1);
 		sh->ptr_env = sh->ptr_env->next;
-		i++;
 	}
 }
 
@@ -92,7 +69,6 @@ char *check_export(t_sh *sh, char *s1)
 	return (NULL);
 }
 
-
 void ft_export(t_sh *sh)
 {
 	char *value;
@@ -100,23 +76,35 @@ void ft_export(t_sh *sh)
 	int equal_pos;
 	
 	value = NULL;
+	var = NULL;
 	equal_pos = 0;
 	sh->ptr_cmd = sh->lst_cmd;
-	if (!ft_strcmp(sh->ptr_cmd->cmd, "export"))
+	while(sh->ptr_cmd)
 	{
-		if (!sh->ptr_cmd->next)
-			ft_sort_export(sh);
-	}
-	else
-	{
-		sh->ptr_cmd = sh->ptr_cmd->next;
-		printf("!\n");
+		if (!ft_strcmp(sh->ptr_cmd->cmd, "export"))
+		{
+			if (sh->ptr_cmd->next)
+				sh->ptr_cmd = sh->ptr_cmd->next;
+			if (!sh->ptr_cmd->next && !ft_strchr(sh->ptr_cmd->cmd, '='))
+			{
+				ft_sort_export(sh);
+				return;
+			}
+		}
 		value = ft_strchr(sh->ptr_cmd->cmd, '=');
 		if (value)
 			equal_pos = ft_strchr(sh->ptr_cmd->cmd, '=') - (char *)sh->ptr_cmd->cmd;
 		if (equal_pos)
-			var = ft_substr(sh->ptr_cmd->cmd, 0, equal_pos - 1);	
-		printf("value?=[%s]\n", var);
+			var = ft_substr(sh->ptr_cmd->cmd, 0, equal_pos);
+		if (ft_strlen(sh->ptr_cmd->cmd) > 1)
+			value = ft_substr(sh->ptr_cmd->cmd, equal_pos + 1, ft_strlen(sh->ptr_cmd->cmd));
+		else
+			value = ft_substr(sh->ptr_cmd->cmd, equal_pos, ft_strlen(sh->ptr_cmd->cmd));
+		if (!env_lstdupe(sh, var, value))
+		{
+			sh->ptr_env = sh->lst_env;
+			env_lstaddback(&sh->ptr_env, env_lstnew(var, value));
+		}
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	
 } 

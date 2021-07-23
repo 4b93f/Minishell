@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 16:08:16 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 22:45:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@ void start(t_sh *sh)
 		ft_exit(sh);
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "export"))
 		ft_export(sh);
+	else if (!ft_strcmp(sh->ptr_cmd->cmd, "unset"))
+		ft_unset(sh);
 } 

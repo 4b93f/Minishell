@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_lstdelone.c                                    :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/12 15:28:51 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 22:58:16 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/23 22:45:16 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/23 23:33:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
-void	env_lstdelone(t_lst_env *lst, void (*del)(void*))
+void ft_unset(t_sh *sh)
 {
-	if (!lst || !del)
+	sh->ptr_cmd = sh->lst_cmd;
+	sh->ptr_env = sh->lst_env;
+
+	if (sh->ptr_cmd->next)
+		sh->ptr_cmd = sh->ptr_cmd->next;
+	if (!env_lstfinder(sh->ptr_env, sh->ptr_cmd->cmd))
 		return ;
-	if (lst->var)
-		del(lst->var);
-	if (lst->content)
-		del(lst->content);
-	lst->var = NULL;
-	lst->content = NULL;
-	free(lst);
+	env_lstdel(sh, env_lstfinder(sh->ptr_env, sh->ptr_cmd->cmd));
 }

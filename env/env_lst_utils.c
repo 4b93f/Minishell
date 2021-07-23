@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 16:04:46 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/21 16:21:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 23:32:18 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ t_lst_env	*env_lstfinder(t_lst_env *lst, char *var)
 	return (NULL);
 }
 
+void	env_lstedit(t_sh *sh, char *var, char *value)
+{
+	sh->ptr_env = sh->lst_env;
+
+	while (sh->ptr_env)
+	{
+		if (!ft_strcmp(sh->ptr_env->var, var))
+			sh->ptr_env->content = value;	
+		sh->ptr_env = sh->ptr_env->next;
+	}
+}
+
+
 void	env_tolst(char **env, t_sh *sh)
 {
 	int			i;
@@ -95,5 +108,42 @@ void	env_tolst(char **env, t_sh *sh)
 			return ;
 		}
 		env_lstaddback(&sh->lst_env, new);
+	}
+}
+
+int env_lstdupe(t_sh *sh, char *var, char *value)
+{
+	sh->ptr_env = sh->lst_env;
+	while (sh->ptr_env)
+	{
+		//printf("{%s} et {%s}\n", sh->ptr_env->content, value);
+		if (!ft_strcmp(sh->ptr_env->var, var))
+		{
+			if (ft_strcmp(sh->ptr_env->content, value))
+				env_lstedit(sh, var, value);
+			return (1);
+		}
+		sh->ptr_env = sh->ptr_env->next;
+	}
+	return (0);
+}
+
+void env_lstdel(t_sh *sh, t_lst_env *delcontent)
+{
+	sh->ptr_env = sh->lst_env;
+	t_lst_env *tmp;
+	
+	if (sh->ptr_env && !sh->ptr_env->next)
+		env_lstdelone(sh->ptr_env, free);
+	while(sh->ptr_env &&sh->ptr_env->next)
+	{
+		
+		if (!ft_strcmp(((t_lst_env*)sh->ptr_env->next)->var, delcontent->var))
+		{
+			tmp = ((t_lst_env*)sh->ptr_env->next)->next;
+			env_lstdelone(sh->ptr_env->next, free);
+			sh->ptr_env->next = tmp;
+		}
+		sh->ptr_env = sh->ptr_env->next;
 	}
 }

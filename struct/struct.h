@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 22:54:59 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 16:07:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include "../libft/libft.h"
 #include "../get_next_line/get_next_line.h"
 #include "../parser.h"
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 enum e_boolean
 {
@@ -53,5 +56,7 @@ void start(t_sh *sh);
 void	print_env(t_sh *sh);
 void ft_pwd(t_sh *sh);
 void sh_free(t_sh *sh);
+void ft_exit(t_sh *sh);
+void ft_export(t_sh *sh);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 22:01:03 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 15:45:09 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char *ft_remove_char(char *str, int c)
 		return (NULL);
 	while (str[i])
 	{
-		while (str[i] && str[i] == ' ')
+		while (str[i] && str[i] == c)
 			i++;
 		if (str[i])
 			dup[j] = str[i];
@@ -62,6 +62,7 @@ void str_tolst(char *str, t_sh *sh)
 		}
 		else
 			i++;
+		//printf("!\n");
 		cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(ft_substr(tmp, j, i - j)));
 	}
 	return ;

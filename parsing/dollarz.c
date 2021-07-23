@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 20:16:20 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 16:03:01 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,12 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 	char *tmps;
 	int j;
 
-	j = 0;
-	new = ft_substr(str, 0, i);
+	j = i;
+	if (str[i - 1] && str[i - 1] == '\"')
+		new = ft_substr(str, 0, i - 1);
+	else
+		new = ft_substr(str, 0, i);
+	new = ft_remove_char(new, '\'');
 	i++;
 	tmp = dollarz_value(sh, (str + i));
 	if (!tmp)
@@ -73,8 +77,8 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 		j++;
 	tmps = dollar_pass(str + j);
 	new = ft_substr(tmps, j, ft_strlen(str));
-	new = ft_strjoin(tmp, tmps);
-	return (new);
+	str = ft_strjoin(tmp, tmps);
+	return (str);
 }
 
 char *dollarz(t_sh *sh, char *str)
@@ -89,8 +93,11 @@ char *dollarz(t_sh *sh, char *str)
 	while (str[i] && str[i] != ';')
 	{
 		is_quote_open(str, &squote, &dquote, i);
-		if (!squote && str[i] == '$')
+		if ((!squote && str[i] == '$'))
+		{
 			str = dollar_swap(sh, str, i);
+			sleep(1);
+		}
 		i++;
 	}
 	return (str);

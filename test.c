@@ -1,38 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 17:38:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/22 16:41:14 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/22 18:44:07 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/22 18:50:17 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "struct/struct.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+int main()
 {
-	t_list	*first;
-	t_list	*liste;
-
-	if (*lst == NULL || lst == NULL)
-		return ;
-	first = *lst;
-	liste = NULL;
-	while (first)
-	{
-		if (first->next)
-			liste = first->next;
-		else
-			liste = NULL;
-		del(first);
-		free(first);
-		first = liste;
-	}
-	*lst = NULL;
+    char        *line;
+    while (1)
+        line = readline("heredoc> ");
 }
-/*
-** Clear une liste chainée
-*/

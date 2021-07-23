@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/23 16:35:18 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 16:52:03 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,28 @@
 
 int main(int argc, char **argv, char **env)
 {
-    char *line;
-
-    line = NULL;
-    line = readline("My Minishell ~> ");
-    printf("%s\n", line);
-    exit(0);
 	int ret;
 	t_sh *sh;
-	//char *line;
-	//char *tmp;
+	char *tmp;
 	//t_parsing parser;
 
 	sh = ft_malloc_sh();
 	//init_parser(&parser);
-	//env_setup(sh, env);
-	//ret = 1;
+	env_setup(sh, env);
+	ret = 1;
 	(void)argc;
 	(void)argv;
 	while(1)
 	{
-		sh->input_str = readline("My Minishell ~> ");
-		printf("[%s]\n", sh->input_str);
-		//write(0, "My Minishell ~> ", 16);
-		//get_next_line(0, &sh->input_str);
-		//if (!ft_strcmp(sh->input_str, ""))
-		//	continue;
-		//sh->input_str = dollarz(sh, sh->input_str);
-		//str_tolst(sh->input_str, sh);
-		//ft_print_lst(sh->lst_cmd);
+		if ((sh->input_str = readline("My Minishell ~> ")) != NULL)
+			add_history(sh->input_str);
+		sh->input_str = dollarz(sh, sh->input_str);
+		str_tolst(sh->input_str, sh);
+		ft_print_lst(sh->lst_cmd);
 		
-		//start(sh);
-		//free(sh->input_str);
-		//sh_free(sh);
-		//printf("<<%s>>\n", tmp);
+		start(sh);
+		free(sh->input_str);
+		sh_free(sh);
 		//tmp = parsing(&parser, sh->input_str);
 		//if (tmp == NULL)
 		//{
@@ -71,7 +59,6 @@ int main(int argc, char **argv, char **env)
 		}*/
 	}
 	return (1);
-
 	//if (first_parsing(&parser, argv[1]) == -1)
 	//{
 	//	printf("PARSING_ERROR");

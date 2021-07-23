@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 21:31:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:02:16 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,13 @@ char	*get_actual_path(void)
     size = 10000;
 	str = getcwd(buf, size);
 	return (str);
+}
+
+void ft_print_tab(char **str)
+{
+	int i;
+
+	i = -1;
+	while(str[++i])
+		printf("[%s]\n", str[i]);
 }

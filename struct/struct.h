@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 16:07:50 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:01:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ void ft_pwd(t_sh *sh);
 void sh_free(t_sh *sh);
 void ft_exit(t_sh *sh);
 void ft_export(t_sh *sh);
+void ft_print_tab(char **str);
+
 
 #endif

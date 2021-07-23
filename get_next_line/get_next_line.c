@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 14:48:49 by chly-huc          #+#    #+#             */
-/*   Updated: 2020/12/06 15:07:19 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/23 16:47:57 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_l(char *string)
 	return (ligne);
 }
 
-char	*readline(int fd, char *string)
+char	*read_line(int fd, char *string)
 {
 	char	*buf;
 	int		ret;
@@ -102,7 +102,7 @@ int		get_next_line(int fd, char **line)
 	*line = NULL;
 	if (check_error(fd, str) < 0 || BUFFER_SIZE < 1)
 		return (-1);
-	str = readline(fd, str);
+	str = read_line(fd, str);
 	*line = get_l(str);
 	if (!find_end_string(str))
 	{

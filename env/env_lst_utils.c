@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 16:04:46 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/24 22:59:12 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:20:27 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	env_tolst(char **env, t_sh *sh)
 	char		*value;
     t_lst_env	*new;
 
+	sh->ptr_env = sh->lst_env;
 	i = -1;
 	while (env && env[++i])
 	{

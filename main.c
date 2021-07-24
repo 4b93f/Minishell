@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/24 22:54:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:28:04 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int main(int argc, char **argv, char **env)
 		str_tolst(sh->input_str, sh);
 		ft_print_lst(sh->lst_cmd);
 		start(sh);
+		print_tab(sh->all_path);
 		sh_free(sh);
 	}
 	return (TRUE);

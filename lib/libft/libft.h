@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 08:47:31 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/21 20:27:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:30:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 int					ft_isspace(int c);
 int					tablen(char **tab);
-void				*free_tab(char **tab);
+void				free_tab(char **tab);
 void				print_tab(char **tab);
 int					ft_strcmp(char *s1, char *s2);
 long				ft_atoli(const char *str);

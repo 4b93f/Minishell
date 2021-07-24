@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 14:26:34 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 23:44:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:13:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ static void	ft_sort_export(t_sh *sh)
 	int			size;
 	int			i;
 	int			j;
+	sh->ptr_env = sh->lst_env;
 
 	i = -1;
-	size = env_lstsize(sh->lst_env);
-	tab = lst_to_tab(sh->lst_env);
+	size = env_lstsize(sh->ptr_env);
+	tab = lst_to_tab(sh->ptr_env);
 	if (!tab)
 		return ;
 	while (++i < size)

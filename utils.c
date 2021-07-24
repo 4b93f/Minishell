@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/24 23:06:29 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/25 00:39:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**lst_to_tab(t_lst_env *lst)
 	{
 		ptr[++size] = ft_strdup(arg_ptr->var);
 		if (!ptr)
-			return (free_tab(ptr));
+			return (NULL);
 		arg_ptr = arg_ptr->next;
 	}
 	return (ptr);
@@ -117,9 +117,15 @@ void	get_all_path(t_sh *sh)
 		sh->ptr_env = sh->ptr_env->next;
 	if (!sh->ptr_env)
 		return ;
+	//printf("!\n");
+	//printf("%s\n", sh->ptr_env->content);
 	sh->all_path = ft_split(sh->ptr_env->content, ':');
+
 	if (!sh->all_path)
 		return ;
 	while (sh->all_path[++i])
+	{
+		//printf("<<%s>>\n", sh->all_path[i]);
 		sh->all_path[i] = ft_strjoin(sh->all_path[i], "/");
+	}
 }

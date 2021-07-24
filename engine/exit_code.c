@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/22 18:44:07 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/22 18:50:17 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/24 22:26:05 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/24 22:39:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "struct/struct.h"
+#include "../struct/struct.h"
 
-int main()
+void exit_code(t_sh *sh, int nbr)
 {
-    char        *line;
-    while (1)
-        line = readline("heredoc> ");
+	sh->ptr_env = sh->lst_env;
+	if (!env_lstfinder(sh->ptr_env, "?"))
+		env_lstaddback(&sh->ptr_env, env_lstnew("?", ft_itoa(nbr)));
+	else if (env_lstdupe(sh, "?", ft_itoa(nbr)))
+		env_lstedit(sh, "?", ft_itoa(nbr));
 }

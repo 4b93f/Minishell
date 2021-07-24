@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 23:52:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/24 22:29:07 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #define STRUCT_H
 #include "../env/env.h"
 #include "../cmd/cmd.h"
-#include "../libft/libft.h"
-#include "../get_next_line/get_next_line.h"
-#include "../parser.h"
+#include "../lib/libft/libft.h"
+#include "../lib/get_next_line/get_next_line.h"
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -66,6 +65,11 @@ void 	env_lstedit(t_sh *sh, char *var, char *value);
 char	**lst_to_tab(t_lst_env *lst);
 void ft_unset(t_sh *sh);
 void env_lstdel(t_sh *sh, t_lst_env *delcontent);
+void ft_cd(t_sh *sh);
+void exec_cmd(t_sh *sh);
+void	get_all_path(t_sh *sh);
+char	*ft_search_path(t_sh *sh);
+void exit_code(t_sh *sh, int nbr);
 
 
 #endif

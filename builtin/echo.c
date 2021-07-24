@@ -31,12 +31,16 @@ void ft_echo(t_sh *sh)
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;
 	sh->ptr_cmd = sh->ptr_cmd->next;
+	if (sh->flag_n == 1)
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	while (sh->ptr_cmd && ft_strcmp(sh->ptr_cmd->cmd, ";"))
 	{
 		ft_putstr_fd(sh->ptr_cmd->cmd, 1);
-		ft_putstr_fd(" ", 1);
+		if (sh->ptr_cmd->next)
+			ft_putstr_fd(" ", 1);
 		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	ft_putstr_fd("\n", 1);
-	return;
+	if (sh->flag_n == 0)
+		ft_putstr_fd("\n", 1);
+	exit_code(sh, 0);
 }

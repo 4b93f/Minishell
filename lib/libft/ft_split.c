@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 02:10:35 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/04/23 17:42:04 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/24 22:55:43 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static char	**malloc_free(char **str)
 {
 	int	i;
-
+	
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 		free(str[i++]);
 	free(str);

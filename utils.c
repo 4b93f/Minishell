@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 22:44:33 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/24 23:06:29 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,43 @@ char	**lst_to_tab(t_lst_env *lst)
 		arg_ptr = arg_ptr->next;
 	}
 	return (ptr);
+}
+
+char	*ft_search_path(t_sh *sh)
+{
+	struct stat	buffer;
+	char		*tmp;
+	int			i;
+
+	i = -1;
+	while (sh->all_path && sh->all_path[++i])
+	{
+		tmp = ft_strjoin(sh->all_path[i], sh->lst_cmd->cmd);
+		if (!tmp)
+			return (NULL);
+		if (!stat(tmp, &buffer))
+		{
+			free(tmp);
+			return (sh->all_path[i]);
+		}
+		free(tmp);
+	}
+	return (NULL);
+}
+
+void	get_all_path(t_sh *sh)
+{
+	int			i;
+
+	i = -1;
+	sh->ptr_env = sh->lst_env;
+	while (sh->ptr_env && ft_strcmp(sh->ptr_env->var, "PATH"))
+		sh->ptr_env = sh->ptr_env->next;
+	if (!sh->ptr_env)
+		return ;
+	sh->all_path = ft_split(sh->ptr_env->content, ':');
+	if (!sh->all_path)
+		return ;
+	while (sh->all_path[++i])
+		sh->all_path[i] = ft_strjoin(sh->all_path[i], "/");
 }

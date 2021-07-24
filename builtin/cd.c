@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   start.c                                            :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/24 22:22:35 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/07/24 17:47:03 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/24 21:51:54 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void start(t_sh *sh)
+void ft_cd(t_sh *sh)
 {
+	int ret;
 	sh->ptr_cmd = sh->lst_cmd;
-	if (!ft_strcmp(sh->ptr_cmd->cmd, "echo"))
-		ft_echo(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "env"))
-		print_env(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "pwd"))
-		ft_pwd(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "exit"))
-		ft_exit(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "export"))
-		ft_export(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "unset"))
-		ft_unset(sh);
-	else if (!ft_strcmp(sh->ptr_cmd->cmd, "cd"))
-		ft_cd(sh);
-} 
+	ret = 0;
+	
+	if (sh->ptr_cmd->next)
+		sh->ptr_cmd = sh->ptr_cmd->next;
+	if (!ft_strcmp(sh->ptr_cmd->cmd, "~"))
+		ret = chdir(env_lstfinder(sh->lst_env, "HOME")->content);
+}

@@ -1,9 +1,9 @@
-MAIN_SRC = main.c utils.c parsing/strtolst.c parsing/buffact.c parsing/clear_string.c \
-struct/ft_struct_sh.c parsing/dollarz.c parsing/quote.c builtin/echo.c engine/start.c \
+MAIN_SRC = main.c utils.c parsing/strtolst.c struct/ft_struct_sh.c parsing/dollarz.c \
+parsing/quote.c builtin/echo.c engine/start.c \
 builtin/env.c builtin/pwd.c ex_free/ex_free.c builtin/exit.c builtin/export.c \
-builtin/unset.c \
+builtin/unset.c builtin/cd.c builtin/exec_cmd.c engine/exit_code.c \
 
-GNL_SRC = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
+GNL_SRC = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c \
 
 CMD_SRC = cmd/cmd_lstaddback.c cmd/cmd_lstaddfront.c cmd/cmd_lstclear.c cmd/cmd_lstdelone.c \
 cmd/cmd_lstiter.c cmd/cmd_lstlast.c cmd/cmd_lstnew.c cmd/cmd_lstsize.c \
@@ -12,7 +12,7 @@ ENV_SRC = env/env_lstaddback.c env/env_lstaddfront.c env/env_lstclear.c env/env_
 env/env_lstiter.c env/env_lstlast.c env/env_lstnew.c \
 env/env_lstsize.c env/env_lst_utils.c env/env.c \
 
-LIB = libft/libft.a \
+LIB = lib/libft/libft.a \
 
 ALL_SRCS = $(MAIN_SRC) $(ENV_SRC) $(CMD_SRC) $(GNL_SRC) \
 
@@ -20,7 +20,7 @@ OBJ = $(ALL_SRCS:.c=.o) \
 
 INC = . \
 
-CFLAGS= -Wall -Wextra -Werror \
+CFLAGS= -Wall -Wextra -Werror -fsanitize=address\
 
 CC = gcc \
 
@@ -37,8 +37,8 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"
-	@$(MAKE) -C ./libft
-	@$(MAKE) bonus -C ./libft
+	@$(MAKE) -C lib/libft
+	@$(MAKE) bonus -C lib/libft
 	$(CC) -g3 -lreadline $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
 
 
@@ -48,6 +48,6 @@ clean:
 fclean: clean
 	@echo "Removing binary file"
 	@$(RM) $(NAME)
-	@$(MAKE) fclean -C ./libft
+	@$(MAKE) fclean -C lib/libft
 	
 re: fclean all

@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/06 17:36:40 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/04/23 17:44:48 by chly-huc         ###   ########.fr       */
+/*   Created: 2020/01/06 09:52:06 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/07/24 23:03:13 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *s1, const char *s2)
+int	ft_strlen(const char *str)
 {
-	char	*tab;
 	int		i;
-	int		j;
 
-	i = -1;
-	j = -1;
-	if (!s1)
-		return (ft_strdup(s2));
-	tab = malloc(sizeof(char) * ft_strlen((char *)s1)
-			+ ft_strlen((char *)s2) + 1);
-	if (!tab)
-		return (NULL);
-	while (s1[++i])
-		tab[i] = s1[i];
-	while (s2[++j])
-		tab[j + i] = s2[j];
-	tab[i + j] = '\0';
-	return (tab);
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }
 /*
-** Coller deux chaines de caractères ensembles
+** Compte le nombre de caractères dans une chaine de caractères
 */

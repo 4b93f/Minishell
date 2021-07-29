@@ -1,7 +1,7 @@
 MAIN_SRC = main.c utils.c parsing/strtolst.c struct/ft_struct_sh.c parsing/dollarz.c \
 parsing/quote.c builtin/echo.c engine/start.c \
 builtin/env.c builtin/pwd.c ex_free/ex_free.c builtin/exit.c builtin/export.c \
-builtin/unset.c builtin/cd.c builtin/exec_cmd.c engine/exit_code.c parsing/pipe_n_red.c\
+builtin/unset.c builtin/cd.c builtin/exec_cmd.c engine/exit_code.c parsing/pipe_n_red.c error/error.c\
 
 GNL_SRC = lib/get_next_line/get_next_line.c lib/get_next_line/get_next_line_utils.c \
 

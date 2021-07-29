@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 14:37:36 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 15:27:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**lst_to_tab(t_lst_env *lst)
 	return (ptr);
 }
 
-char	*ft_search_path(t_sh *sh)
+char	*ft_search_path(t_sh *sh, char *str)
 {
 	struct stat	buffer;
 	char		*tmp;
@@ -105,7 +105,7 @@ char	*ft_search_path(t_sh *sh)
 	i = -1;
 	while (sh->all_path && sh->all_path[++i])
 	{
-		tmp = ft_strjoin(sh->all_path[i], sh->lst_cmd->cmd);
+		tmp = ft_strjoin(sh->all_path[i], str);
 		if (!tmp)
 			return (NULL);
 		if (!stat(tmp, &buffer))

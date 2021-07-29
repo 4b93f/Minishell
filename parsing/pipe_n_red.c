@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 15:00:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 15:20:31 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void pipe_n_red(t_sh *sh)
 {
 	errno = 0;
-	
 	sh->ptr_cmd = sh->lst_cmd;
 	while (sh->ptr_cmd)
 	{	
@@ -31,13 +30,8 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if (errno == PERM_DENIED)
-			{
-				ft_putstr_fd("My Minishell: ", 2);
-				ft_putstr_fd(sh->ptr_cmd->cmd, 2);
-				ft_putstr_fd(": Permission denied\n", 2);
-				return ;
-			}
+			if (error(sh->ptr_cmd->cmd, errno))
+				return;
 		}
 		if (!ft_strcmp(sh->ptr_cmd->cmd, ">>"))
 		{
@@ -48,13 +42,8 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);
-			if (errno == PERM_DENIED)
-			{
-				ft_putstr_fd("My Minishell: ", 2);
-				ft_putstr_fd(sh->ptr_cmd->cmd, 2);
-				ft_putstr_fd(": Permission denied'", 2);
-				return ;
-			}
+			if (error(sh->ptr_cmd->cmd, errno))
+				return;
 		}
 		if (!ft_strcmp(sh->ptr_cmd->cmd, "<"))
 		{
@@ -65,13 +54,8 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-			if (errno == PERM_DENIED)
-			{
-				ft_putstr_fd("My Minishell: ", 2);
-				ft_putstr_fd(sh->ptr_cmd->cmd, 2);
-				ft_putstr_fd(": Permission denied'", 2);
-				return ;
-			}
+			if (error(sh->ptr_cmd->cmd, errno))
+				return;
 		}
 	}
 }

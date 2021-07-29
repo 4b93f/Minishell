@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 14:55:54 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 17:30:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "errno.h"
 
 #define PERM_DENIED 13
+#define IS_DIRECTORY 21
 
 enum e_boolean
 {
@@ -37,6 +38,7 @@ typedef struct	s_sh
 	char *free_ptr;
 	int fd_in;
 	int fd_out;
+	pid_t child_pid;
 	
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;
@@ -73,10 +75,11 @@ void env_lstdel(t_sh *sh, t_lst_env *delcontent);
 void ft_cd(t_sh *sh);
 void exec_cmd(t_sh *sh);
 void	get_all_path(t_sh *sh);
-char	*ft_search_path(t_sh *sh);
+char	*ft_search_path(t_sh *sh, char *str);
 void exit_code(t_sh *sh, int nbr);
 void pipe_n_red(t_sh *sh);
 int str_sep(char *str);
+int error(char *str, int error);
 
 
 #endif

@@ -30,17 +30,18 @@ void ft_echo(t_sh *sh)
 	sh->ptr_cmd = sh->lst_cmd;
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;
-	sh->ptr_cmd = sh->ptr_cmd->next;
+	if (sh->fd_out == 1)
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->flag_n == 1)
 		sh->ptr_cmd = sh->ptr_cmd->next;
-	while (sh->ptr_cmd && ft_strcmp(sh->ptr_cmd->cmd, ";"))
+	while (sh->ptr_cmd && !str_sep(sh->ptr_cmd->cmd))
 	{
-		ft_putstr_fd(sh->ptr_cmd->cmd, 1);
-		if (sh->ptr_cmd->next)
-			ft_putstr_fd(" ", 1);
+		ft_putstr_fd(sh->ptr_cmd->cmd, sh->fd_out);
+		if (sh->ptr_cmd->next && sh->fd_out == 1)
+			ft_putstr_fd(" ", sh->fd_out);
 		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	if (sh->flag_n == 0)
-		ft_putstr_fd("\n", 1);
+	if (sh->flag_n == 0 || sh->fd_out != 1)
+		ft_putstr_fd("\n", sh->fd_out);
 	exit_code(sh, 0);
 }

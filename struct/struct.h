@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/24 22:29:07 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 14:55:54 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "errno.h"
+
+#define PERM_DENIED 13
 
 enum e_boolean
 {
@@ -32,6 +35,8 @@ typedef struct	s_sh
 	char **all_path;
 	int flag_n;
 	char *free_ptr;
+	int fd_in;
+	int fd_out;
 	
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;
@@ -70,6 +75,8 @@ void exec_cmd(t_sh *sh);
 void	get_all_path(t_sh *sh);
 char	*ft_search_path(t_sh *sh);
 void exit_code(t_sh *sh, int nbr);
+void pipe_n_red(t_sh *sh);
+int str_sep(char *str);
 
 
 #endif

@@ -1,3 +1,5 @@
-lolilol 
-KEKW 
-PTDR 
+ok
+LOL
+non
+ptdr
+nooop

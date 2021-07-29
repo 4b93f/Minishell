@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/23 16:03:01 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 14:38:26 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,7 @@ char *dollarz(t_sh *sh, char *str)
 	{
 		is_quote_open(str, &squote, &dquote, i);
 		if ((!squote && str[i] == '$'))
-		{
 			str = dollar_swap(sh, str, i);
-			sleep(1);
-		}
 		i++;
 	}
 	return (str);

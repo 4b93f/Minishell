@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/24 22:16:45 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 14:54:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ t_sh	ft_create_sh(void)
 	sh.lst_cmd = NULL;
 	sh.ptr_cmd = NULL;
 	sh.ptr_env = NULL;
+	sh.fd_in = 0;
+	sh.fd_out = 1;
 	return (sh);
 }
 

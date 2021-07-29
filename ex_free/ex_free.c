@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/25 00:31:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 14:32:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,6 @@ void sh_free(t_sh *sh)
 	free(sh->input_str);
 	free_tab(sh->all_path);
 	sh->all_path = NULL;
+	sh->fd_in = 0;
+	sh->fd_out = 0;
 }

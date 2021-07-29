@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/25 00:39:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 14:37:36 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,17 @@
 int is_sep(int c)
 {
     return (c == ';' || c == ' ' || c == '<' || c == '>' || c == '|');
+}
+
+int str_sep(char *str)
+{
+	int i;
+	
+	i = -1;
+	while (str[++i])
+		if (str[i] == ';' || str[i] == '<' || str[i] == '>' || str[i] == '|')
+			return (1);
+	return (0);
 }
 
 void	ft_print_lst(t_lst_cmd *lst)

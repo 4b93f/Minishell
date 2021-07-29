@@ -6,11 +6,16 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 15:20:31 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 19:39:20 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
+
+void piped(char )
+{
+	
+}
 
 void pipe_n_red(t_sh *sh)
 {
@@ -56,6 +61,10 @@ void pipe_n_red(t_sh *sh)
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
 			if (error(sh->ptr_cmd->cmd, errno))
 				return;
+		}
+		if (!ft_strcmp(sh->ptr_cmd->cmd, "|"))
+		{
+			piped();
 		}
 	}
 }

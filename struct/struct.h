@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 17:30:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 18:27:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <readline/history.h>
 #include "errno.h"
 
+#define CMD_NOT_FOND -1
 #define PERM_DENIED 13
 #define IS_DIRECTORY 21
 

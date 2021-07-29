@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 18:12:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/29 18:30:10 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	**lstcmd_to_tab(t_sh *sh)
 	if (!ptr)
 		return (NULL);
 	size = -1;
-	ptr[++size] = ft_strdup(sh->ptr_cmd->cmd);
 	if (!ptr)
 		return (NULL);
 	while (sh->ptr_cmd)
@@ -75,19 +74,13 @@ void exec_cmd(t_sh *sh)
 
 	sh->ptr_cmd = sh->lst_cmd;
 	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
-	//printf("file =[%s]\n", file);
 	envp = lstenv_to_tab(sh);
 	argp = lstcmd_to_tab(sh);
 	sh->child_pid = fork();
 	if (!sh->child_pid)
 	{
-		//print_tab(argp);
-		//printf("!\n");
-		//print_tab(envp);
 		errno = execve(file, argp, envp);
-		//printf("?\n");
-		if (errno == -1)
-			printf("COMMAND NOT FOUND\n");
+		error(argp[0], errno);
 		exit(0);
 	}
 	wait(0);

@@ -18,7 +18,7 @@ static void echo_scan(t_sh *sh)
 	sh->ptr_cmd = sh->lst_cmd;
 	while (sh->ptr_cmd->next)
 	{
-		if ((ft_strcmp(sh->ptr_cmd->cmd, "-n")))
+		if ((!ft_strcmp(sh->ptr_cmd->cmd, "-n")))
 			sh->flag_n = 1;	
 		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
@@ -27,15 +27,21 @@ static void echo_scan(t_sh *sh)
 
 void ft_echo(t_sh *sh)
 {
+	//printf("fdout after==%d\n", sh->fd_out);
 	sh->ptr_cmd = sh->lst_cmd;
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;
-	if (sh->fd_out == 1)
-		sh->ptr_cmd = sh->ptr_cmd->next;
+
+	sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->flag_n == 1)
-		sh->ptr_cmd = sh->ptr_cmd->next;
+	{
+		while ((!ft_strcmp(sh->ptr_cmd->cmd, "-n")))
+			sh->ptr_cmd = sh->ptr_cmd->next;
+	}
+	//write(1, "!\n", 1);
 	while (sh->ptr_cmd && !str_sep(sh->ptr_cmd->cmd))
 	{
+		printf("<%d>\n", sh->fd_out);
 		ft_putstr_fd(sh->ptr_cmd->cmd, sh->fd_out);
 		if (sh->ptr_cmd->next && sh->fd_out == 1)
 			ft_putstr_fd(" ", sh->fd_out);

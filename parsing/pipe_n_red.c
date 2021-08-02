@@ -6,15 +6,31 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 19:39:20 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/30 19:53:31 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void piped(char )
+void pipe_engine(t_sh *sh)
 {
-	
+	int piped[2];
+
+	pipe(piped);
+	sh->child_pid = fork();
+	if (!sh->child_pid)
+	{
+		close(piped[1]);
+		dup2(piped[0], 0);
+		sh->fd_in = piped[0];
+		return;
+	}
+	else
+	{
+		close(piped[0]);
+		dup2(piped[1], 1);
+		sh->fd_out = piped[1];
+	}
 }
 
 void pipe_n_red(t_sh *sh)
@@ -64,7 +80,7 @@ void pipe_n_red(t_sh *sh)
 		}
 		if (!ft_strcmp(sh->ptr_cmd->cmd, "|"))
 		{
-			piped();
+			pipe_engine(sh);
 		}
 	}
 }

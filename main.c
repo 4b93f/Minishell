@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/07/29 15:21:01 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/30 19:14:33 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		if ((sh->input_str = readline("My Minishell ~> ")) != NULL)
+		if(!(sh->input_str = readline("My Minishell ~> ")))
 			add_history(sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;

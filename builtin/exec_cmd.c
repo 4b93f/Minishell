@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 18:30:10 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/07/30 19:07:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char **lstenv_to_tab(t_sh *sh)
 	int len;
 	char **dup;
 	char *tmp;
-
 	sh->ptr_env = sh->lst_env;
 	len = env_lstsize(sh->ptr_env);
 	sh->ptr_env = sh->lst_env;

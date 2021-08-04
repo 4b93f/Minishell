@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 04:51:36 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/12 17:24:38 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/04 15:58:50 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 t_lst_cmd	*cmd_lstlast(t_lst_cmd *lst)
 {
 	t_lst_cmd	*ptr;
-
 	ptr = NULL;
 	while (lst)
 	{

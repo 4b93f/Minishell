@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/30 19:07:00 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/04 16:15:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,10 @@ void exec_cmd(t_sh *sh)
 		error(argp[0], errno);
 		exit(0);
 	}
-	wait(0);
+	else
+	{
+		//close(sh->fd_in);
+		close(sh->fd_out);
+		wait(0);
+	}
 }

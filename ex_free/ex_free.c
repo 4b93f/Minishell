@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/30 18:57:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/03 18:18:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,12 @@
 void sh_free(t_sh *sh)
 {
 	cmd_lstclear(&sh->lst_cmd, free);
-	//sh->input_str = next(sh);
 	free_tab(sh->all_path);
 	free(sh->input_str);
 	sh->all_path = NULL;
 	sh->fd_in = 0;
 	sh->fd_out = 1;
 	sh->flag_n = 0;
+	dup2(sh->fd_backup[0], 0);
+	dup2(sh->fd_backup[1], 1);
 }

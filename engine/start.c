@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 15:21:19 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/03 17:27:27 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void start(t_sh *sh)
 {
-	sh->ptr_cmd = sh->lst_cmd;
 	if (!ft_strcmp(sh->ptr_cmd->cmd, "echo"))
 		ft_echo(sh);
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "env"))

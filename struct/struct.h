@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/30 19:06:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/04 19:03:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,12 @@ typedef struct	s_sh
 	char *free_ptr;
 	int fd_in;
 	int fd_out;
+	int fd_backup[2];
+	int **fd_pipe;
+	int pipe_index;
 	pid_t child_pid;
 	int piped[2];
-	
+
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;
 	

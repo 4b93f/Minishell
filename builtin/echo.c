@@ -38,16 +38,14 @@ void ft_echo(t_sh *sh)
 		while ((!ft_strcmp(sh->ptr_cmd->cmd, "-n")))
 			sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	//write(1, "!\n", 1);
 	while (sh->ptr_cmd && !str_sep(sh->ptr_cmd->cmd))
 	{
-		printf("<%d>\n", sh->fd_out);
 		ft_putstr_fd(sh->ptr_cmd->cmd, sh->fd_out);
-		if (sh->ptr_cmd->next && sh->fd_out == 1)
+		if (sh->ptr_cmd->next && ft_strcmp(((t_lst_cmd*)sh->ptr_cmd->next)->cmd, "|"))
 			ft_putstr_fd(" ", sh->fd_out);
 		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	if (sh->flag_n == 0 || sh->fd_out != 1)
+	if (sh->flag_n == 0)
 		ft_putstr_fd("\n", sh->fd_out);
 	exit_code(sh, 0);
 }

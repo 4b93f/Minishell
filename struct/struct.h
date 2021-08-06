@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/04 19:03:12 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/06 16:49:58 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #define CMD_NOT_FOND -1
 #define PERM_DENIED 13
 #define IS_DIRECTORY 21
+#define PIPE 666 
 
 enum e_boolean
 {

@@ -6,11 +6,83 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/08/04 21:14:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/06 17:10:34 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
+
+
+t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr)
+{
+	if (!ptr) 
+		return (NULL);
+	while(ptr)
+	{
+		if (str_sep(ptr->cmd) && ptr->next)
+		{
+			((t_lst_cmd*)ptr->next)->type = PIPE; 
+			return (ptr->next);
+		}
+		ptr = ptr->next;
+	}
+	return (NULL);	
+}
+
+
+t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
+{
+	t_lst_cmd *tmp;
+	t_lst_cmd *parse;
+	t_lst_cmd *stock;
+	if ((cmd_lstsize(ptr) - cmd_lstsize(sh->lst_cmd)) == 0)
+		return (NULL);
+	parse = sh->lst_cmd;
+	stock = parse;
+	while (parse)
+	{
+		stock = parse;
+		parse = next_sep(sh, parse);
+		if (ptr == parse)
+			return(stock);
+		if (parse == NULL)
+			return(stock);
+	}
+	return (NULL);
+}
+
+
+void tmp(t_sh *sh, t_lst_cmd *token)
+{
+	int pid;
+	t_lst_cmd *next;
+	t_lst_cmd *prev;
+
+	pid = 0;
+	next = next_sep(sh, token);
+	prev = previous_sep(sh, token);
+	printf("tokeeeeen[%s]\n", token->cmd);
+	//if (!next)
+	//	printf("next == NULL\n");
+	//else
+	//	printf("next ==[%s]\n", next->cmd);
+	//if (!prev)
+	//	printf("prev == NULL\n");
+	//else
+	//	printf("prev ==[%s]\n", prev->cmd);
+	if (prev && prev->type == PIPE)
+		(void)NULL;
+	if (next && pid != 1)
+	{
+		sh->ptr_cmd = next;
+		tmp(sh, next);
+	}
+	if (prev && prev->type == PIPE && pid != 1)
+	{
+		sh->ptr_cmd = token;
+	}
+	exit(0);
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -32,8 +104,9 @@ int main(int argc, char **argv, char **env)
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
 		ft_print_lst(sh->lst_cmd);
-		pipe_n_red(sh);
 		sh->ptr_cmd = sh->lst_cmd;
+		tmp(sh, sh->lst_cmd);
+		exit(0);
 		start(sh);
 		sh_free(sh);
 	}

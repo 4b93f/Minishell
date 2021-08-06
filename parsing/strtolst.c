@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/04 15:56:44 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/06 16:22:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void str_tolst(char *str, t_sh *sh)
 			while(str[i - 1] == str[i] && is_sep(str[i]))
 				i++;
 		}
+		
 		cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(ft_substr(tmp, j, i - j)));
 	}
 	return ;

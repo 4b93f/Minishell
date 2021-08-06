@@ -6,44 +6,36 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/04 21:13:52 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/06 15:53:41 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-t_lst_cmd *next_sep(t_lst_cmd *ptr_cmd)
-{
-	while (!str_sep(ptr_cmd->cmd))
-		ptr_cmd = ptr_cmd->next;
-	if (str_sep(ptr_cmd->cmd) && ptr_cmd->next)
-		return(ptr_cmd->next);
-	return (NULL);
-}
-
 void pipe_engine(t_sh *sh)
 {
-	int piped[2];
+	//int piped[2];
 
-	pipe(piped);
-	sh->child_pid = fork();
-	if (!sh->child_pid)
-	{
-		sh->ptr_cmd = sh->lst_cmd;
+	//pipe(piped);
+	//sh->child_pid = fork();
+	//if (!sh->child_pid)
+	//{
+	//	sh->ptr_cmd = sh->lst_cmd;
 		
-		dup2(piped[1], 1);
-		sh->fd_out = piped[1];
-		start(sh);
-		exit(0);
-	}
-	else
-	{
-		close(piped[1]);
-		wait(&sh->child_pid);
-		dup2(piped[0], 0);
-		sh->lst_cmd = next_sep(sh->lst_cmd);
-		printf("{%s}\n", sh->lst_cmd->cmd);
-	}
+	//	dup2(piped[1], 1);
+	//	sh->fd_out = piped[1];
+	//	start(sh);
+	//	exit(0);
+	//}
+	//else
+	//{
+	//	close(piped[1]);
+	//	wait(&sh->child_pid);
+	//	dup2(piped[0], 0);
+	//	sh->lst_cmd = next_sep(sh->lst_cmd);
+	//	printf("{%s}\n", sh->lst_cmd->cmd);
+	//}
+	return;
 }
 
 void pipe_tab(t_sh *sh)

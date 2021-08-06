@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/21 21:20:45 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/06 15:57:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef struct	s_lst_cmd
 {
 	char	*cmd;
 	
+	int		type;
 	void	*next;
 }				t_lst_cmd;
 

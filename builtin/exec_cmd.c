@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/04 16:15:22 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/09 19:56:43 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,36 @@ char **lstenv_to_tab(t_sh *sh)
 	return (dup);
 }
 
-char	**lstcmd_to_tab(t_sh *sh)
+char	**lstcmd_to_tab(t_lst_cmd *lst)
 {
 	char	**ptr;
-	sh->ptr_cmd = sh->lst_cmd;
+	t_lst_cmd	*ptr_lst;
 	int		size;
 
 	ptr = NULL;
-	size = cmd_lstsize(sh->ptr_cmd);
-	sh->ptr_cmd = sh->lst_cmd;
+	ptr_lst = lst;
+	while (ptr_lst)
+	{
+		if (str_sep(lst->cmd))
+			break;
+		ptr_lst = ptr_lst->next;
+		size++;
+	}
 	ptr = ft_calloc(sizeof(char *), size + 2);
 	if (!ptr)
 		return (NULL);
-	size = -1;
+	size = 0;
 	if (!ptr)
 		return (NULL);
-	while (sh->ptr_cmd)
+	while (lst && !str_sep(lst->cmd))
 	{
-		ptr[++size] = ft_strdup(sh->ptr_cmd->cmd);
 		if (!ptr)
 			return (NULL);
-		sh->ptr_cmd = sh->ptr_cmd->next;
+		ptr[size] = ft_strdup(lst->cmd);
+		lst = lst->next;
+		size++;
 	}
+	ptr[size] = NULL;
 	return (ptr);
 }
 
@@ -70,13 +78,13 @@ void exec_cmd(t_sh *sh)
 	char *file;
 	char **envp;
 	char **argp;
+	pid_t pid;
 
-	sh->ptr_cmd = sh->lst_cmd;
 	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
 	envp = lstenv_to_tab(sh);
-	argp = lstcmd_to_tab(sh);
-	sh->child_pid = fork();
-	if (!sh->child_pid)
+	argp = lstcmd_to_tab(sh->ptr_cmd);
+	pid = fork();
+	if (!pid)
 	{
 		errno = execve(file, argp, envp);
 		error(argp[0], errno);
@@ -85,7 +93,7 @@ void exec_cmd(t_sh *sh)
 	else
 	{
 		//close(sh->fd_in);
-		close(sh->fd_out);
-		wait(0);
+		//close(sh->fd_out);
+		wait(&pid);
 	}
 }

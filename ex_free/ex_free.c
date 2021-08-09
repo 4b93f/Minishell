@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/03 18:18:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/09 18:30:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void sh_free(t_sh *sh)
 	sh->flag_n = 0;
 	dup2(sh->fd_backup[0], 0);
 	dup2(sh->fd_backup[1], 1);
+	sh->ptr_cmd = sh->lst_cmd;
 }

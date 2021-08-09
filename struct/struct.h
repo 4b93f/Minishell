@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/06 16:49:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/09 20:40:48 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct	s_sh
 	int fd_out;
 	int fd_backup[2];
 	int **fd_pipe;
-	int pipe_index;
 	pid_t child_pid;
 	int piped[2];
 

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 19:59:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/30 18:58:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/09 23:16:31 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,80 @@
 #include <unistd.h>
 #include <string.h>
 
-int
-main(int argc, char *argv[])
+void is_quote_open(char *str, int *squote, int *dquote, int i)
 {
-    int pipefd[2];
-    pid_t cpid;
-    char buf;
+	if (!str)
+		return ;
+	if (*squote == 1 && str[i] == '\'')
+	{
+		if (*dquote == 1)
+			dquote = 0;
+		*squote = 0;
+	}
+	else if (*squote == 0 && str[i] == '\'')
+		*squote = 1;
+	if (*dquote == 1 && str[i] == '\"')
+	{
+		if (*squote == 1)
+			squote = 0;
+		*dquote = 0;
+	}
+	else if (*dquote == 0 && str[i] == '\"')
+		*dquote = 1;
+}
 
-    assert(argc == 2);
+int main(int argc, char **argv)
+{
+	char *dup;
+	char *str = strdup("lol\"\"\'\'\"");
+	int i = 0;
+	int j = 0;
+	int squote = 0;
+	int dquote = 0;
 
-    if (pipe(pipefd) == -1) {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
-
-    cpid = fork();
-    if (cpid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-
-    if (cpid == 0) {    /* Le fils lit dans le tube */
-        close(pipefd[1]);  /* Ferme l'extrémité d'écriture inutilisée */
-
-        
-
-        write(STDOUT_FILENO, "\n", 1);
-        close(pipefd[0]);
-        _exit(EXIT_SUCCESS);
-
-    } else {                    /* Le père écrit argv[1] dans le tube */
-        close(pipefd[0]);       /* Ferme l'extrémité de lecture inutilisée */
-        write(pipefd[1], argv[1], strlen(argv[1]));
-        close(pipefd[1]);       /* Le lecteur verra EOF */
-        wait(NULL);             /* Attente du fils */
-        exit(EXIT_SUCCESS);
-    }
+	printf("[%s]\n", str);
+	dup = malloc(sizeof(char*) * strlen(str));
+	while (str && str[j])
+	{
+		if (str[j + 1] && str[j] == '\'' && str[j + 1] != '\'')
+			is_quote_open(str, &squote, &dquote, j);
+		if (str[j + 1] && str[j] == '\"' && str[j + 1] != '\"')
+			is_quote_open(str, &squote, &dquote, j);
+		if (squote || dquote)
+		{
+			if (str[j] == '\"')
+			{
+				j++;
+				while (str[j] && str[j] == '\"')
+					j++;
+				while (str[j] && str[j] != '\"')
+				{
+					dup[i] = str[j];
+					i++;
+					j++;
+				}
+			}
+			if (str[j] == '\'')
+			{
+				j++;
+				while (str[j] && str[j] == '\'')
+					j++;
+				while (str[j] && str[j] != '\'')
+				{
+					dup[i] = str[j];
+					i++;
+					j++;
+				}
+			}
+		}
+		else
+		{
+			if (str[j + 1])
+				dup[i] = str[j];
+			i++;
+			j++;
+		}
+	}
+	dup[i] = '\0';
+	printf("<%s>\n", dup);
 }

@@ -3,159 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/08/10 06:32:43 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/10 23:17:08 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
 
-t_lst_cmd *next_sep(t_lst_cmd *ptr)
-{
-	if (!ptr) 
-		return (NULL);
-	while(ptr)
-	{
-		if (str_sep(ptr->cmd) && ptr->next)
-		{
-			((t_lst_cmd*)ptr->next)->type = PIPE;
-			return (ptr->next);
-		}
-		ptr = ptr->next;
-	}
-	return (NULL);	
-}
-
-
-t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
-{
-	t_lst_cmd *parse;
-	t_lst_cmd *stock;
-	int pipe;
-
-	pipe = 1;
-	if ((cmd_lstsize(ptr) - cmd_lstsize(sh->lst_cmd)) == 0)
-		return (NULL);
-	parse = sh->lst_cmd;
-	stock = parse;
-	while (parse)
-	{
-		stock = parse;
-		parse = next_sep(parse);
-		if (pipe)
-			stock->type = PIPE;
-		if (ptr == parse)
-			return(stock);
-		if (parse == NULL)
-			return(stock);
-	}
-	return (NULL);
-}
-
-int		ft_pipe(t_sh *sh)
-{
-	int fd[2];
-	int pid;
-	if (pipe(fd) == -1)
-		strerror(errno);
-	if ((pid = fork()) == -1)
-		strerror(errno);
-	if (pid == 0)
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		sh->fd_in = fd[0];
-		sh->stat = 1;
-		return (2);
-	}
-	else
-	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		sh->fd_out = fd[1];
-		sh->stat = 2;
-		return (1);
-	}
-}
-
-void tmp(t_sh *sh, t_lst_cmd *token)
-{
-	pid_t pid;	
-	t_lst_cmd *next;
-	t_lst_cmd *prev;
-	
-	pid = 0;	
-	next = next_sep(token);
-	prev = previous_sep(sh, token);
-	if (sh->block_cmd == 0 && prev && prev->type == PIPE)
-	{
-		//printf("Enter ft_pipe\n");
-		pid = ft_pipe(sh);
-	}
-	if (sh->block_cmd == 0 && next && pid != 1)
-	{
-		sh->ptr_cmd = next;
-		tmp(sh, next);
-	}
-	if (sh->block_cmd == 0 && (!prev || prev->type == PIPE) && pid != 1)
-	{
-		sh->ptr_cmd = token;
-		//printf("<!Enter exec with pid = %d and cmd = [%s]!>\n", pid, sh->ptr_cmd->cmd);
-		start(sh);
-	}
-	//printf("pd=%d\n", pid);
-}
-
-char *remv_quote(char *cmd)
-{
-	char *dup;
-	int i = 0;
-	int j = 0;
-	int squote = 0;
-	int dquote = 0;
-
-	dup = malloc(sizeof(char*) * strlen(cmd));
-	while (cmd && cmd[j])
-	{
-		is_quote_open(cmd, &squote, &dquote, j);
-		if (squote || dquote)
-		{
-			while (cmd[j + 1] && cmd[j + 1] == cmd[j])
-			{
-				dup[i] = cmd[j];
-				i++;
-				j++;
-			}
-		}
-		else
-		{
-			dup[i] = cmd[j];
-			i++;
-			j++;
-		}
-	}
-	dup[i] = '\0';
-	////printf("===================%s================\n", dup);
-	return (dup);
-}
-
-void quoting(t_sh *sh)
-{
-	sh->ptr_cmd = sh->lst_cmd;
-
-	while (sh->ptr_cmd)
-	{
-		if (ft_strchr(sh->ptr_cmd->cmd, '\'') || ft_strchr(sh->ptr_cmd->cmd, '\"'))
-		{
-			////printf("YES\n");
-			////printf("<%s>\n", sh->ptr_cmd->cmd);
-			sh->ptr_cmd->cmd = remv_quote(sh->ptr_cmd->cmd);
-		}
-		sh->ptr_cmd = sh->ptr_cmd->next;
-	}
-}
 
 int main(int argc, char **argv, char **env)
 {
@@ -169,75 +25,24 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	while(ret)
 	{
-		puts("MY PROMPT ->");
 		get_all_path(sh);
-		// if(!(sh->input_str = readline("My Minishell ~> ")))
-		// 	add_history(sh->input_str);
-		get_next_line(0, &sh->input_str);
+		if(!(sh->input_str = readline("My Minishell ~> ")))
+			add_history(sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		sh->input_str = dollarz(sh, sh->input_str);
+		quoting(sh, sh->input_str);
+		sh->input_str = sh->dup;
 		str_tolst(sh->input_str, sh);
-		quoting(sh);
 		ft_print_lst(sh->lst_cmd);
 		sh->ptr_cmd = sh->lst_cmd;
-		//printf("before tmp\n");
-		tmp(sh, sh->lst_cmd);
-		//printf("Out tmp\n");
-		//ft_reset(sh);
+		exec(sh, sh->lst_cmd);
 		sh_free(sh); 
 		waitpid(-1, &sh->child_pid, 0);
 		if (sh->stat == 1) 
 		{
-			//printf("hello\n");
-			//close(sh->fd_in);
-			//close(sh->fd_out);
 			exit(0);
 		}
-		//start(sh);
 	}
 	return (0);
 }
-
-
-
-//void	init_parser(t_parsing *parser)
-//{
-//	parser->quote = 0;
-//	parser->pos = 0;
-//	parser->final = NULL;
-//}
-
-
-/*
-t_parsing parser;
-	init_parser(&parser);
-
-tmp = parsing(&parser, sh->input_str);
-if (tmp == NULL)
-{
-	write(1, "parsing error\n", 14);
-	return (-1);
-}
-////printf("tmp = %s\n", tmp);
-		
-		*while (*tmp)
-		{
-tmp = sh->input_str;
-			tmp = str_to_lst(tmp, sh);
-			////printf("{%s}\n", sh->cmd->cmd);
-			sh->cmd = sh->cmd->next;
-
-
-if (first_parsing(&parser, argv[1]) == -1)
-{
-	////printf("PARSING_ERROR");
-	return (-1);
-}
-if (flush_buff(&parser) == -1)
-	return (-1);
-if (fill_cmd(&cmd, parser.final) == -1)
-	return (-1);
-////printf("final : |%s|\n", parser.final);
-return (1);
-*/

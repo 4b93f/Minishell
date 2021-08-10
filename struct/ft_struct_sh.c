@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_struct_sh.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 06:16:08 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/10 22:41:23 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@ t_sh	ft_create_sh(void)
 	sh.lst_cmd = NULL;
 	sh.ptr_cmd = NULL;
 	sh.ptr_env = NULL;
-	sh.fd_in = -1;
-	sh.fd_out = -1;
+	sh.fd_in = 0;
+	sh.fd_out = 1;
 	sh.fd_backup[0] = dup(0);
 	sh.fd_backup[1] = dup(1);
 	sh.stat = 0;
 	sh.child_pid = 0;
+	sh.dup = NULL;
 	return (sh);
 }
 

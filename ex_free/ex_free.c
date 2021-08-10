@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/09 18:30:22 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/10 22:41:32 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void sh_free(t_sh *sh)
 	dup2(sh->fd_backup[0], 0);
 	dup2(sh->fd_backup[1], 1);
 	sh->ptr_cmd = sh->lst_cmd;
-	if(sh->fd_in != -1)
+	if (sh->fd_in != 0)
 		close(sh->fd_in);
-	if(sh->fd_out != -1)
+	if (sh->fd_out != 1)
 		close(sh->fd_out);
 	sh->fd_in = -1;
 	sh->fd_out = -1;

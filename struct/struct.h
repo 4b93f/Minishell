@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 06:16:55 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/10 23:17:32 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 #define PERM_DENIED 13
 #define IS_DIRECTORY 21
 #define PIPE 666 
+#define RIGHT 555
+#define DRIGHT 777
+#define LEFT 888
+#define DLEFT 999
 
 enum e_boolean
 {
@@ -38,6 +42,7 @@ typedef struct	s_sh
 {
 	int block_cmd;
 	char *input_str;
+	char *dup;
 	char **all_path;
 	int flag_n;
 	char *free_ptr;
@@ -89,6 +94,8 @@ void pipe_n_red(t_sh *sh);
 int str_sep(char *str);
 int error(char *str);
 char **lstenv_to_tab(t_sh *sh);
+void quoting(t_sh *sh, char *str);
+void exec(t_sh *sh, t_lst_cmd *token);
 
 
 #endif

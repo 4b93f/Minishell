@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/30 01:24:20 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/10 23:13:57 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_print_lst(t_lst_cmd *lst)
 		return ;
 	while (lst)
 	{
-		printf("[%s]\n", lst->cmd);
+		//printf("[%s] et type %d\n", lst->cmd, lst->type);
 		lst = lst->next;
 	}
 }

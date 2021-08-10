@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 19:59:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/09 23:16:31 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/10 22:08:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,75 +22,111 @@ void is_quote_open(char *str, int *squote, int *dquote, int i)
 	if (!str)
 		return ;
 	if (*squote == 1 && str[i] == '\'')
-	{
-		if (*dquote == 1)
-			dquote = 0;
 		*squote = 0;
-	}
 	else if (*squote == 0 && str[i] == '\'')
 		*squote = 1;
 	if (*dquote == 1 && str[i] == '\"')
-	{
-		if (*squote == 1)
-			squote = 0;
 		*dquote = 0;
-	}
 	else if (*dquote == 0 && str[i] == '\"')
 		*dquote = 1;
 }
 
-int main(int argc, char **argv)
+void dquoting(char *str, char **dup, int *i, int *j)
+{
+	int x = j;
+	if (str[*i + 1] != '\"')
+	{
+		while (str[*i] && str[*i + 1] && str[*i + 1] != '\"')
+		{
+			printf("{%c}\n", str[*i + 1]);
+			*dup[*j] = str[*i + 1];
+			*j = *j + 1;
+			*i = *i + 1;
+		}
+	}
+	else
+		while(str[*i + 1] == '\"')
+			*i = *i + 1;
+}
+
+void squoting(char *str, char **dup, int *i, int *j)
+{
+	if (str[*i + 1] != '\'')
+	{
+		while (str[*i] && str[*i + 1] && str[*i + 1] != '\'')
+		{
+			*dup[*j] = str[*i + 1];
+			*j = *j + 1;
+			*i = *i + 1;
+		}
+	}
+	else
+		while(str[*i + 1] == '\'')
+			*i = *i + 1;
+}
+
+char *adapt(char *str)
 {
 	char *dup;
-	char *str = strdup("lol\"\"\'\'\"");
 	int i = 0;
 	int j = 0;
-	int squote = 0;
-	int dquote = 0;
 
-	printf("[%s]\n", str);
-	dup = malloc(sizeof(char*) * strlen(str));
-	while (str && str[j])
+	//lol"""''"""
+	dup = malloc(sizeof(char*) * strlen(str) + 1);
+	while (str[i])
 	{
-		if (str[j + 1] && str[j] == '\'' && str[j + 1] != '\'')
-			is_quote_open(str, &squote, &dquote, j);
-		if (str[j + 1] && str[j] == '\"' && str[j + 1] != '\"')
-			is_quote_open(str, &squote, &dquote, j);
-		if (squote || dquote)
+		if (str[i] == '\"')
 		{
-			if (str[j] == '\"')
+			if (str[i + 1] != '\"')
 			{
-				j++;
-				while (str[j] && str[j] == '\"')
-					j++;
-				while (str[j] && str[j] != '\"')
+				while (str[i] && str[i + 1] && str[i + 1] != '\"')
 				{
-					dup[i] = str[j];
-					i++;
+					dup[j] = str[i + 1];
 					j++;
+					i++;
 				}
 			}
-			if (str[j] == '\'')
+			else
 			{
-				j++;
-				while (str[j] && str[j] == '\'')
-					j++;
-				while (str[j] && str[j] != '\'')
-				{
-					dup[i] = str[j];
+				while(str[i + 1] == '\"')
 					i++;
+				
+			}
+		}
+		else if (str[i] == '\'')
+		{
+			if (str[i + 1] != '\'')
+			{
+				while (str[i] && str[i + 1] && str[i + 1] != '\'')
+				{
+					dup[j] = str[i + 1];
 					j++;
+					i++;
 				}
+			}
+			else
+			{
+				while(str[i + 1] == '\'')
+					i++;
+				
 			}
 		}
 		else
 		{
-			if (str[j + 1])
-				dup[i] = str[j];
-			i++;
+
+			dup[j] = str[i];
 			j++;
 		}
+		i++;
 	}
 	dup[i] = '\0';
-	//printf("<%s>\n", dup);
+	return(dup);
+}
+
+int main()
+{
+	char *str;
+
+	str = strdup("echo \"\'\"");
+	adapt(str);
 }

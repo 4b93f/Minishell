@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/08/09 22:33:20 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/10 06:32:43 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
 
-t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr, int *pipe)
+t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr)
 {
 	if (!ptr) 
 		return (NULL);
@@ -21,7 +21,6 @@ t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr, int *pipe)
 		if (str_sep(ptr->cmd) && ptr->next)
 		{
 			((t_lst_cmd*)ptr->next)->type = PIPE;
-			*pipe = 1;
 			return (ptr->next);
 		}
 		ptr = ptr->next;
@@ -43,7 +42,7 @@ t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 	while (parse)
 	{
 		stock = parse;
-		parse = next_sep(sh, parse, &pipe);
+		parse = next_sep(sh, parse);
 		if (pipe)
 			stock->type = PIPE;
 		if (ptr == parse)
@@ -67,6 +66,7 @@ int		ft_pipe(t_sh *sh)
 		close(fd[1]);
 		dup2(fd[0], 0);
 		sh->fd_in = fd[0];
+		sh->stat = 1;
 		return (2);
 	}
 	else
@@ -74,23 +74,21 @@ int		ft_pipe(t_sh *sh)
 		close(fd[0]);
 		dup2(fd[1], 1);
 		sh->fd_out = fd[1];
+		sh->stat = 2;
 		return (1);
 	}
 }
 
 void tmp(t_sh *sh, t_lst_cmd *token)
 {
-	int pid;
+	pid_t pid;	
 	t_lst_cmd *next;
 	t_lst_cmd *prev;
-	int pipe;
 	
-	pid = 0;
-	while(token)
-	{
-		next = next_sep(sh, token, &pipe);
-		prev = previous_sep(sh, token);
-		//printf("tokeeeeen[%s]\n", token->cmd);
+	pid = 0;	
+	next = next_sep(sh, token);
+	prev = previous_sep(sh, token);
+	printf("tokeeeeen[%s]\n", token->cmd);
 		//if (!next)
 		//	printf("next == NULL\n");
 		//else
@@ -99,21 +97,24 @@ void tmp(t_sh *sh, t_lst_cmd *token)
 		//	printf("prev == NULL\n");
 		//else
 		//	printf("prev ==[%s]\n", prev->cmd);
-		if (prev && prev->type == PIPE)
-			pid = ft_pipe(sh);
-		if (next && pid != 1)
-		{
-			//printf("(recursivité counter)\n");
-			sh->ptr_cmd = next;
-			tmp(sh, next);
-		}	
-		if ((!prev || prev->type == PIPE) && pid != 1)
-		{
-			sh->ptr_cmd = token;
-			start(sh);
-		}
-		token = next;
+	if (prev && prev->type == PIPE)
+	{
+		printf("KEKW\n");
+		pid = ft_pipe(sh);
 	}
+	if (next && pid != 1)
+	{
+		sh->ptr_cmd = next;
+		tmp(sh, next);
+	}
+	printf(",%d,\n", pid);
+	if ((!prev || prev->type == PIPE) && pid != 1)
+	{
+		printf("<![%s]!>\n", sh->ptr_cmd->cmd);
+		sh->ptr_cmd = token;
+		start(sh);
+	}
+	printf("pd=%d\n", pid);
 }
 
 char *remv_quote(char *cmd)
@@ -177,9 +178,11 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	while(ret)
 	{
+		puts("MY PROMPT ->");
 		get_all_path(sh);
-		if(!(sh->input_str = readline("My Minishell ~> ")))
-			add_history(sh->input_str);
+		// if(!(sh->input_str = readline("My Minishell ~> ")))
+		// 	add_history(sh->input_str);
+		get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		sh->input_str = dollarz(sh, sh->input_str);
@@ -187,8 +190,15 @@ int main(int argc, char **argv, char **env)
 		quoting(sh);
 		ft_print_lst(sh->lst_cmd);
 		sh->ptr_cmd = sh->lst_cmd;
+		tmp(sh, sh->lst_cmd);
+		waitpid(-1, &sh->child_pid, 0);
+		if (sh->stat == 1) 
+		{
+			//close(sh->fd_in);
+			//close(sh->fd_out);
+			exit(0);
+		}
 		start(sh);
-		//tmp(sh, sh->lst_cmd);
 		sh_free(sh);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/09 20:40:48 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/10 06:16:55 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "errno.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #define CMD_NOT_FOND -1
 #define PERM_DENIED 13
@@ -44,6 +46,7 @@ typedef struct	s_sh
 	int **fd_pipe;
 	pid_t child_pid;
 	int piped[2];
+	int stat;
 
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;

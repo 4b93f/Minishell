@@ -20,26 +20,26 @@ OBJ = $(ALL_SRCS:.c=.o) \
 
 INC = . \
 
-CFLAGS= -Wall -Wextra -Werror\
+CFLAGS=\
 
 CC = gcc \
 
-RM = rm -f
+RM = rm -rf
 
-HEADERS = parser.h struct/struct.h libft/libft.h get_next_line/get_next_line.h cmd/cmd.h env/env.h \
+HEADERS = -I struct -I lib/get_next_line/ -I cmd -I env -I lib/libft\
 
 NAME = minishell
 
 all: $(NAME)
 
 %.o: %.c
-	@gcc -c -g3 -o $@ $?
+	@gcc $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"
-	@$(MAKE) -C lib/libft
-	@$(MAKE) bonus -C lib/libft
-	$(CC) -g3 -lreadline $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
+	make -C lib/libft
+	make bonus -C lib/libft
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS)
 
 
 clean:

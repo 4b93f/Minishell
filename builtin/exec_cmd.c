@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/09 19:56:43 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/10 06:30:30 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void exec_cmd(t_sh *sh)
 	{
 		//close(sh->fd_in);
 		//close(sh->fd_out);
-		wait(&pid);
+		waitpid(-1, &pid, 0);
+		printf("!\n");
 	}
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+         #
+#    By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/09 21:51:32 by chly-huc          #+#    #+#              #
-#    Updated: 2021/07/21 20:27:14 by chly-huc         ###   ########.fr        #
+#    Updated: 2021/08/10 05:31:20 by shyrno           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJS = 		${SRCS:.c=.o}
 OBJ = 		${BONUS:.c=.o}
 
 .c.o:
-			@${CC} ${CFLAGS} -I ${HEADERS} -c $^ -o ${<:.c=.o}
+			@${CC} ${CFLAGS} -c $^ -o ${<:.c=.o}
 
 ${NAME}: 	${OBJS}
 			@ar rc ${NAME} ${OBJS}

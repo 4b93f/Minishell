@@ -14,5 +14,6 @@
 
 void ft_exit(t_sh *sh)
 {
+	(void)sh;
 	exit(0);
 }

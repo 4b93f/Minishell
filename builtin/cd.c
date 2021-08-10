@@ -22,15 +22,10 @@ void engine_cd(t_sh *sh, int *ret, char *str)
 void ft_cd(t_sh *sh)
 {
 	errno = 0;
-	char *tmp;
 	
 	sh->ptr_cmd = sh->lst_cmd;
 	sh->ptr_env = sh->lst_env;
 	
-	if (!env_lstfinder(sh->ptr_env, "PWD"))
-		tmp = NULL;
-	else
-		tmp = ft_strdup(env_lstfinder(sh->ptr_env, "PWD")->content);
 	if (!sh->ptr_cmd->next || !ft_strcmp(((t_lst_cmd*)sh->ptr_cmd->next)->cmd,"~"))
 	{
 		engine_cd(sh, &errno, "HOME");

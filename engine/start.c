@@ -31,4 +31,5 @@ void start(t_sh *sh)
 		ft_cd(sh);
 	else
 		exec_cmd(sh);
+	sh->block_cmd = 1;
 } 

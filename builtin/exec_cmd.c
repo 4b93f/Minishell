@@ -79,22 +79,27 @@ void exec_cmd(t_sh *sh)
 	char **envp;
 	char **argp;
 	pid_t pid;
+	pid_t exit_pid;
 
+	//printf("In exec_cmd with cmd = %s\n", sh->ptr_cmd->cmd);
 	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
 	envp = lstenv_to_tab(sh);
 	argp = lstcmd_to_tab(sh->ptr_cmd);
 	pid = fork();
-	if (!pid)
+	if (pid == 0)
 	{
 		errno = execve(file, argp, envp);
-		error(argp[0], errno);
+		error(argp[0]);
 		exit(0);
 	}
+	else if (pid == -1)
+		printf("Error\n");
 	else
 	{
 		//close(sh->fd_in);
 		//close(sh->fd_out);
-		waitpid(-1, &pid, 0);
-		printf("!\n");
+		waitpid(pid, &exit_pid, 0);
+		//printf("!\n");
 	}
+	//printf("Out exec_cmd with cmd = %s\n", sh->ptr_cmd->cmd);
 }

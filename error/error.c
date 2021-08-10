@@ -12,7 +12,7 @@
 
 #include "../struct/struct.h"
 
-int error(char *str, int error)
+int error(char *str)
 {
 	if (errno == CMD_NOT_FOND)
 	{

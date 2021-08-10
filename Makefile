@@ -20,7 +20,7 @@ OBJ = $(ALL_SRCS:.c=.o) \
 
 INC = . \
 
-CFLAGS=\
+CFLAGS= -Wall -Werror -Wextra
 
 CC = gcc \
 

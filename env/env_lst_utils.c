@@ -51,9 +51,7 @@ char *env_lstcontent(t_sh *sh, char *str)
 t_lst_env	*env_lstfinder(t_lst_env *lst, char *var)
 {
 	t_lst_env	*ptr_lst;
-	t_lst_env	*tmp;
 
-	tmp = NULL;
 	ptr_lst = lst;
 	if (!ptr_lst || !var)
 		return (NULL);

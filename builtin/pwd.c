@@ -14,5 +14,6 @@
 
 void ft_pwd(t_sh *sh)
 {
+	(void)sh;
 	ft_putendl_fd(get_actual_path(), 1);	
 }

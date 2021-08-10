@@ -14,6 +14,7 @@
 
 void pipe_engine(t_sh *sh)
 {
+	(void)sh;
 	//int piped[2];
 
 	//pipe(piped);
@@ -77,7 +78,7 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if (error(sh->ptr_cmd->cmd, errno))
+			if (error(sh->ptr_cmd->cmd))
 				return;
 		}
 		if (!ft_strcmp(sh->ptr_cmd->cmd, ">>"))
@@ -89,7 +90,7 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);
-			if (error(sh->ptr_cmd->cmd, errno))
+			if (error(sh->ptr_cmd->cmd))
 				return;
 		}
 		if (!ft_strcmp(sh->ptr_cmd->cmd, "<"))
@@ -101,7 +102,7 @@ void pipe_n_red(t_sh *sh)
 			}
 			sh->ptr_cmd = sh->ptr_cmd->next;
 			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-			if (error(sh->ptr_cmd->cmd, errno))
+			if (error(sh->ptr_cmd->cmd))
 				return;
 		}
 		

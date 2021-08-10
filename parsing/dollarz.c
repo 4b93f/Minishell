@@ -34,11 +34,9 @@ static char *dollar_pass(char *str)
 
 char *dollarz_value(t_sh *sh, char *str)
 {
-	int i;
 	t_lst_env *envlst;
 	char *tmp;
 
-	i = 0;
 	tmp = dollar_cut(str);
 	envlst = sh->lst_env;
 	while (envlst->next)

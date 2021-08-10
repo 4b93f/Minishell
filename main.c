@@ -12,7 +12,7 @@
 
 #include "struct/struct.h"
 
-t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr)
+t_lst_cmd *next_sep(t_lst_cmd *ptr)
 {
 	if (!ptr) 
 		return (NULL);
@@ -31,10 +31,11 @@ t_lst_cmd *next_sep(t_sh *sh, t_lst_cmd *ptr)
 
 t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 {
-	t_lst_cmd *tmp;
 	t_lst_cmd *parse;
 	t_lst_cmd *stock;
 	int pipe;
+
+	pipe = 1;
 	if ((cmd_lstsize(ptr) - cmd_lstsize(sh->lst_cmd)) == 0)
 		return (NULL);
 	parse = sh->lst_cmd;
@@ -42,7 +43,7 @@ t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 	while (parse)
 	{
 		stock = parse;
-		parse = next_sep(sh, parse);
+		parse = next_sep(parse);
 		if (pipe)
 			stock->type = PIPE;
 		if (ptr == parse)
@@ -86,35 +87,25 @@ void tmp(t_sh *sh, t_lst_cmd *token)
 	t_lst_cmd *prev;
 	
 	pid = 0;	
-	next = next_sep(sh, token);
+	next = next_sep(token);
 	prev = previous_sep(sh, token);
-	printf("tokeeeeen[%s]\n", token->cmd);
-		//if (!next)
-		//	printf("next == NULL\n");
-		//else
-		//	printf("next ==[%s]\n", next->cmd);
-		//if (!prev)
-		//	printf("prev == NULL\n");
-		//else
-		//	printf("prev ==[%s]\n", prev->cmd);
-	if (prev && prev->type == PIPE)
+	if (sh->block_cmd == 0 && prev && prev->type == PIPE)
 	{
-		printf("KEKW\n");
+		//printf("Enter ft_pipe\n");
 		pid = ft_pipe(sh);
 	}
-	if (next && pid != 1)
+	if (sh->block_cmd == 0 && next && pid != 1)
 	{
 		sh->ptr_cmd = next;
 		tmp(sh, next);
 	}
-	printf(",%d,\n", pid);
-	if ((!prev || prev->type == PIPE) && pid != 1)
+	if (sh->block_cmd == 0 && (!prev || prev->type == PIPE) && pid != 1)
 	{
-		printf("<![%s]!>\n", sh->ptr_cmd->cmd);
 		sh->ptr_cmd = token;
+		//printf("<!Enter exec with pid = %d and cmd = [%s]!>\n", pid, sh->ptr_cmd->cmd);
 		start(sh);
 	}
-	printf("pd=%d\n", pid);
+	//printf("pd=%d\n", pid);
 }
 
 char *remv_quote(char *cmd)
@@ -146,7 +137,7 @@ char *remv_quote(char *cmd)
 		}
 	}
 	dup[i] = '\0';
-	printf("===================%s================\n", dup);
+	////printf("===================%s================\n", dup);
 	return (dup);
 }
 
@@ -158,8 +149,8 @@ void quoting(t_sh *sh)
 	{
 		if (ft_strchr(sh->ptr_cmd->cmd, '\'') || ft_strchr(sh->ptr_cmd->cmd, '\"'))
 		{
-			printf("YES\n");
-			printf("<%s>\n", sh->ptr_cmd->cmd);
+			////printf("YES\n");
+			////printf("<%s>\n", sh->ptr_cmd->cmd);
 			sh->ptr_cmd->cmd = remv_quote(sh->ptr_cmd->cmd);
 		}
 		sh->ptr_cmd = sh->ptr_cmd->next;
@@ -190,16 +181,20 @@ int main(int argc, char **argv, char **env)
 		quoting(sh);
 		ft_print_lst(sh->lst_cmd);
 		sh->ptr_cmd = sh->lst_cmd;
+		//printf("before tmp\n");
 		tmp(sh, sh->lst_cmd);
+		//printf("Out tmp\n");
+		//ft_reset(sh);
+		sh_free(sh); 
 		waitpid(-1, &sh->child_pid, 0);
 		if (sh->stat == 1) 
 		{
+			//printf("hello\n");
 			//close(sh->fd_in);
 			//close(sh->fd_out);
 			exit(0);
 		}
-		start(sh);
-		sh_free(sh);
+		//start(sh);
 	}
 	return (0);
 }
@@ -224,25 +219,25 @@ if (tmp == NULL)
 	write(1, "parsing error\n", 14);
 	return (-1);
 }
-printf("tmp = %s\n", tmp);
+////printf("tmp = %s\n", tmp);
 		
 		*while (*tmp)
 		{
 tmp = sh->input_str;
 			tmp = str_to_lst(tmp, sh);
-			printf("{%s}\n", sh->cmd->cmd);
+			////printf("{%s}\n", sh->cmd->cmd);
 			sh->cmd = sh->cmd->next;
 
 
 if (first_parsing(&parser, argv[1]) == -1)
 {
-	printf("PARSING_ERROR");
+	////printf("PARSING_ERROR");
 	return (-1);
 }
 if (flush_buff(&parser) == -1)
 	return (-1);
 if (fill_cmd(&cmd, parser.final) == -1)
 	return (-1);
-printf("final : |%s|\n", parser.final);
+////printf("final : |%s|\n", parser.final);
 return (1);
 */

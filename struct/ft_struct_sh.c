@@ -17,6 +17,7 @@ t_sh	ft_create_sh(void)
 {
 	t_sh sh;
 
+	sh.block_cmd = 0;
 	sh.all_path = NULL;
 	sh.input_str = NULL;
 	sh.flag_n = 0;
@@ -24,8 +25,8 @@ t_sh	ft_create_sh(void)
 	sh.lst_cmd = NULL;
 	sh.ptr_cmd = NULL;
 	sh.ptr_env = NULL;
-	sh.fd_in = 0;
-	sh.fd_out = 1;
+	sh.fd_in = -1;
+	sh.fd_out = -1;
 	sh.fd_backup[0] = dup(0);
 	sh.fd_backup[1] = dup(1);
 	sh.stat = 0;

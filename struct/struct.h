@@ -36,6 +36,7 @@ enum e_boolean
 
 typedef struct	s_sh
 {
+	int block_cmd;
 	char *input_str;
 	char **all_path;
 	int flag_n;
@@ -45,7 +46,6 @@ typedef struct	s_sh
 	int fd_backup[2];
 	int **fd_pipe;
 	pid_t child_pid;
-	int piped[2];
 	int stat;
 
 	t_lst_cmd *lst_cmd;
@@ -87,7 +87,7 @@ char	*ft_search_path(t_sh *sh, char *str);
 void exit_code(t_sh *sh, int nbr);
 void pipe_n_red(t_sh *sh);
 int str_sep(char *str);
-int error(char *str, int error);
+int error(char *str);
 char **lstenv_to_tab(t_sh *sh);
 
 

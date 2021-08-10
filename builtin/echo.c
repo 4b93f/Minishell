@@ -27,7 +27,7 @@ static void echo_scan(t_sh *sh)
 
 void ft_echo(t_sh *sh)
 {
-	printf("<ECHO>\n");
+	//printf("<ECHO>\n");
 	sh->ptr_cmd = sh->lst_cmd;
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;

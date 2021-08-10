@@ -92,5 +92,5 @@ int main(int argc, char **argv)
 		}
 	}
 	dup[i] = '\0';
-	printf("<%s>\n", dup);
+	//printf("<%s>\n", dup);
 }

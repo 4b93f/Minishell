@@ -12,11 +12,8 @@
 
 #include "../struct/struct.h"
 
-void print_export(t_sh *sh, char **tab)
+void print_export(t_sh *sh)
 {
-	int i;
-
-	i = 0;
 	sh->ptr_env = sh->lst_env;
 	while (sh->ptr_env)
 	{
@@ -56,11 +53,11 @@ static void	ft_sort_export(t_sh *sh)
 			}
 		}
 	}
-	print_export(sh, tab);
+	print_export(sh);
 	free_tab(tab);
 }
 
-char *check_export(t_sh *sh, char *s1)
+char *check_export(char *s1)
 {
 	int i;
 

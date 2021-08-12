@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/12 01:10:56 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/12 16:13:39 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_reset(t_sh *sh)
 void sh_free(t_sh *sh)
 {
 	cmd_lstclear(&sh->lst_cmd, free);
+	free(sh->free_ptr);
 	free_tab(sh->all_path);
 	free(sh->input_str);
 	//free(sh->dup);
@@ -64,7 +65,7 @@ void sh_free(t_sh *sh)
 		close(sh->fd_in);
 	if (sh->fd_out != 1)
 		close(sh->fd_out);
-	sh->fd_in = -1;
-	sh->fd_out = -1;
+	sh->fd_in = 0;
+	sh->fd_out = 1;
 	sh->block_cmd = 0;
 }

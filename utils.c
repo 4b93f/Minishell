@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 23:13:57 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/12 16:07:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,8 @@ void	get_all_path(t_sh *sh)
 		return ;
 	while (sh->all_path[++i])
 	{
-		//printf("<<%s>>\n", sh->all_path[i]);
+		sh->free_ptr = sh->all_path[i];
 		sh->all_path[i] = ft_strjoin(sh->all_path[i], "/");
+		free(sh->free_ptr);
 	}
 }

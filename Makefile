@@ -33,7 +33,7 @@ NAME = minishell
 all: $(NAME)
 
 %.o: %.c
-	@gcc $(CFLAGS) -c $< -o $@
+	@gcc -g3 $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"

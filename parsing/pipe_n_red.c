@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_n_red.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/12 01:19:18 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/08/12 17:59:14 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,17 @@ void red_dright(t_sh *sh, t_lst_cmd *token)
 		return;
 }
 
-void red_left(t_sh *sh, t_lst_cmd *tokens)
+void red_left(t_sh *sh, t_lst_cmd *token)
 {
-	if (!ft_strcmp(sh->ptr_cmd->cmd, "<"))
+	sh->ptr_cmd = token;
+	if (!sh->ptr_cmd)
 	{
-		if (!sh->ptr_cmd)
-		{
-			ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-			return ;
-		}
-		sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-		if (error(sh->ptr_cmd->cmd))
-			return;
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
+		return ;
 	}
+	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
+	if (error(sh->ptr_cmd->cmd))
+		return;
 }
 
 t_lst_cmd *next_sep(t_lst_cmd *ptr)
@@ -146,13 +144,16 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		red_dright(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == LEFT)
 		red_left(sh, token);
-	if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
+	//if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
+	//	red_dleft(sh, token);
+	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
 	if (sh->block_cmd == 0 && next && pid != 1)
 	{
 		sh->ptr_cmd = next;
 		exec(sh, next);
 	}
+	//printf("%d\n", sh->block_cmd);
 	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 1)
 	{
 		sh->ptr_cmd = token;

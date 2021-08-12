@@ -3,14 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_n_red.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 23:31:08 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/12 01:19:18 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
+
+void red_right(t_sh *sh, t_lst_cmd *token)
+{
+	sh->ptr_cmd = token;
+	printf(",%s,\n", sh->ptr_cmd->cmd);
+	if (!sh->ptr_cmd)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 1);
+		return ;
+	}
+	sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (error(sh->ptr_cmd->cmd))
+		return;
+}
+
+void red_dright(t_sh *sh, t_lst_cmd *token)
+{
+	sh->ptr_cmd = token;
+	if (!sh->ptr_cmd)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
+		return ;
+	}
+	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);
+	if (error(sh->ptr_cmd->cmd))
+		return;
+}
+
+void red_left(t_sh *sh, t_lst_cmd *tokens)
+{
+	if (!ft_strcmp(sh->ptr_cmd->cmd, "<"))
+	{
+		if (!sh->ptr_cmd)
+		{
+			ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
+			return ;
+		}
+		sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
+		if (error(sh->ptr_cmd->cmd))
+			return;
+	}
+}
 
 t_lst_cmd *next_sep(t_lst_cmd *ptr)
 {
@@ -98,7 +140,13 @@ void exec(t_sh *sh, t_lst_cmd *token)
 	next = next_sep(token);
 	prev = previous_sep(sh, token);
 	prev_type = previous_type(sh, token);
-	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
+	if (sh->block_cmd == 0 && prev && prev_type == RIGHT)
+		red_right(sh, token);
+	if (sh->block_cmd == 0 && prev && prev_type == DRIGHT)
+		red_dright(sh, token);
+	if (sh->block_cmd == 0 && prev && prev_type == LEFT)
+		red_left(sh, token);
+	if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
 		pid = ft_pipe(sh);
 	if (sh->block_cmd == 0 && next && pid != 1)
 	{
@@ -109,55 +157,5 @@ void exec(t_sh *sh, t_lst_cmd *token)
 	{
 		sh->ptr_cmd = token;
 		start(sh);
-	}
-}
-
-void pipe_n_red(t_sh *sh)
-{
-	errno = 0;
-	sh->ptr_cmd = sh->lst_cmd;
-	
-	while (sh->ptr_cmd)
-	{	
-		if (!sh->ptr_cmd->next)
-			return;
-		sh->ptr_cmd = sh->ptr_cmd->next;
-		if (!ft_strcmp(sh->ptr_cmd->cmd, ">"))
-		{
-			if (!sh->ptr_cmd->next)
-			{
-				ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 1);
-				return ;
-			}
-			sh->ptr_cmd = sh->ptr_cmd->next;
-			sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if (error(sh->ptr_cmd->cmd))
-				return;
-		}
-		if (!ft_strcmp(sh->ptr_cmd->cmd, ">>"))
-		{
-			if (!sh->ptr_cmd->next)
-			{
-				ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-				return ;
-			}
-			sh->ptr_cmd = sh->ptr_cmd->next;
-			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);
-			if (error(sh->ptr_cmd->cmd))
-				return;
-		}
-		if (!ft_strcmp(sh->ptr_cmd->cmd, "<"))
-		{
-			if (!sh->ptr_cmd->next)
-			{
-				ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-				return ;
-			}
-			sh->ptr_cmd = sh->ptr_cmd->next;
-			sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-			if (error(sh->ptr_cmd->cmd))
-				return;
-		}
-	
 	}
 }

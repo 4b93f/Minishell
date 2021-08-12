@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strtolst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 23:13:14 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/08/12 01:15:40 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ void str_tolst(char *str, t_sh *sh)
 			i++;
 			if (str[i - 1] == '|')
 				type = PIPE;
-			if (str[i - 1] == '>')
+			if (str[i - 1] == '>' && str[i] != '>')
 				type = RIGHT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '>')
 				type = DRIGHT;
-			else if (str[i - 1]  == '<')
+			else if (str[i - 1]  == '<' && str[i]  == '<')
 				type = LEFT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '<')
 				type = DLEFT;

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:52:00 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/12 16:13:39 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/09 17:53:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ void	ft_reset(t_sh *sh)
 void sh_free(t_sh *sh)
 {
 	cmd_lstclear(&sh->lst_cmd, free);
-	free(sh->free_ptr);
 	free_tab(sh->all_path);
 	free(sh->input_str);
-	//free(sh->dup);
 	sh->all_path = NULL;
 	sh->flag_n = 0;
 	dup2(sh->fd_backup[0], 0);

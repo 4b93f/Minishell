@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:05:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 22:15:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/09 17:47:13 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,58 +26,59 @@ void is_quote_open(char *str, int *squote, int *dquote, int i)
 		*dquote = TRUE;
 }
 
-void dquoting(t_sh *sh, char *str, int *i, int *j)
+void dquoting(t_sh *sh, int *i, int *j)
 {
-	if (str[*i + 1] != '\"')
+	printf("!\n");
+	if (sh->ptr_cmd->cmd[*i + 1] != '\"')
 	{
-		while (str[*i] && str[*i + 1] && str[*i + 1] != '\"')
+		while (sh->ptr_cmd->cmd[*i] && sh->ptr_cmd->cmd[*i + 1] && sh->ptr_cmd->cmd[*i + 1] != '\"')
 		{
-			sh->dup[*j] = str[*i + 1];
+			sh->ptr_cmd->cmd[*j] = sh->ptr_cmd->cmd[*i + 1];
 			*j = *j + 1;
 			*i = *i + 1;
 		}
 	}
 	else
-		while(str[*i + 1] == '\"')
+		while(sh->ptr_cmd->cmd[*i + 1] == '\"')
 			*i = *i + 1;
 }
 
-void squoting(t_sh *sh, char *str, int *i, int *j)
+void squoting(t_sh *sh,   int *i, int *j)
 {
-	if (str[*i + 1] != '\'')
+	if (sh->ptr_cmd->cmd[*i + 1] != '\'')
 	{
-		while (str[*i] && str[*i + 1] && str[*i + 1] != '\'')
+		while (sh->ptr_cmd->cmd[*i] && sh->ptr_cmd->cmd[*i + 1] && sh->ptr_cmd->cmd[*i + 1] != '\'')
 		{
-			sh->dup[*j] = str[*i + 1];
+			sh->ptr_cmd->cmd[*j] = sh->ptr_cmd->cmd[*i + 1];
 			*j = *j + 1;
 			*i = *i + 1;
 		}
 	}
 	else
-		while(str[*i + 1] == '\'')
+		while(sh->ptr_cmd->cmd[*i + 1] == '\'')
 			*i = *i + 1;
 }
 
-void quoting(t_sh *sh, char *str)
+void quoting(t_sh *sh)
 {
 	int i = 0;
 	int j = 0;
 
-	sh->dup = malloc(sizeof(char*) * strlen(str) + 1);
-	if (!sh->dup)
-		return;
-	while (str[i])
+	sh->ptr_cmd = sh->lst_cmd;
+	while (sh->ptr_cmd)
 	{
-		if (str[i] == '\"')
-			dquoting(sh, str, &i, &j);
-		else if (str[i] == '\'')
-			squoting(sh, str, &i, &j);	
-		else
+		i = 0;
+		j = 0;
+		while(sh->ptr_cmd->cmd[i])
 		{
-			sh->dup[j] = str[i];
-			j++;
+			if (sh->ptr_cmd->cmd[i] == '\"')
+				dquoting(sh, &i, &j);
+			else if (sh->ptr_cmd->cmd[i] == '\'')
+				squoting(sh, &i, &j);	
+			else
+				j++;
+			i++;
 		}
-		i++;
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	sh->dup[i] = '\0';
 }

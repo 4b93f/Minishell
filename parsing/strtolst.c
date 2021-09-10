@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strtolst.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/12 01:15:40 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/09/09 19:50:27 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,29 @@ void str_tolst(char *str, t_sh *sh)
 {
 	int i;
 	int j;
+	int dquote;
+	int squote;
 	int type;
 	char *tmp;
 	
 	j = 0;
 	i = 0;
 	tmp = str;
+	squote = 0;
+	dquote = 0;
 	while (tmp[i])
 	{
 		j = i;
 		type = 0;
 		if (tmp[i] && !is_sep(tmp[i]))
-			while (tmp[i] && !is_sep(tmp[i]))
+		{
+			while (tmp[i] && (!is_sep(tmp[i]) || squote || dquote))
+			{
+
+				is_quote_open(tmp, &squote, &dquote, i);
 				i++;
+			}
+		}
 		else if (tmp[i] == ' ')
 		{
 			i++;

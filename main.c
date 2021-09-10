@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/08/12 18:04:25 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/09 19:49:09 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,19 @@ int main(int argc, char **argv, char **env)
 		get_all_path(sh);
 		if(!(sh->input_str = readline("My Minishell ~> ")))
 		 	add_history(sh->input_str);
-		//puts("MY PROMPT-> ");
-		//get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
-		sh->free_ptr = sh->input_str;
 		sh->input_str = dollarz(sh, sh->input_str);
-		printf("[%s]\n", sh->input_str);
-		quoting(sh, sh->input_str);
-		sh->input_str = sh->dup;
 		str_tolst(sh->input_str, sh);
+		quoting(sh);
 		ft_print_lst(sh->lst_cmd);
 		sh->ptr_cmd = sh->lst_cmd;
 		exec(sh, sh->lst_cmd);
 		sh_free(sh); 
 		waitpid(-1, &sh->child_pid, 0);
 		if(sh->stat != 1 && sh->stat != 0) 
-			exit(0);
+			return (0);
+		return (0);
 	}
-	return (0);
+	exit(0);
 }

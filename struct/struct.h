@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/09 19:47:15 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/11 21:22:29 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <sys/wait.h>
 
 #define CMD_NOT_FOND -1
+#define FORK 1
 #define PERM_DENIED 13
 #define IS_DIRECTORY 21
 #define PIPE 666 

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/09 19:49:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/11 20:52:21 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int main(int argc, char **argv, char **env)
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
 		quoting(sh);
-		ft_print_lst(sh->lst_cmd);
+		//ft_print_lst(sh->lst_cmd);
 		sh->ptr_cmd = sh->lst_cmd;
 		exec(sh, sh->lst_cmd);
 		sh_free(sh); 
 		waitpid(-1, &sh->child_pid, 0);
-		if(sh->stat != 1 && sh->stat != 0) 
+		if(sh->stat != 1 && sh->stat != 0)
 			return (0);
-		return (0);
 	}
 	exit(0);
+	return (0);
 }

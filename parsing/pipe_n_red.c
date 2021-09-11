@@ -6,16 +6,17 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/12 17:59:14 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/11 21:26:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
+int	g_overload = 0;
+
 void red_right(t_sh *sh, t_lst_cmd *token)
 {
 	sh->ptr_cmd = token;
-	printf(",%s,\n", sh->ptr_cmd->cmd);
 	if (!sh->ptr_cmd)
 	{
 		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 1);
@@ -90,12 +91,14 @@ t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 
 int		ft_pipe(t_sh *sh)
 {
+	errno = 0;
+	
 	int fd[2];
 	int pid;
 	if (pipe(fd) == -1)
-		strerror(errno);
+		printf("OOPSIE\n");
 	if ((pid = fork()) == -1)
-		strerror(errno);
+		return(1);
 	if (pid == 0)
 	{
 		close(fd[1]);
@@ -148,12 +151,11 @@ void exec(t_sh *sh, t_lst_cmd *token)
 	//	red_dleft(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
-	if (sh->block_cmd == 0 && next && pid != 1)
+	if (sh->block_cmd == 0 && next && pid != 1 && g_overload == 0)
 	{
 		sh->ptr_cmd = next;
 		exec(sh, next);
-	}
-	//printf("%d\n", sh->block_cmd);
+	}	
 	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 1)
 	{
 		sh->ptr_cmd = token;

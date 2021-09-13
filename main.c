@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/11 20:52:21 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/13 02:13:37 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		if(!(sh->input_str = readline("My Minishell ~> ")))
-		 	add_history(sh->input_str);
+		// if(!(sh->input_str = readline("My Minishell ~> ")))
+		//  	add_history(sh->input_str);
+		ft_putstr_fd("My minishell ~> ", 2);
+		ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		sh->input_str = dollarz(sh, sh->input_str);
@@ -40,7 +42,7 @@ int main(int argc, char **argv, char **env)
 		waitpid(-1, &sh->child_pid, 0);
 		if(sh->stat != 1 && sh->stat != 0)
 			return (0);
+		exit(0);
 	}
-	exit(0);
 	return (0);
 }

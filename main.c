@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/14 01:39:32 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/09/14 14:18:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,26 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		// if(!(sh->input_str = readline("My Minishell ~> ")))
-		//  	add_history(sh->input_str);
-		ft_putstr_fd("My minishell ~> ", 2);
-		ret = get_next_line(0, &sh->input_str);
+		if(!(sh->input_str = readline("My Minishell ~> ")))
+			add_history(sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
+		if (!ver_quote(sh->input_str))
+		{
+			sh_free(sh);
+			continue;
+		}
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
-		quoting(sh);
 		//ft_print_lst(sh->lst_cmd);
+		quoting(sh);
 		sh->ptr_cmd = sh->lst_cmd;
 		exec(sh, sh->lst_cmd);
 		sh_free(sh); 
 		waitpid(-1, &sh->child_pid, 0);
 		if(sh->stat != 1 && sh->stat != 0)
 			return (0);
-		return (0);
+		return (ft_atoi(env_lstcontent(sh, "?")));
 	}
 	return (0);
 }

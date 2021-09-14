@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/11 21:26:49 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 15:03:26 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ t_lst_cmd *next_sep(t_lst_cmd *ptr)
 	while(ptr)
 	{
 		if (str_sep(ptr->cmd) && ptr->next)
-		{
 			return (ptr->next);
-		}
 		ptr = ptr->next;
 	}
 	return (NULL);	
@@ -147,8 +145,6 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		red_dright(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == LEFT)
 		red_left(sh, token);
-	//if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
-	//	red_dleft(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
 	if (sh->block_cmd == 0 && next && pid != 1 && g_overload == 0)

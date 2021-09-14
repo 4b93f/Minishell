@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollarz.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
+/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 03:50:50 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/09/14 12:57:18 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char *dollar_cut(char *str)
 	i = 0;
 	while (str[i] && !is_sep(str[i]) && str[i] != '=')
 		i++;
+	if (i == 0)
+		return (ft_strdup("$"));
 	return (ft_substr(str, 0, i));
 }
 
@@ -40,6 +42,8 @@ char *dollarz_value(t_sh *sh, char *str)
 	char *tmp;
 
 	tmp = dollar_cut(str);
+	if (!ft_strcmp(tmp, "$"))
+		return(tmp);
 	envlst = sh->lst_env;
 	while (envlst->next)
 	{	
@@ -76,7 +80,7 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 		tmp = ft_strjoin(new, tmp);
 	while(str[j] != '$')
 		j++;
-	printf("%d\n", j);
+	//printf("%d\n", j);
 	tmps = dollar_pass(str + j);
 	new = ft_substr(tmps, j, ft_strlen(str));
 	str = ft_strjoin(tmp, tmps);

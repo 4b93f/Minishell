@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 15:01:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/11 21:25:34 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:12:27 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,20 @@ int error(char *str)
 		ft_putstr_fd("My Minishell: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(" retry: Resource temporarily unavailable\n", 2);
+		return (1);
+	}
+	if (errno == UNV_ID)
+	{
+		ft_putstr_fd("My Minishell: ", 2);
+		ft_putstr_fd("`", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+	}
+	if (errno == EXIT_ARG)
+	{
+		ft_putstr_fd("My Minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": too many arguments\n", 2);
 		return (1);
 	}
 	return (0);

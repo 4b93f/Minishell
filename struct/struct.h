@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/11 21:22:29 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:14:30 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 #include "errno.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include "limits.h"
 
-#define CMD_NOT_FOND -1
+#define CMD_NOT_FOND 2
 #define FORK 1
 #define PERM_DENIED 13
 #define IS_DIRECTORY 21
@@ -32,6 +33,8 @@
 #define DRIGHT 777
 #define LEFT 888
 #define DLEFT 999
+#define UNV_ID 3
+#define EXIT_ARG 4
 
 enum e_boolean
 {
@@ -98,5 +101,6 @@ char **lstenv_to_tab(t_sh *sh);
 void quoting(t_sh *sh);
 void exec(t_sh *sh, t_lst_cmd *token);
 void	cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
+int ver_quote(char *str);
 
 #endif

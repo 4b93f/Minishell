@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:18:27 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/24 22:36:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 13:39:36 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	print_env(t_sh *sh)
 		}
 		sh->ptr_env = sh->ptr_env->next;
 	}
+	exit_code(sh, 0);
 }

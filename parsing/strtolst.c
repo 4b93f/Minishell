@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/09 19:50:27 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 13:08:10 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ char *ft_remove_char(char *str, int c)
 	
 }
 
+int ver_quote(char *str)
+{
+	int i;
+	int dquote;
+	int squote;
+
+	i = 0;
+	squote = 0;
+	dquote = 0;
+	if (!str)
+		return(1);
+	while (str[i])
+	{
+		is_quote_open(str, &squote, &dquote, i);
+		i++;
+	}
+	if (squote || dquote)
+	{
+		printf("Error, unclose quote detected\n");
+		return(0);
+	}
+	return(1);
+}
+
 void str_tolst(char *str, t_sh *sh)
 {
 	int i;
@@ -61,7 +85,6 @@ void str_tolst(char *str, t_sh *sh)
 		{
 			while (tmp[i] && (!is_sep(tmp[i]) || squote || dquote))
 			{
-
 				is_quote_open(tmp, &squote, &dquote, i);
 				i++;
 			}

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/11 21:30:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 15:32:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,7 @@ void exec_cmd(t_sh *sh)
 		error("fork");
 	}
 	else
-	{
-		//close(sh->fd_in);
-		//close(sh->fd_out);
 		waitpid(pid, &exit_pid, 0);
-		//printf("!\n");
-	}
 	free_tab(envp);
 	free_tab(argp);
 	free(file);

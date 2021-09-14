@@ -6,23 +6,25 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 14:26:34 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/25 00:13:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 14:48:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void print_export(t_sh *sh)
+void print_export(t_sh *sh, char **tab)
 {
-	sh->ptr_env = sh->lst_env;
-	while (sh->ptr_env)
+	int i;
+
+	i = 0;
+	while (tab[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(sh->ptr_env->var, 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(sh->ptr_env->content, 1);
-		ft_putstr_fd("\"\n", 1);
-		sh->ptr_env = sh->ptr_env->next;
+		ft_putstr_fd("declare -x ", sh->fd_out);
+		ft_putstr_fd(tab[i], sh->fd_out);
+		ft_putstr_fd("=\"", sh->fd_out);
+		ft_putstr_fd(env_lstcontent(sh, tab[i]), sh->fd_out);
+		ft_putstr_fd("\"\n", sh->fd_out);
+		i++;
 	}
 }
 
@@ -53,7 +55,7 @@ static void	ft_sort_export(t_sh *sh)
 			}
 		}
 	}
-	print_export(sh);
+	print_export(sh, tab);
 	free_tab(tab);
 }
 
@@ -70,12 +72,14 @@ char *check_export(char *s1)
 void ft_export(t_sh *sh)
 {
 	char *value;
+	
 	char *var;
 	int equal_pos;
 	
 	value = NULL;
 	var = NULL;
 	equal_pos = 0;
+	errno = 0;
 	sh->ptr_cmd = sh->lst_cmd;
 	while(sh->ptr_cmd)
 	{
@@ -83,9 +87,10 @@ void ft_export(t_sh *sh)
 		{
 			if (sh->ptr_cmd->next)
 				sh->ptr_cmd = sh->ptr_cmd->next;
-			if (!sh->ptr_cmd->next && !ft_strchr(sh->ptr_cmd->cmd, '='))
+			if  (!ft_strchr(sh->ptr_cmd->cmd, '=') || !ft_strcmp(sh->ptr_cmd->cmd, "|"))
 			{
 				ft_sort_export(sh);
+				exit_code(sh, 0);
 				return;
 			}
 		}
@@ -98,11 +103,19 @@ void ft_export(t_sh *sh)
 			value = ft_substr(sh->ptr_cmd->cmd, equal_pos + 1, ft_strlen(sh->ptr_cmd->cmd));
 		else
 			value = ft_substr(sh->ptr_cmd->cmd, equal_pos, ft_strlen(sh->ptr_cmd->cmd));
-		if (!env_lstdupe(sh, var, value))
+		if (!ft_strcmp(value, "="))
+		{
+			errno = UNV_ID;
+			error(value);
+			errno = 1;
+		}
+		else if (!env_lstdupe(sh, var, value))
 		{
 			sh->ptr_env = sh->lst_env;
 			env_lstaddback(&sh->ptr_env, env_lstnew(var, value));
+			errno = 0;
 		}
 		sh->ptr_cmd = sh->ptr_cmd->next;
+		exit_code(sh, errno);
 	}
 } 

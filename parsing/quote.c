@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:05:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/11 19:01:45 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 12:49:26 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ void dquoting(t_sh *sh, int *i, int *j)
 			*i = *i + 1;
 		}
 	}
-	else
-		while(sh->ptr_cmd->cmd[*i + 1] == '\"')
-			*i = *i + 1;
 }
 
 void squoting(t_sh *sh,   int *i, int *j)
@@ -53,9 +50,6 @@ void squoting(t_sh *sh,   int *i, int *j)
 			*i = *i + 1;
 		}
 	}
-	else
-		while(sh->ptr_cmd->cmd[*i + 1] == '\'')
-			*i = *i + 1;
 }
 
 void quoting(t_sh *sh)

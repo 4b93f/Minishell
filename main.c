@@ -6,7 +6,7 @@
 /*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/13 02:13:37 by shyrno           ###   ########.fr       */
+/*   Updated: 2021/09/14 01:39:32 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **env)
 		waitpid(-1, &sh->child_pid, 0);
 		if(sh->stat != 1 && sh->stat != 0)
 			return (0);
-		exit(0);
+		return (0);
 	}
 	return (0);
 }

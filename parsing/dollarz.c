@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollarz.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shyrno <shyrno@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/09 17:52:14 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/14 03:50:50 by shyrno           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char *dollar_cut(char *str)
 	int i;
 
 	i = 0;
-	while (str[i] && !is_sep(str[i]))
+	while (str[i] && !is_sep(str[i]) && str[i] != '=')
 		i++;
 	return (ft_substr(str, 0, i));
 }
@@ -27,7 +27,9 @@ static char *dollar_pass(char *str)
 	int i;
 
 	i = 0;
-	while (str[i] && !is_sep(str[i]))
+	if (str[i] == '$')
+		i++;
+	while (str[i] && !is_sep(str[i]) && str[i] != '=' && (ft_isalpha(str[i]) || str[i] == '$'))
 		i++;
 	return (ft_substr(str, i, ft_strlen(str)));
 }
@@ -48,8 +50,7 @@ char *dollarz_value(t_sh *sh, char *str)
 		}
 		envlst = envlst->next;
 	}
-	return (NULL);
-	
+	return (NULL);	
 }
 
 char *dollar_swap(t_sh *sh, char *str, int i)
@@ -68,11 +69,14 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 	i++;
 	tmp = dollarz_value(sh, (str + i));
 	if (!tmp)
+	{
 		tmp = ft_strdup(new);
+	}
 	else
 		tmp = ft_strjoin(new, tmp);
 	while(str[j] != '$')
 		j++;
+	printf("%d\n", j);
 	tmps = dollar_pass(str + j);
 	new = ft_substr(tmps, j, ft_strlen(str));
 	str = ft_strjoin(tmp, tmps);
@@ -92,7 +96,9 @@ char *dollarz(t_sh *sh, char *str)
 	{
 		is_quote_open(str, &squote, &dquote, i);
 		if ((!squote && str[i] == '$'))
+		{
 			str = dollar_swap(sh, str, i);
+		}
 		i++;
 	}
 	return (str);

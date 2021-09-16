@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 15:01:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 13:11:33 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 15:54:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,13 @@ int error(t_sh *sh, char *str)
 		ft_putstr_fd("My Minishell: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": too many arguments\n", 2);
+		return (1);
+	}
+	if (errno == SYNTAX_ERROR)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
 	return (0);

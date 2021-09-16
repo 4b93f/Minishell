@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 13:06:02 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 15:38:52 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 #define DLEFT 999
 #define UNV_ID 3
 #define EXIT_ARG 4
+#define SYNTAX_ERROR 5
 
 enum e_boolean
 {
@@ -102,5 +103,6 @@ void quoting(t_sh *sh);
 void exec(t_sh *sh, t_lst_cmd *token);
 void	cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
 int ver_quote(char *str);
+int str_spechar(char *str);
 
 #endif

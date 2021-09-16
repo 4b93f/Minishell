@@ -6,11 +6,23 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/09 19:38:19 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 15:26:34 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
+
+
+int str_spechar(char *str)
+{
+	int i;
+
+	i = -1;
+	while(str[++i])
+		if (str[i] == '>' || str[i] == '<' || str[i] == '|')
+			return(1);
+	return(0);	
+}
 
 int is_sep(int c)
 {

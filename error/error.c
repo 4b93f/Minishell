@@ -6,20 +6,21 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 15:01:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 16:12:27 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 13:11:33 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-int error(char *str)
+int error(t_sh *sh, char *str)
 {
 	if (errno == CMD_NOT_FOND)
 	{
 		ft_putstr_fd("My Minishell: ", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return (1);
+		exit_code(sh, 2);
+		return (2);
 	}
 	if (errno == PERM_DENIED)
 	{

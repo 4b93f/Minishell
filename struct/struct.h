@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 16:14:30 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 13:06:02 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*ft_search_path(t_sh *sh, char *str);
 void exit_code(t_sh *sh, int nbr);
 void pipe_n_red(t_sh *sh);
 int str_sep(char *str);
-int error(char *str);
+int error(t_sh *sh, char *str);
 char **lstenv_to_tab(t_sh *sh);
 void quoting(t_sh *sh);
 void exec(t_sh *sh, t_lst_cmd *token);

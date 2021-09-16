@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 15:03:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 14:43:16 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	g_overload = 0;
 
 void red_right(t_sh *sh, t_lst_cmd *token)
 {
+	//printf("?\n");
 	sh->ptr_cmd = token;
 	if (!sh->ptr_cmd)
 	{
@@ -23,7 +24,14 @@ void red_right(t_sh *sh, t_lst_cmd *token)
 		return ;
 	}
 	sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (error(sh->ptr_cmd->cmd))
+	if (!sh->fd_out)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(sh->ptr_cmd->cmd, 2);
+		ft_putstr_fd("'", 2);
+		return ;
+	}
+	if (error(sh, sh->ptr_cmd->cmd))
 		return;
 }
 
@@ -36,7 +44,15 @@ void red_dright(t_sh *sh, t_lst_cmd *token)
 		return ;
 	}
 	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);
-	if (error(sh->ptr_cmd->cmd))
+	if (!sh->fd_out)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(sh->ptr_cmd->cmd, 2);
+		ft_putstr_fd("'", 2);
+		return ;
+	}
+		
+	if (error(sh, sh->ptr_cmd->cmd))
 		return;
 }
 
@@ -49,7 +65,14 @@ void red_left(t_sh *sh, t_lst_cmd *token)
 		return ;
 	}
 	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-	if (error(sh->ptr_cmd->cmd))
+	if (!sh->fd_out)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(sh->ptr_cmd->cmd, 2);
+		ft_putstr_fd("'", 2);
+		return ;
+	}
+	if (error(sh, sh->ptr_cmd->cmd))
 		return;
 }
 
@@ -157,4 +180,5 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		sh->ptr_cmd = token;
 		start(sh);
 	}
+	//printf(" -- [%d]\n", ft_atoi(env_lstcontent(sh, "?")));
 }

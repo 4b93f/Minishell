@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 17:47:03 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/07/29 19:15:41 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 12:59:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void ft_cd(t_sh *sh)
 	{
 		ft_putstr_fd("My Minishell: cd:", 2);
 		ft_putstr_fd(" too many arguments\n", 2);
+		exit_code(sh, 1);
 		return ;
 	}
 	errno = chdir(sh->ptr_cmd->cmd);
@@ -44,5 +45,6 @@ void ft_cd(t_sh *sh)
 		ft_putstr_fd("My Minishell: cd: ", 2);
 		ft_putstr_fd(sh->ptr_cmd->cmd, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
+		exit_code(sh, 1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/14 14:18:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 14:43:42 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int main(int argc, char **argv, char **env)
 		waitpid(-1, &sh->child_pid, 0);
 		if(sh->stat != 1 && sh->stat != 0)
 			return (0);
+		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
 		return (ft_atoi(env_lstcontent(sh, "?")));
 	}
 	return (0);

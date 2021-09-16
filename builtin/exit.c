@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 17:23:56 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 17:16:08 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 15:10:42 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,17 @@ long long ft_strtoll(char *str)
 	return (result_strtoll(sign, res));	
 }
 
+int verif(char *str)
+{
+	int i;
+	
+	i = -1;
+	while(str[++i])
+		if (!ft_isdigit(str[i]))
+			return (0);
+	return (1);
+}
+	
 void ft_exit(t_sh *sh)
 {
 	int overflow;
@@ -63,14 +74,20 @@ void ft_exit(t_sh *sh)
 	if (sh->ptr_cmd->next && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
 		errno = EXIT_ARG;	
-		error("exit");
+		error(sh, "exit");
 	}
 	else
 	{
 		ret = ft_strtoll(sh->ptr_cmd->cmd);
-		if (ret == -1)
+		if (ft_strlen(sh->ptr_cmd->cmd) >= 19 && (ft_strcmp(sh->ptr_cmd->cmd, "9223372036854775807") > 0))
 			ret = 2;
+		if (ft_strlen(sh->ptr_cmd->cmd) >= 20 && (!ft_strcmp(sh->ptr_cmd->cmd, "-9223372036854775808") || (ft_strlen(sh->ptr_cmd->cmd) >= 19 && (!ft_strcmp(sh->ptr_cmd->cmd, "9223372036854775807")))))
+			ret = 0;
+		else if (ret == -1 || (ret == 0 && !verif(sh->ptr_cmd->cmd)))
+			ret = 2;
+		//printf("%lld\n", ret);
+		
 	}
-	printf("%lld\n", ret);
+	//printf("%lld\n", ret);
 	exit(ret);
 }

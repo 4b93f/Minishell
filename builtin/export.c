@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 14:26:34 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 14:48:44 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 14:41:19 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void ft_export(t_sh *sh)
 		if (!ft_strcmp(value, "="))
 		{
 			errno = UNV_ID;
-			error(value);
+			error(sh, value);
 			errno = 1;
 		}
 		else if (!env_lstdupe(sh, var, value))

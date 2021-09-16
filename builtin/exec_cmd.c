@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 15:32:00 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/16 13:08:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	**lstcmd_to_tab(t_lst_cmd *lst)
 
 void exec_cmd(t_sh *sh)
 {
+	//printf("!\n");
 	errno = 0;
 	char *file;
 	char **envp;
@@ -91,7 +92,7 @@ void exec_cmd(t_sh *sh)
 	if (pid == 0)
 	{
 		errno = execve(file, argp, envp);
-		error(argp[0]);
+		error(sh, argp[0]);
 		free_tab(envp);
 		free_tab(argp);
 		free(file);
@@ -100,7 +101,7 @@ void exec_cmd(t_sh *sh)
 	else if (pid == -1)
 	{
 		errno = 1;	
-		error("fork");
+		error(sh, "fork");
 	}
 	else
 		waitpid(pid, &exit_pid, 0);

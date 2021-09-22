@@ -17,8 +17,8 @@
 #include "../lib/libft/libft.h"
 #include "../lib/get_next_line/get_next_line.h"
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+//#include <readline/readline.h>
+//#include <readline/history.h>
 #include "errno.h"
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -57,6 +57,8 @@ typedef struct	s_sh
 	int **fd_pipe;
 	pid_t child_pid;
 	int stat;
+	int exit_code;
+	int ret;
 
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;

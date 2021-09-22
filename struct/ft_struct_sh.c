@@ -32,6 +32,8 @@ t_sh	ft_create_sh(void)
 	sh.stat = 0;
 	sh.child_pid = 0;
 	sh.dup = NULL;
+	sh.exit_code = 0;
+	sh.ret = 0;
 	return (sh);
 }
 

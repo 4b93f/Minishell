@@ -76,27 +76,30 @@ char	**lstcmd_to_tab(t_lst_cmd *lst)
 
 void exec_cmd(t_sh *sh)
 {
-	//printf("!\n");
+	printf("!\n");
 	errno = 0;
 	char *file;
 	char **envp;
 	char **argp;
 	pid_t pid;
-	pid_t exit_pid;
 
-	//printf("In exec_cmd with cmd = %s\n", sh->ptr_cmd->cmd);
 	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
 	envp = lstenv_to_tab(sh);
 	argp = lstcmd_to_tab(sh->ptr_cmd);
 	pid = fork();
 	if (pid == 0)
 	{
-		errno = execve(file, argp, envp);
-		error(sh, argp[0]);
+		if (execve(file, argp, envp) < 0)
+		{
+			ft_putstr_fd("My minishell: ", 2);
+			ft_putendl_fd(strerror(errno), 2);
+		}
 		free_tab(envp);
 		free_tab(argp);
 		free(file);
-		exit(0);
+		if (errno == EAGAIN)
+			exit(126);
+		exit(127);
 	}
 	else if (pid == -1)
 	{
@@ -104,7 +107,53 @@ void exec_cmd(t_sh *sh)
 		error(sh, "fork");
 	}
 	else
-		waitpid(pid, &exit_pid, 0);
+		waitpid(pid, &sh->exit_code, 0);
+	if (WIFEXITED(pid))
+		sh->exit_code = WEXITSTATUS(pid);
+	else
+		sh->exit_code = sh->exit_code / 256;
+	//printf("[%d]\n", sh->exit_code);
+	free_tab(envp);
+	free_tab(argp);
+	free(file);
+{
+	printf("!\n");
+	errno = 0;
+	char *file;
+	char **envp;
+	char **argp;
+	pid_t pid;
+
+	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
+	envp = lstenv_to_tab(sh);
+	argp = lstcmd_to_tab(sh->ptr_cmd);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(file, argp, envp) < 0)
+		{
+			ft_putstr_fd("My minishell: ", 2);
+			ft_putendl_fd(strerror(errno), 2);
+		}
+		free_tab(envp);
+		free_tab(argp);
+		free(file);
+		if (errno == EAGAIN)
+			exit(126);
+		exit(127);
+	}
+	else if (pid == -1)
+	{
+		errno = 1;	
+		error(sh, "fork");
+	}
+	else
+		waitpid(pid, &sh->exit_code, 0);
+	if (WIFEXITED(pid))
+		sh->exit_code = WEXITSTATUS(pid);
+	else
+		sh->exit_code = sh->exit_code / 256;
+	//printf("[%d]\n", sh->exit_code);
 	free_tab(envp);
 	free_tab(argp);
 	free(file);

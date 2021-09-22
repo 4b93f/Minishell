@@ -123,6 +123,7 @@ int		ft_pipe(t_sh *sh)
 	
 	int fd[2];
 	int pid;
+
 	if (pipe(fd) == -1)
 		printf("OOPSIE\n");
 	if ((pid = fork()) == -1)
@@ -133,7 +134,7 @@ int		ft_pipe(t_sh *sh)
 		dup2(fd[0], 0);
 		sh->fd_in = fd[0];
 		sh->stat = 1;
-		return (2);
+		return (1);
 	}
 	else
 	{
@@ -141,7 +142,7 @@ int		ft_pipe(t_sh *sh)
 		dup2(fd[1], 1);
 		sh->fd_out = fd[1];
 		sh->stat = 2;
-		return (1);
+		return (2);
 	}
 }
 
@@ -181,11 +182,10 @@ void exec(t_sh *sh, t_lst_cmd *token)
 	{
 		sh->ptr_cmd = next;
 		exec(sh, next);
-	}	
+	}
 	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 1)
 	{
 		sh->ptr_cmd = token;
 		start(sh);
 	}
-	//printf(" -- [%d]\n", ft_atoi(env_lstcontent(sh, "?")));
 }

@@ -27,17 +27,13 @@ static void echo_scan(t_sh *sh)
 
 void ft_echo(t_sh *sh)
 {
-	//printf("<ECHO>\n");
 	sh->ptr_cmd = sh->lst_cmd;
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;
-
 	sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->flag_n == 1)
-	{
 		while ((!ft_strcmp(sh->ptr_cmd->cmd, "-n")))
 			sh->ptr_cmd = sh->ptr_cmd->next;
-	}
 	while (sh->ptr_cmd && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
 		ft_putstr_fd(sh->ptr_cmd->cmd, sh->fd_out);
@@ -47,5 +43,6 @@ void ft_echo(t_sh *sh)
 	}
 	if (sh->flag_n == 0)
 		ft_putstr_fd("\n", sh->fd_out);
+	sh->exit_code = 0;
 	exit_code(sh, 0);
 }

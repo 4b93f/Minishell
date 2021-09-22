@@ -12,6 +12,14 @@
 
 #include "struct/struct.h"
 
+int verif_syntax(t_sh *sh)
+{
+	sh->ptr_cmd = sh->lst_cmd;
+	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
+	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
+		return (2);
+	return (0);
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -26,8 +34,10 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		if(!(sh->input_str = readline("My Minishell ~> ")))
-			add_history(sh->input_str);
+		// if(!(sh->input_str = readline("My Minishell ~> ")))
+		// 	add_history(sh->input_str);
+		ft_putstr_fd("My Minishell ~> ", 2);
+		ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		if (!ver_quote(sh->input_str))
@@ -39,14 +49,27 @@ int main(int argc, char **argv, char **env)
 		str_tolst(sh->input_str, sh);
 		//ft_print_lst(sh->lst_cmd);
 		quoting(sh);
-		sh->ptr_cmd = sh->lst_cmd;
-		exec(sh, sh->lst_cmd);
-		sh_free(sh); 
-		waitpid(-1, &sh->child_pid, 0);
-		if(sh->stat != 1 && sh->stat != 0)
-			return (0);
+		if (!verif_syntax(sh))
+		{
+			sh->ptr_cmd = sh->lst_cmd;
+			exec(sh, sh->lst_cmd);
+			sh_free(sh); 
+			waitpid(-1, &sh->child_pid, 0);
+			if (WIFEXITED(sh->child_pid))
+				sh->child_pid = WEXITSTATUS(sh->child_pid);
+			if (sh->stat == 1)
+				exit(sh->exit_code);
+			else if (sh->stat == 2)
+				exit_code(sh, sh->child_pid);
+			else
+				exit_code(sh, sh->exit_code);	
+			sh->stat = 0;
+			sh->ret = 0;
+			sh->child_pid = 0;
+		}
+		else
+			exit_code(sh, 2);
 		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
 		return (ft_atoi(env_lstcontent(sh, "?")));
 	}
-	return (0);
 }

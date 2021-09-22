@@ -62,18 +62,16 @@ int verif(char *str)
 	
 void ft_exit(t_sh *sh)
 {
-	int overflow;
 	long long ret;
 	(void)sh;
 	
 	ret = 1;
 	errno = 0;
-	overflow = 0;
 	sh->ptr_cmd = sh->lst_cmd;
 	sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->ptr_cmd->next && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
-		errno = EXIT_ARG;	
+		errno = EXIT_ARG;
 		error(sh, "exit");
 	}
 	else

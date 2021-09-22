@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 15:38:52 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/22 17:13:02 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #include "../lib/libft/libft.h"
 #include "../lib/get_next_line/get_next_line.h"
 #include <stdio.h>
-//#include <readline/readline.h>
-//#include <readline/history.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "errno.h"
 #include <sys/types.h>
 #include <sys/wait.h>

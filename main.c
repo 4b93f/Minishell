@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/16 15:51:44 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/22 20:24:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ int verif_syntax(t_sh *sh)
 	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
 	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
 		return (2);
+	while (sh->ptr_cmd)
+	{
+		//printf("%s\n", sh->ptr_cmd->cmd);
+		if (sh->ptr_cmd->next)
+			if (sh->ptr_cmd->type && ((t_lst_cmd *)sh->ptr_cmd->next)->type)
+				return(2);
+		sh->ptr_cmd = sh->ptr_cmd->next;
+	}
 	return (0);
 }
 
@@ -34,10 +42,8 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		// if(!(sh->input_str = readline("My Minishell ~> ")))
-		// 	add_history(sh->input_str);
-		ft_putstr_fd("My Minishell ~> ", 2);
-		ret = get_next_line(0, &sh->input_str);
+		if(!(sh->input_str = readline("My Minishell ~> ")))
+		 	add_history(sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		if (!ver_quote(sh->input_str))

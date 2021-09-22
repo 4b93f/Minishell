@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 13:08:10 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/22 20:23:46 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,17 @@ void str_tolst(char *str, t_sh *sh)
 			i++;
 			if (str[i - 1] == '|')
 				type = PIPE;
-			if (str[i - 1] == '>' && str[i] != '>')
+			if (str[i - 1] == '>')
 				type = RIGHT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '>')
 				type = DRIGHT;
-			else if (str[i - 1]  == '<' && str[i]  == '<')
+			else if (str[i - 1]  == '<')
 				type = LEFT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '<')
 				type = DLEFT;
 			while(str[i - 1] == str[i] && is_sep(str[i]))
-			{
 				i++;
-			}
 		}
-		//printf("<%d>\n", type);
 		cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(ft_substr(tmp, j, i - j), type));
 	}
 	return ;

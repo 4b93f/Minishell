@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 12:57:18 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/22 20:10:56 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,15 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 	tmp = dollarz_value(sh, (str + i));
 	if (!tmp)
 	{
+		//printf("new = {%s}\n", new);
 		tmp = ft_strdup(new);
 	}
 	else
 		tmp = ft_strjoin(new, tmp);
 	while(str[j] != '$')
 		j++;
-	//printf("%d\n", j);
 	tmps = dollar_pass(str + j);
+	//printf("[%s]\n", tmps);
 	new = ft_substr(tmps, j, ft_strlen(str));
 	str = ft_strjoin(tmp, tmps);
 	return (str);
@@ -100,9 +101,7 @@ char *dollarz(t_sh *sh, char *str)
 	{
 		is_quote_open(str, &squote, &dquote, i);
 		if ((!squote && str[i] == '$'))
-		{
 			str = dollar_swap(sh, str, i);
-		}
 		i++;
 	}
 	return (str);

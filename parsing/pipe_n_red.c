@@ -6,13 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 15:53:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/22 18:47:52 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
-
-int	g_overload = 0;
 
 void red_right(t_sh *sh, t_lst_cmd *token)
 {
@@ -178,13 +176,16 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		red_left(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
-	if (sh->block_cmd == 0 && next && pid != 1 && g_overload == 0)
+	if (sh->block_cmd == 0 && next && pid != 1)
 	{
 		sh->ptr_cmd = next;
 		exec(sh, next);
 	}
-	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 1)
+	//ft_putnbr_fd(pid, 2);
+	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 2)
 	{
+		//printf("\n");
+		//printf("!\n");
 		sh->ptr_cmd = token;
 		start(sh);
 	}

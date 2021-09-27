@@ -87,18 +87,23 @@ void exec_cmd(t_sh *sh)
 	argp = lstcmd_to_tab(sh->ptr_cmd);
 	pid = fork();
 	if (pid == 0)
-	{
-		if (execve(file, argp, envp) < 0)
+	{	
+		if (sh->fd_out != -1)
 		{
-			ft_putstr_fd("My minishell: ", 2);
-			ft_putendl_fd(strerror(errno), 2);
+			if (execve(file, argp, envp) < 0)
+			{
+				ft_putstr_fd("My minishell: ", 2);
+				ft_putendl_fd(strerror(errno), 2);
+			}
+			free_tab(envp);
+			free_tab(argp);
+			free(file);
+			if (errno == EAGAIN)
+				exit(126);
+			exit(127);
 		}
-		free_tab(envp);
-		free_tab(argp);
-		free(file);
-		if (errno == EAGAIN)
-			exit(126);
-		exit(127);
+		else
+			exit(1);
 	}
 	else if (pid == -1)
 	{

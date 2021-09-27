@@ -34,7 +34,7 @@ char *ft_remove_char(char *str, int c)
 		i++;
 		j++;
 	}
-	dup[j + 1] = '\0';
+	dup[j] = '\0';
 	return (dup);
 	
 }

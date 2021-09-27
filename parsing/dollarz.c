@@ -65,6 +65,9 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 	int j;
 
 	j = i;
+	new = NULL;
+	tmp = NULL;
+	tmps = NULL;
 	if (str[i - 1] && str[i - 1] == '\"')
 		new = ft_substr(str, 0, i - 1);
 	else

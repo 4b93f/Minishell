@@ -42,8 +42,10 @@ int main(int argc, char **argv, char **env)
 	while(ret)
 	{
 		get_all_path(sh);
-		if(!(sh->input_str = readline("My Minishell ~> ")))
-		 	add_history(sh->input_str);
+		// if(!(sh->input_str = readline("My Minishell ~> ")))
+		//  	add_history(sh->input_str);
+		ft_putstr_fd("My Minishell ~> ", 2);
+		ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		if (!ver_quote(sh->input_str))
@@ -76,6 +78,6 @@ int main(int argc, char **argv, char **env)
 		else
 			exit_code(sh, 2);
 		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
-		return (ft_atoi(env_lstcontent(sh, "?")));
 	}
+	return (ft_atoi(env_lstcontent(sh, "?")));
 }

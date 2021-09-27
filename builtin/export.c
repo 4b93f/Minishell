@@ -59,14 +59,18 @@ static void	ft_sort_export(t_sh *sh)
 	free_tab(tab);
 }
 
-char *check_export(char *s1)
+int check_export(char *s1)
 {
 	int i;
 
 	i = 0;
 	while (s1[i] && s1[i] != '=')
+	{
+		if (!ft_isalpha(s1[i]))
+			return(1);
 		i++;
-	return (NULL);
+	}
+	return (0);
 }
 
 void ft_export(t_sh *sh)
@@ -87,7 +91,13 @@ void ft_export(t_sh *sh)
 		{
 			if (sh->ptr_cmd->next)
 				sh->ptr_cmd = sh->ptr_cmd->next;
-			if  (!ft_strchr(sh->ptr_cmd->cmd, '=') || !ft_strcmp(sh->ptr_cmd->cmd, "|"))
+			if (check_export(sh->ptr_cmd->cmd))
+			{
+				ft_putstr_fd("export : not an identifier", 2);
+				sh->exit_code = 1;
+				return;
+			}
+			if  (!ft_strcmp(sh->ptr_cmd->cmd, "|"))
 			{
 				ft_sort_export(sh);
 				exit_code(sh, 0);
@@ -107,7 +117,7 @@ void ft_export(t_sh *sh)
 		{
 			errno = UNV_ID;
 			error(sh, value);
-			errno = 1;
+			sh->exit_code = 1;
 		}
 		else if (!env_lstdupe(sh, var, value))
 		{

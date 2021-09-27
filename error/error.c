@@ -50,6 +50,7 @@ int error(t_sh *sh, char *str)
 		ft_putstr_fd("`", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
+		return(1);
 	}
 	if (errno == EXIT_ARG)
 	{

@@ -76,9 +76,11 @@ void red_left(t_sh *sh, t_lst_cmd *token)
 			exit_code(sh, 0);
 			return;
 		}
-	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-	if (error(sh, sh->ptr_cmd->cmd))
-		return;
+	sh->fd_in = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
+	dup2(sh->fd_in, 0);
+	if (errno)
+		ft_putendl_fd(strerror(errno), 2);
+		
 }
 
 t_lst_cmd *next_sep(t_lst_cmd *ptr)
@@ -181,11 +183,8 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		sh->ptr_cmd = next;
 		exec(sh, next);
 	}
-	//ft_putnbr_fd(pid, 2);
 	if (sh->block_cmd == 0 && (!prev || prev_type == PIPE) && pid != 2)
 	{
-		//printf("\n");
-		//printf("!\n");
 		sh->ptr_cmd = token;
 		start(sh);
 	}

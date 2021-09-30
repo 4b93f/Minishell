@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/22 20:23:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:52:58 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void str_tolst(char *str, t_sh *sh)
 	tmp = str;
 	squote = 0;
 	dquote = 0;
-	while (tmp[i])
+	while (tmp && tmp[i])
 	{
 		j = i;
 		type = 0;

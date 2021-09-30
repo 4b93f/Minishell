@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/30 17:38:39 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:57:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ int g_in_loop = 0;
 int verif_syntax(t_sh *sh)
 {
 	sh->ptr_cmd = sh->lst_cmd;
-	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
-	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
-		return (2);
+	if (sh->ptr_cmd)
+		if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
+		|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
+			return (2);
 	while (sh->ptr_cmd)
 	{
 		if (sh->ptr_cmd->next)
@@ -66,40 +67,45 @@ int main(int argc, char **argv, char **env)
 		get_all_path(sh);
 		prompt(sh);
 		g_in_loop = 1;
-		// ft_putstr_fd("My Minishell ~> ", 2);
-		// ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
+		{
+			g_in_loop = 0;
 			continue;
+		}
 		if (!ver_quote(sh->input_str))
 		{
 			sh_free(sh);
+			g_in_loop = 0;
 			continue;
 		}
 		sh->input_str = dollarz(sh, sh->input_str);
-		str_tolst(sh->input_str, sh);
-		//ft_print_lst(sh->lst_cmd);
-		quoting(sh);
-		if (!verif_syntax(sh))
+		if (sh->input_str)
 		{
-			sh->ptr_cmd = sh->lst_cmd;
-			exec(sh, sh->lst_cmd);
-			sh_free(sh); 
-			waitpid(-1, &sh->child_pid, 0);
-			if (WIFEXITED(sh->child_pid))
-				sh->child_pid = WEXITSTATUS(sh->child_pid);
-			if (sh->stat == 1)
-				exit(sh->exit_code);
-			else if (sh->stat == 2)
-				exit_code(sh, sh->child_pid);
+			str_tolst(sh->input_str, sh);
+			//ft_print_lst(sh->lst_cmd);
+			quoting(sh);
+			if (!verif_syntax(sh))
+			{
+				sh->ptr_cmd = sh->lst_cmd;
+				exec(sh, sh->lst_cmd);
+				sh_free(sh); 
+				waitpid(-1, &sh->child_pid, 0);
+				if (WIFEXITED(sh->child_pid))
+					sh->child_pid = WEXITSTATUS(sh->child_pid);
+				if (sh->stat == 1)
+					exit(sh->exit_code);
+				else if (sh->stat == 2)
+					exit_code(sh, sh->child_pid);
+				else
+					exit_code(sh, sh->exit_code);	
+				sh->stat = 0;
+				sh->ret = 0;
+				sh->child_pid = 0;
+			}
 			else
-				exit_code(sh, sh->exit_code);	
-			sh->stat = 0;
-			sh->ret = 0;
-			sh->child_pid = 0;
+				exit_code(sh, 2);
 		}
-		else
-			exit_code(sh, 2);
 		g_in_loop = 0;
-		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
 	}
+	return(0);
 }

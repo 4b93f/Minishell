@@ -103,10 +103,10 @@ void str_tolst(char *str, t_sh *sh)
 				type = RIGHT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '>')
 				type = DRIGHT;
-			else if (str[i - 1]  == '<')
-				type = LEFT;
 			else if (str[i - 1] == str[i] && str[i - 1] == '<')
 				type = DLEFT;
+			else if (str[i - 1]  == '<')
+				type = LEFT;
 			while(str[i - 1] == str[i] && is_sep(str[i]))
 				i++;
 		}

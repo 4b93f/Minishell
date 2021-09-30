@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"
 	make -C lib/libft
 	make bonus -C lib/libft
-	$(CC) -g3 -lreadline $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS)
+	$(CC) -g3 $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS) -lreadline
 
 
 clean:

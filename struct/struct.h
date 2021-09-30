@@ -23,6 +23,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "limits.h"
+# include <signal.h>
 
 #define CMD_NOT_FOND 2
 #define FORK 1
@@ -59,13 +60,16 @@ typedef struct	s_sh
 	int stat;
 	int exit_code;
 	int ret;
-
+	int ctrl_c;
 	t_lst_cmd *lst_cmd;
 	t_lst_cmd *ptr_cmd;
 	
 	t_lst_env *lst_env;
 	t_lst_env *ptr_env;
 }				t_sh;
+
+
+int g_signal[3];
 
 void str_tolst(char *str, t_sh *sh);
 void	ft_print_lst(t_lst_cmd *lst);

@@ -81,7 +81,6 @@ void exec_cmd(t_sh *sh)
 	char **envp;
 	char **argp;
 	pid_t pid;
-
 	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
 	envp = lstenv_to_tab(sh);
 	argp = lstcmd_to_tab(sh->ptr_cmd);

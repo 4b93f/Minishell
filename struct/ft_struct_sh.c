@@ -34,6 +34,9 @@ t_sh	ft_create_sh(void)
 	sh.dup = NULL;
 	sh.exit_code = 0;
 	sh.ret = 0;
+	g_signal[0] = 0;
+	g_signal[1] = 0;
+	g_signal[2] = 0;
 	return (sh);
 }
 

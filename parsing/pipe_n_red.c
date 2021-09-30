@@ -80,7 +80,39 @@ void red_left(t_sh *sh, t_lst_cmd *token)
 	dup2(sh->fd_in, 0);
 	if (errno)
 		ft_putendl_fd(strerror(errno), 2);
-		
+}
+
+void red_dleft(t_sh *sh, t_lst_cmd *token)
+{
+	char *tmp;
+	errno = 0;
+	tmp = NULL;
+	sh->ptr_cmd = token;
+	if (!sh->ptr_cmd)
+	{
+		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
+		return ;
+	}
+	else
+		if (str_spechar(sh->ptr_cmd->cmd))
+		{
+			errno = SYNTAX_ERROR;
+			error(sh, sh->ptr_cmd->cmd);
+			sh->block_cmd = 1;
+			exit_code(sh, 0);
+			return;
+		}
+	if (errno)
+		ft_putendl_fd(strerror(errno), 2);
+	chdir("/tmp");
+	sh->fd_in = open("tmp_file", O_CREAT | O_RDWR, 0777);
+	chdir(env_lstcontent(sh, "PWD"));
+	while(ft_strcmp(tmp, sh->ptr_cmd->cmd))
+	{
+		tmp = readline("heredoc> ");
+		ft_putendl_fd(tmp, sh->fd_in);
+	}
+	dup2(sh->fd_in, 0);
 }
 
 t_lst_cmd *next_sep(t_lst_cmd *ptr)
@@ -176,6 +208,8 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		red_dright(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == LEFT)
 		red_left(sh, token);
+	if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
+		red_dleft(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
 	if (sh->block_cmd == 0 && next && pid != 1)

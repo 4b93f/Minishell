@@ -12,6 +12,7 @@
 
 #include "struct/struct.h"
 
+
 int verif_syntax(t_sh *sh)
 {
 	sh->ptr_cmd = sh->lst_cmd;
@@ -20,13 +21,26 @@ int verif_syntax(t_sh *sh)
 		return (2);
 	while (sh->ptr_cmd)
 	{
-		//printf("%s\n", sh->ptr_cmd->cmd);
 		if (sh->ptr_cmd->next)
 			if (sh->ptr_cmd->type && ((t_lst_cmd *)sh->ptr_cmd->next)->type)
 				return(2);
 		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
 	return (0);
+}
+
+// void ctrl_c()
+// {
+//     write(2, "\n", 1);
+// 	rl_replace_line("", 0);
+// 	rl_on_new_line();
+// 	rl_redisplay();
+// }
+
+void prompt(t_sh *sh)
+{
+	if(!(sh->input_str = readline("My Minishell ~> ")))
+		add_history(sh->input_str);
 }
 
 int main(int argc, char **argv, char **env)
@@ -41,11 +55,11 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	while(ret)
 	{
+		// signal(SIGINT, &ctrl_c);
 		get_all_path(sh);
-		// if(!(sh->input_str = readline("My Minishell ~> ")))
-		//  	add_history(sh->input_str);
-		ft_putstr_fd("My Minishell ~> ", 2);
-		ret = get_next_line(0, &sh->input_str);
+		prompt(sh);
+		// ft_putstr_fd("My Minishell ~> ", 2);
+		// ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
 			continue;
 		if (!ver_quote(sh->input_str))
@@ -55,7 +69,7 @@ int main(int argc, char **argv, char **env)
 		}
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
-		//ft_print_lst(sh->lst_cmd);
+		ft_print_lst(sh->lst_cmd);
 		quoting(sh);
 		if (!verif_syntax(sh))
 		{
@@ -79,5 +93,4 @@ int main(int argc, char **argv, char **env)
 			exit_code(sh, 2);
 		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
 	}
-	return (ft_atoi(env_lstcontent(sh, "?")));
 }

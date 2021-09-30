@@ -20,13 +20,13 @@ OBJ = $(ALL_SRCS:.c=.o) \
 
 INC = . \
 
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -Wall -Werror -Wextra -I /Users/chly-huc/.brew/opt/readline/include
 
 CC = gcc \
 
 RM = rm -rf
 
-HEADERS = -I struct -I lib/get_next_line/ -I cmd -I env -I lib/libft\
+HEADERS = -I struct -I lib/get_next_line/ -I cmd -I env -I lib/libft \
 
 NAME = minishell
 
@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"
 	make -C lib/libft
 	make bonus -C lib/libft
-	$(CC) -g3 $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS) -lreadline
+	$(CC) -g3 $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS) -L /Users/chly-huc/.brew/opt/readline/lib -lreadline
 
 
 clean:

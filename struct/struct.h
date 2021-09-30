@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/22 17:13:02 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:41:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ typedef struct	s_sh
 	t_lst_env *lst_env;
 	t_lst_env *ptr_env;
 }				t_sh;
-
-
-int g_signal[3];
 
 void str_tolst(char *str, t_sh *sh);
 void	ft_print_lst(t_lst_cmd *lst);

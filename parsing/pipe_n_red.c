@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/22 18:47:52 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:37:10 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,17 @@ void red_left(t_sh *sh, t_lst_cmd *token)
 		ft_putendl_fd(strerror(errno), 2);
 }
 
+void sigret()
+{
+	exit(0);	
+}
+
 void red_dleft(t_sh *sh, t_lst_cmd *token)
 {
+	int pid;
+	int *piped;
+
+	piped = NULL;
 	char *tmp;
 	errno = 0;
 	tmp = NULL;
@@ -107,12 +116,28 @@ void red_dleft(t_sh *sh, t_lst_cmd *token)
 	chdir("/tmp");
 	sh->fd_in = open("tmp_file", O_CREAT | O_RDWR, 0777);
 	chdir(env_lstcontent(sh, "PWD"));
-	while(ft_strcmp(tmp, sh->ptr_cmd->cmd))
+	pid = fork();
+	if (pid == 0)
 	{
-		tmp = readline("heredoc> ");
-		ft_putendl_fd(tmp, sh->fd_in);
+		signal(SIGINT, sigret);
+		while(ft_strcmp(tmp, sh->ptr_cmd->cmd))
+		{
+			tmp = readline("> ");
+			if (ft_strcmp(tmp, sh->ptr_cmd->cmd))
+				ft_putendl_fd(tmp, sh->fd_in);
+		}
+		exit(0);
 	}
-	dup2(sh->fd_in, 0);
+	else
+	{
+		chdir("/tmp");
+		close(sh->fd_in);
+		sh->fd_in = open("tmp_file", O_CREAT | O_RDWR | O_TRUNC, 00777);
+		chdir(env_lstcontent(sh, "PWD"));
+		dup2(sh->fd_in, 0);
+		wait(&pid);
+	}
+	
 }
 
 t_lst_cmd *next_sep(t_lst_cmd *ptr)

@@ -6,12 +6,13 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/22 20:24:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/09/30 17:38:39 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
 
+int g_in_loop = 0;
 
 int verif_syntax(t_sh *sh)
 {
@@ -29,13 +30,19 @@ int verif_syntax(t_sh *sh)
 	return (0);
 }
 
-// void ctrl_c()
-// {
-//     write(2, "\n", 1);
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
+void ctrl_d()
+{
+	
+}
+
+void ctrl_c()
+{
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	if (g_in_loop == 0)
+		rl_redisplay();
+}
 
 void prompt(t_sh *sh)
 {
@@ -55,9 +62,10 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	while(ret)
 	{
-		// signal(SIGINT, &ctrl_c);
+		signal(SIGINT, &ctrl_c);
 		get_all_path(sh);
 		prompt(sh);
+		g_in_loop = 1;
 		// ft_putstr_fd("My Minishell ~> ", 2);
 		// ret = get_next_line(0, &sh->input_str);
 		if (!ft_strcmp(sh->input_str, ""))
@@ -69,7 +77,7 @@ int main(int argc, char **argv, char **env)
 		}
 		sh->input_str = dollarz(sh, sh->input_str);
 		str_tolst(sh->input_str, sh);
-		ft_print_lst(sh->lst_cmd);
+		//ft_print_lst(sh->lst_cmd);
 		quoting(sh);
 		if (!verif_syntax(sh))
 		{
@@ -91,6 +99,7 @@ int main(int argc, char **argv, char **env)
 		}
 		else
 			exit_code(sh, 2);
+		g_in_loop = 0;
 		//printf("%d\n", ft_atoi(env_lstcontent(sh, "?")));
 	}
 }

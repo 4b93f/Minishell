@@ -90,10 +90,8 @@ void sigret()
 void red_dleft(t_sh *sh, t_lst_cmd *token)
 {
 	int pid;
-	int *piped;
-
-	piped = NULL;
 	char *tmp;
+	
 	errno = 0;
 	tmp = NULL;
 	sh->ptr_cmd = token;

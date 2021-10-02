@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	@echo "[Libft compilation...]"
 	make -C lib/libft
 	make bonus -C lib/libft
-	$(CC) -g3 -fsanitize=address $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS) -L /Users/chly-huc/.brew/opt/readline/lib -lreadline
+	$(CC) -g3 $(CFLAGS) -o $(NAME) $(OBJ) $(LIB) $(HEADERS) -L /Users/chly-huc/.brew/opt/readline/lib -lreadline
 
 
 clean:

@@ -33,7 +33,7 @@ int verif_syntax(t_sh *sh)
 
 void ctrl_d()
 {
-	
+	exit(0);
 }
 
 void ctrl_c()
@@ -61,13 +61,14 @@ int main(int argc, char **argv, char **env)
 	ret = 1;
 	(void)argc;
 	(void)argv;
+	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, &ctrl_d);
 	while(ret)
 	{
-		signal(SIGINT, &ctrl_c);
 		get_all_path(sh);
 		prompt(sh);
 		g_in_loop = 1;
-		if (!ft_strcmp(sh->input_str, ""))
+		if (!ft_strcmp(sh->input_str, "") || !sh->input_str)
 		{
 			g_in_loop = 0;
 			continue;

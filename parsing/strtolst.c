@@ -72,6 +72,7 @@ void str_tolst(char *str, t_sh *sh)
 	int type;
 	char *tmp;
 	
+	
 	j = 0;
 	i = 0;
 	tmp = str;

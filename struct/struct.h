@@ -37,6 +37,8 @@
 #define UNV_ID 3
 #define EXIT_ARG 4
 #define SYNTAX_ERROR 5
+#define ARG 6
+#define CMD 7
 
 enum e_boolean
 {
@@ -81,6 +83,7 @@ char	*get_actual_path(void);
 void ft_echo(t_sh *sh);
 char *ft_remove_char(char *str, int c);
 void start(t_sh *sh);
+t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr);
 void	print_env(t_sh *sh);
 void ft_pwd(t_sh *sh);
 void sh_free(t_sh *sh);

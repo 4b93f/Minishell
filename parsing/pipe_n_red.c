@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/30 17:37:10 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/06 23:25:53 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void red_right(t_sh *sh, t_lst_cmd *token)
 			exit_code(sh, 0);
 			return;
 		}
+	if (sh->fd_out != 1)
+		close(sh->fd_out);
 	sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (error(sh, sh->ptr_cmd->cmd))
 		return;
@@ -53,6 +55,8 @@ void red_dright(t_sh *sh, t_lst_cmd *token)
 			exit_code(sh, 0);
 			return;
 		}
+	if (sh->fd_out != 1)
+		close(sh->fd_out);
 	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);	
 	if (error(sh, sh->ptr_cmd->cmd))
 		return;
@@ -76,6 +80,8 @@ void red_left(t_sh *sh, t_lst_cmd *token)
 			exit_code(sh, 0);
 			return;
 		}
+	if (sh->fd_in != 0)
+		close(sh->fd_out);
 	sh->fd_in = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
 	dup2(sh->fd_in, 0);
 	if (errno)
@@ -112,6 +118,8 @@ void red_dleft(t_sh *sh, t_lst_cmd *token)
 	if (errno)
 		ft_putendl_fd(strerror(errno), 2);
 	chdir("/tmp");
+	if (sh->fd_in != 0)
+		close(sh->fd_out);
 	sh->fd_in = open("tmp_file", O_CREAT | O_RDWR, 0777);
 	chdir(env_lstcontent(sh, "PWD"));
 	pid = fork();
@@ -151,6 +159,7 @@ t_lst_cmd *next_sep(t_lst_cmd *ptr)
 	return (NULL);	
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
 t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 {
 	t_lst_cmd *parse;
@@ -171,7 +180,7 @@ t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 	}
 	return (NULL);
 }
-
+////////////////////////////////////////////////////////////////////////////////////
 int		ft_pipe(t_sh *sh)
 {
 	errno = 0;

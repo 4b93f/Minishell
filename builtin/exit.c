@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 17:23:56 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 15:10:42 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/03 18:48:48 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void ft_exit(t_sh *sh)
 	ret = 1;
 	errno = 0;
 	sh->ptr_cmd = sh->lst_cmd;
-	sh->ptr_cmd = sh->ptr_cmd->next;
+	if (sh->ptr_cmd->next)
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->ptr_cmd->next && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
 		errno = EXIT_ARG;

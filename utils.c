@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/16 15:26:34 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/06 21:06:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,16 @@ int str_sep(char *str)
 
 void	ft_print_lst(t_lst_cmd *lst)
 {
+	
 	if (!lst)
 		return ;
 	while (lst)
 	{
-		printf("[%s] et type %d\n", lst->cmd, lst->type);
+		//printf("!\n");
+		printf("[%s] - [%d]\n", lst->cmd, lst->type);
 		lst = lst->next;
 	}
+	printf("\n\n");
 }
 
 // void	ft_print_env(t_lst_env *lst)

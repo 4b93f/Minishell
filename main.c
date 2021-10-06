@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/09/30 17:57:40 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/06 23:42:49 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,107 +42,193 @@ t_lst_cmd *next_token(t_lst_cmd *ptr)
 	return(ptr->next);
 }
 
-void get_type(t_lst_cmd *cmd, t_lst_cmd *prev)
-{
-	if (!prev || (prev->type != ARG && prev->type != CMD))
+void type(t_lst_cmd *cmd, t_lst_cmd *prev)
+{	
+	if (prev)
+		if (prev->type == RIGHT || prev->type == LEFT || prev->type == DRIGHT || prev->type == DLEFT)
+			cmd->redirected = 1;
+	if (cmd->type)
+		(void)NULL;
+	else if (!prev || (prev->type != ARG && prev->type != CMD))
 		cmd->type = CMD;
 	else
 		cmd->type = ARG;
 }
 
-t_lst_cmd *next_sep2(t_lst_cmd *ptr)
+void get_type(t_sh *sh)
 {
-	if (!ptr) 
-		return (NULL);
-	while(ptr)
+	t_lst_cmd *prev;
+	t_lst_cmd *next;
+	sh->ptr_cmd = sh->lst_cmd;
+	while(sh->ptr_cmd)
 	{
-		if (str_sep(ptr->cmd))
-			return (ptr);
-		ptr = ptr->next;
+		prev = prev_token(sh, sh->ptr_cmd);
+		next = next_token(sh->ptr_cmd);
+		(void)next;
+		if(!sh->ptr_cmd->type)
+			type(sh->ptr_cmd, prev);
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
-	return (NULL);	
 }
 
-int index_token(t_sh *sh, t_lst_cmd *ptr)
+//t_lst_cmd *next_sep2(t_lst_cmd *ptr)
+//{
+//	if (!ptr) 
+//		return (NULL);
+//	while(ptr)
+//	{
+//		if (str_sep(ptr->cmd))
+//			return (ptr);
+//		ptr = ptr->next;
+//	}
+//	return (NULL);	
+//}
+
+//int index_token(t_sh *sh, t_lst_cmd *ptr)
+//{
+//	int i;
+//	t_lst_cmd *parse;
+
+//	i = 0;
+//	if (!ptr)
+//		return(-1);
+//	parse = sh->lst_cmd;
+//	while(parse)
+//	{
+//		if (parse == ptr)
+//			return (i);
+//		parse = parse->next;
+//		i++;
+//	}
+//	return(i);
+//}
+
+//t_lst_cmd *prev_sep(t_sh *sh, t_lst_cmd *ptr)
+//{	
+//	int index;
+//	t_lst_cmd *stock;
+//	t_lst_cmd *token;
+//	t_lst_cmd *parse;
+
+//	token = NULL;
+//	index = index_token(sh, ptr);
+//	parse = sh->lst_cmd;
+//	while(parse)
+//	{
+//		stock = token;
+//		token = next_sep2(parse);
+//		if (index_token(sh, token) >= index || index_token(sh, token) == -1)
+//			return(stock);
+//		parse = parse->next;
+//	}
+//	return(NULL);
+//}
+
+//int find_error(t_sh *sh, t_lst_cmd *cmd)
+//{
+//	t_lst_cmd *token_prev;
+
+//	if (!cmd || cmd->type == ARG || cmd->type == CMD)
+//	{
+//		token_prev = prev_sep(sh, cmd);
+//		if (!token_prev || token_prev->type == PIPE)
+//			return(1);
+//		else	
+//			return(0);
+//	}
+//	return(0);
+//}
+
+//void	ft_swap(t_sh *sh)
+//{
+//	t_lst_cmd	*first;
+//	char *stock;
+
+//	first = sh->lst_cmd;
+//	sh->ptr_cmd = sh->lst_cmd;
+//	sh->ptr_cmd = sh->ptr_cmd->next;
+//	while (sh->ptr_cmd)
+//	{
+//		stock = sh->ptr_cmd->cmd;
+//		sh->ptr_cmd->cmd = first->cmd;
+//		first->cmd = stock;
+//		sh->ptr_cmd = sh->ptr_cmd->next;
+//	}
+//}
+
+
+int get_redir_number(t_sh *sh)
 {
 	int i;
-	t_lst_cmd *parse;
 
 	i = 0;
-	if (!ptr)
-		return(-1);
-	parse = sh->lst_cmd;
-	while(parse)
+	sh->ptr_cmd = sh->lst_cmd;
+	while (sh->ptr_cmd)
 	{
-		if (parse == ptr)
-			return (i);
-		parse = parse->next;
-		i++;
+		if (sh->ptr_cmd->redirected == 1)
+			i++;
+		sh->ptr_cmd = sh->ptr_cmd->next;
 	}
 	return(i);
 }
 
-t_lst_cmd *prev_sep(t_sh *sh, t_lst_cmd *ptr)
-{	
-	int index;
-	t_lst_cmd *stock;
-	t_lst_cmd *token;
-	t_lst_cmd *parse;
-
-	token = NULL;
-	index = index_token(sh, ptr);
-	parse = sh->lst_cmd;
-	while(parse)
-	{
-		stock = token;
-		token = next_sep2(parse);
-		if (index_token(sh, token) >= index || index_token(sh, token) == -1)
-			return(stock);
-		parse = parse->next;
-	}
-	return(NULL);
+void	lst_cmdedit(char *cmd, int type, t_lst_cmd *ptr)
+{
+	ptr->cmd = cmd;
+	ptr->type = type;
 }
 
-void	ft_swar(t_sh *sh)
+t_lst_cmd *del_one(t_lst_cmd *lst)
 {
-	t_lst_cmd	*first;
-	t_lst_cmd *stock;
+	t_lst_cmd	*ptr_lst;
 
-	first = sh->lst_cmd;
-	sh->ptr_cmd = sh->_lst_cmd;
-	sh->ptr_cmd = sh->ptr_cmd->next;
-	while (sh->ptr_cmd)
-	{
-		stock = sh->ptr_cmd->content;
-		sh->ptr_cmd->content = first->content;
-		first->content = stock;
-		sh->ptr_cmd = sh->ptr_cmd->next;
-	}
-	printf("rra\n");
+	if (!lst)
+		return (NULL);
+	ptr_lst = lst;
+	lst = lst->next;
+	free(ptr_lst);
+	return(ptr_lst);
 }
 
-void swap(t_sh *sh)
+void go_end(t_sh *sh, t_lst_cmd *token)
 {
+	t_lst_cmd *last;
 	t_lst_cmd *stock;
+	(void)last;
+	stock = sh->lst_cmd;
+	cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(token->cmd, token->type));
+	token->type = -1;
+}
 
-	sh->ptr_cmd = sh->lst_cmd;
-	stock = sh->ptr_cmd->cmd;
-	while (sh->ptr_cmd->next)
+t_lst_cmd *new_lst(t_sh *sh)
+{
+	t_lst_cmd *new_lst;
+	t_lst_cmd *ptr_cmd;
+
+
+	new_lst = NULL;
+	ptr_cmd = sh->lst_cmd;
+	while(ptr_cmd)
 	{
-		sh->ptr_cmd->cmd = ((t_lst_cmd*)sh->ptr_cmd->next)->cmd;
-		sh->ptr_cmd = sh->ptr_cmd->next;
+		if (ptr_cmd->type != -1)
+			cmd_lstaddback(&new_lst, cmd_lstnew(ptr_cmd->cmd, ptr_cmd->type));
+		ptr_cmd = ptr_cmd->next;
 	}
-	sh->ptr_cmd->cmd = stock;
-	printf("ra\n");
+	return(new_lst);
 }
 
 int verif_syntax(t_sh *sh)
 {
 	t_lst_cmd *prev;
-	t_lst_cmd *next;
+	t_lst_cmd *tmp;
+	t_lst_cmd *stock;
+	int i;
+	(void)prev;
+	(void)tmp;
+	(void)stock;
 	sh->ptr_cmd = sh->lst_cmd;
 
-	// if (sh->ptr_cmd)
+	//if (sh->ptr_cmd)
 	// 	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
 	// 	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
 	// 		return (2);
@@ -153,36 +239,23 @@ int verif_syntax(t_sh *sh)
 	// 			return(2);
 	// 	sh->ptr_cmd = sh->ptr_cmd->next;
 	// }
-
-	while(sh->ptr_cmd)
-	{
-		prev = prev_token(sh, sh->ptr_cmd);
-		next = next_token(sh->ptr_cmd);
-		(void)next;
-		if (!sh->ptr_cmd->type)
-			get_type(sh->ptr_cmd, prev);
-		sh->ptr_cmd = sh->ptr_cmd->next;
-	}
-	sh->ptr_cmd = sh->lst_cmd;
 	prev = sh->lst_cmd;
-	while(sh->ptr_cmd)
+	tmp = sh->lst_cmd;
+	get_type(sh);
+	i = get_redir_number(sh);
+	i *= 2;
+	while(tmp && i > 0)
 	{
-		prev = prev_sep(sh, sh->ptr_cmd);
-		if (prev && sh->ptr_cmd->type == ARG)
+		if (tmp->type == RIGHT || tmp->type == DRIGHT || tmp->type == LEFT || tmp->type == DLEFT || tmp->redirected == 1)
 		{
-			if (prev->type == RIGHT || prev->type == DRIGHT || prev->type == LEFT || prev->type == DLEFT)
-			{
-				printf("{%s}\n", sh->ptr_cmd->cmd);
-			}
+			go_end(sh, tmp);
+			i--;
 		}
-		sh->ptr_cmd = sh->ptr_cmd->next;
+		tmp = tmp->next;
 	}
-	return (0);
-}
-
-void ctrl_d()
-{
-	exit(0);
+	sh->lst_cmd = new_lst(sh);
+	//ft_print_lst(sh->lst_cmd);
+	return(0);
 }
 
 // void ctrl_c()
@@ -194,69 +267,89 @@ void ctrl_d()
 // 		rl_redisplay();
 // }
 
+void ctrl_backslash()
+{
+	//write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 void prompt(t_sh *sh)
 {
 	if(!(sh->input_str = readline("My Minishell ~> ")))
 		add_history(sh->input_str);
 }
 
+void engine(t_sh *sh)
+{
+	str_tolst(sh->input_str, sh);
+	quoting(sh);
+	if (!verif_syntax(sh))
+	{
+		sh->ptr_cmd = sh->lst_cmd;
+		exec(sh, sh->lst_cmd);
+		sh_free(sh); 
+		waitpid(-1, &sh->child_pid, 0);
+		if (WIFEXITED(sh->child_pid))
+			sh->child_pid = WEXITSTATUS(sh->child_pid);
+		if (sh->stat == 1)
+			exit(sh->exit_code);
+		else if (sh->stat == 2)
+			exit_code(sh, sh->child_pid);
+		else
+			exit_code(sh, sh->exit_code);	
+		sh->stat = 0;
+		sh->ret = 0;
+		sh->child_pid = 0;
+	}
+	else
+		exit_code(sh, 2);
+}
+
+int read_l(t_sh *sh)
+{
+	get_all_path(sh);
+	prompt(sh);
+	g_in_loop = 1;
+	if (!sh->input_str)
+	{
+		sh_free(sh);
+		exit(0);
+	}
+	if (!ft_strcmp(sh->input_str, ""))
+	{
+		g_in_loop = 0;
+		return(0);
+	}
+	if (!ver_quote(sh->input_str))
+	{
+		sh_free(sh);
+		g_in_loop = 0;
+		return(0);
+	}
+	return(1);
+}
+
 int main(int argc, char **argv, char **env)
 {
+	(void)argc;
+	(void)argv;
 	int ret;
 	t_sh *sh;
 
+	ret = 1;
 	sh = ft_malloc_sh();
 	env_setup(sh, env);
-	ret = 1;
-	(void)argc;
-	(void)argv;
 	//signal(SIGINT, &ctrl_c);
-	signal(SIGKILL, &ctrl_d);
+	signal(SIGQUIT, &ctrl_backslash);
 	while(ret)
 	{
-		get_all_path(sh);
-		prompt(sh);
-		g_in_loop = 1;
-		if (!ft_strcmp(sh->input_str, ""))
-		{
-			g_in_loop = 0;
+		if(!read_l(sh))
 			continue;
-		}
-		if (!ver_quote(sh->input_str))
-		{
-			sh_free(sh);
-			g_in_loop = 0;
-			continue;
-		}
 		sh->input_str = dollarz(sh, sh->input_str);
 		if (sh->input_str)
-		{
-			str_tolst(sh->input_str, sh);
-			//ft_print_lst(sh->lst_cmd);
-			quoting(sh);
-
-			if (!verif_syntax(sh))
-			{
-				exit(0);
-				sh->ptr_cmd = sh->lst_cmd;
-				exec(sh, sh->lst_cmd);
-				sh_free(sh); 
-				waitpid(-1, &sh->child_pid, 0);
-				if (WIFEXITED(sh->child_pid))
-					sh->child_pid = WEXITSTATUS(sh->child_pid);
-				if (sh->stat == 1)
-					exit(sh->exit_code);
-				else if (sh->stat == 2)
-					exit_code(sh, sh->child_pid);
-				else
-					exit_code(sh, sh->exit_code);	
-				sh->stat = 0;
-				sh->ret = 0;
-				sh->child_pid = 0;
-			}
-			else
-				exit_code(sh, 2);
-		}
+			engine(sh);
 		g_in_loop = 0;
 	}
 	return(0);

@@ -36,6 +36,11 @@ void ft_echo(t_sh *sh)
 			sh->ptr_cmd = sh->ptr_cmd->next;
 	while (sh->ptr_cmd && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
+		if (sh->ptr_cmd->type != ARG)
+		{
+			sh->ptr_cmd = sh->ptr_cmd->next;
+			continue;
+		}
 		ft_putstr_fd(sh->ptr_cmd->cmd, sh->fd_out);
 		if (sh->ptr_cmd->next && ft_strcmp(((t_lst_cmd*)sh->ptr_cmd->next)->cmd, "|"))
 			ft_putstr_fd(" ", sh->fd_out);

@@ -6,14 +6,21 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/30 17:54:04 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 09:51:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void start(t_sh *sh)
+void	start(t_sh *sh)
 {
+	char	*file;
+	char	**envp;
+	char	**argp;
+
+	file = NULL;
+	envp = NULL;
+	argp = NULL;
 	if (!ft_strcmp(sh->ptr_cmd->cmd, "echo"))
 		ft_echo(sh);
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "env"))
@@ -29,6 +36,6 @@ void start(t_sh *sh)
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "cd"))
 		ft_cd(sh);
 	else
-		exec_cmd(sh);
+		exec_cmd(sh, file, envp, argp);
 	sh->block_cmd = 1;
-} 
+}

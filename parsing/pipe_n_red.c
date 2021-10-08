@@ -6,127 +6,22 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/06 23:25:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 13:47:21 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void red_right(t_sh *sh, t_lst_cmd *token)
+void	red_forked(t_sh *sh, int pid, char *tmp)
 {
-	errno = 0;
-	sh->ptr_cmd = token;
-	if (!sh->ptr_cmd)
-	{
-		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 1);
-		return ;
-	}
-	else
-		if (str_spechar(sh->ptr_cmd->cmd))
-		{
-			errno = SYNTAX_ERROR;
-			error(sh, sh->ptr_cmd->cmd);
-			sh->block_cmd = 1;
-			exit_code(sh, 0);
-			return;
-		}
-	if (sh->fd_out != 1)
-		close(sh->fd_out);
-	sh->fd_out = open(sh->ptr_cmd->cmd, O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (error(sh, sh->ptr_cmd->cmd))
-		return;
-}
-
-void red_dright(t_sh *sh, t_lst_cmd *token)
-{
-	errno = 0;
-	sh->ptr_cmd = token;
-	if (!sh->ptr_cmd)
-	{
-		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-		return ;
-	}
-	else
-		if (str_spechar(sh->ptr_cmd->cmd))
-		{
-			errno = SYNTAX_ERROR;
-			error(sh, sh->ptr_cmd->cmd);
-			sh->block_cmd = 1;
-			exit_code(sh, 0);
-			return;
-		}
-	if (sh->fd_out != 1)
-		close(sh->fd_out);
-	sh->fd_out = open(sh->ptr_cmd->cmd, O_RDWR | O_APPEND | O_CREAT , 0777);	
-	if (error(sh, sh->ptr_cmd->cmd))
-		return;
-}
-
-void red_left(t_sh *sh, t_lst_cmd *token)
-{
-	errno = 0;
-	sh->ptr_cmd = token;
-	if (!sh->ptr_cmd)
-	{
-		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-		return ;
-	}
-	else
-		if (str_spechar(sh->ptr_cmd->cmd))
-		{
-			errno = SYNTAX_ERROR;
-			error(sh, sh->ptr_cmd->cmd);
-			sh->block_cmd = 1;
-			exit_code(sh, 0);
-			return;
-		}
 	if (sh->fd_in != 0)
 		close(sh->fd_out);
-	sh->fd_in = open(sh->ptr_cmd->cmd, O_RDONLY, 0777);
-	dup2(sh->fd_in, 0);
-	if (errno)
-		ft_putendl_fd(strerror(errno), 2);
-}
-
-void sigret()
-{
-	exit(0);	
-}
-
-void red_dleft(t_sh *sh, t_lst_cmd *token)
-{
-	int pid;
-	char *tmp;
-	
-	errno = 0;
-	tmp = NULL;
-	sh->ptr_cmd = token;
-	if (!sh->ptr_cmd)
-	{
-		ft_putstr_fd("My Minishell: syntax error near unexpected token `newline'", 2);
-		return ;
-	}
-	else
-		if (str_spechar(sh->ptr_cmd->cmd))
-		{
-			errno = SYNTAX_ERROR;
-			error(sh, sh->ptr_cmd->cmd);
-			sh->block_cmd = 1;
-			exit_code(sh, 0);
-			return;
-		}
-	if (errno)
-		ft_putendl_fd(strerror(errno), 2);
-	chdir("/tmp");
-	if (sh->fd_in != 0)
-		close(sh->fd_out);
-	sh->fd_in = open("tmp_file", O_CREAT | O_RDWR, 0777);
 	chdir(env_lstcontent(sh, "PWD"));
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, sigret);
-		while(ft_strcmp(tmp, sh->ptr_cmd->cmd))
+		signal(SIGINT, &sigret);
+		while (ft_strcmp(tmp, sh->ptr_cmd->cmd))
 		{
 			tmp = readline("> ");
 			if (ft_strcmp(tmp, sh->ptr_cmd->cmd))
@@ -140,30 +35,28 @@ void red_dleft(t_sh *sh, t_lst_cmd *token)
 		close(sh->fd_in);
 		sh->fd_in = open("tmp_file", O_CREAT | O_RDWR | O_TRUNC, 00777);
 		chdir(env_lstcontent(sh, "PWD"));
-		dup2(sh->fd_in, 0);
+		dup2(sh->fd_in, sh->fd_out);
 		wait(&pid);
 	}
-	
 }
 
-t_lst_cmd *next_sep(t_lst_cmd *ptr)
+t_lst_cmd	*next_sep(t_lst_cmd *ptr)
 {
-	if (!ptr) 
+	if (!ptr)
 		return (NULL);
-	while(ptr)
+	while (ptr)
 	{
 		if (str_sep(ptr->cmd) && ptr->next)
 			return (ptr->next);
 		ptr = ptr->next;
 	}
-	return (NULL);	
+	return (NULL);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
+t_lst_cmd	*previous_sep(t_sh *sh, t_lst_cmd *ptr)
 {
-	t_lst_cmd *parse;
-	t_lst_cmd *stock;
+	t_lst_cmd	*parse;
+	t_lst_cmd	*stock;
 
 	if ((cmd_lstsize(ptr) - cmd_lstsize(sh->lst_cmd)) == 0)
 		return (NULL);
@@ -174,24 +67,24 @@ t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr)
 		stock = parse;
 		parse = next_sep(parse);
 		if (ptr == parse)
-			return(stock);
+			return (stock);
 		if (parse == NULL)
-			return(stock);
+			return (stock);
 	}
 	return (NULL);
 }
-////////////////////////////////////////////////////////////////////////////////////
-int		ft_pipe(t_sh *sh)
-{
-	errno = 0;
-	
-	int fd[2];
-	int pid;
 
+int	ft_pipe(t_sh *sh)
+{
+	int	fd[2];
+	int	pid;
+
+	errno = 0;
 	if (pipe(fd) == -1)
 		printf("OOPSIE\n");
-	if ((pid = fork()) == -1)
-		return(1);
+	pid = fork();
+	if (!pid)
+		return (1);
 	if (pid == 0)
 	{
 		close(fd[1]);
@@ -210,30 +103,20 @@ int		ft_pipe(t_sh *sh)
 	}
 }
 
-int previous_type(t_sh *sh, t_lst_cmd *ptr)
+int	previous_type(t_sh *sh, t_lst_cmd *ptr)
 {
-	t_lst_cmd *parse;
+	t_lst_cmd	*parse;
 
 	parse = sh->lst_cmd;
 	while (parse && parse->next != ptr)
 		parse = parse->next;
 	if (!parse)
-		return(0);
+		return (0);
 	return (parse->type);
 }
 
-void exec(t_sh *sh, t_lst_cmd *token)
+void	check_sep(t_sh *sh, t_lst_cmd *token, t_lst_cmd *prev, int prev_type)
 {
-	int prev_type;
-	pid_t pid;	
-	t_lst_cmd *next;
-	t_lst_cmd *prev;
-	
-	prev_type = 0;
-	pid = 0;
-	next = next_sep(token);
-	prev = previous_sep(sh, token);
-	prev_type = previous_type(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == RIGHT)
 		red_right(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == DRIGHT)
@@ -242,6 +125,21 @@ void exec(t_sh *sh, t_lst_cmd *token)
 		red_left(sh, token);
 	if (sh->block_cmd == 0 && prev && prev_type == DLEFT)
 		red_dleft(sh, token);
+}
+
+void	exec(t_sh *sh, t_lst_cmd *token)
+{
+	int			prev_type;
+	pid_t		pid;	
+	t_lst_cmd	*next;
+	t_lst_cmd	*prev;
+
+	prev_type = 0;
+	pid = 0;
+	next = next_sep(token);
+	prev = previous_sep(sh, token);
+	prev_type = previous_type(sh, token);
+	check_sep(sh, token, prev, prev_type);
 	if (sh->block_cmd == 0 && prev && prev_type == PIPE)
 		pid = ft_pipe(sh);
 	if (sh->block_cmd == 0 && next && pid != 1)

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/03 22:39:28 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 13:57:21 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ typedef struct	s_sh
 	t_lst_env *ptr_env;
 }				t_sh;
 
-void str_tolst(char *str, t_sh *sh);
+void str_tolst(char *str, t_sh *sh, int i, int j);
 void	ft_print_lst(t_lst_cmd *lst);
 t_sh	*ft_malloc_sh(void);
-void	env_tolst(char **env, t_sh *sh);
+void	env_tolst(char **env, t_sh *sh, int i, int equal_pos);
 char *env_lstcontent(t_sh *sh, char *str);
 char *dollarz(t_sh *sh, char *str);
 void env_setup(t_sh *sh, char **env);
@@ -85,30 +85,38 @@ char *ft_remove_char(char *str, int c);
 void start(t_sh *sh);
 t_lst_cmd *previous_sep(t_sh *sh, t_lst_cmd *ptr);
 void	print_env(t_sh *sh);
-void ft_pwd(t_sh *sh);
+void ft_pwd();
 void sh_free(t_sh *sh);
 void ft_exit(t_sh *sh);
 void ft_export(t_sh *sh);
 void ft_print_tab(char **str);
 int env_lstdupe(t_sh *sh, char *var, char *value);
-void	ft_print_env(t_lst_env *lst);
 void 	env_lstedit(t_sh *sh, char *var, char *value);
-char	**lst_to_tab(t_lst_env *lst);
 void ft_unset(t_sh *sh);
-void env_lstdel(t_sh *sh, t_lst_env *delcontent);
+void env_lstdel(t_sh *sh, char *str);
 void ft_cd(t_sh *sh);
-void exec_cmd(t_sh *sh);
+void exec_cmd(t_sh *sh, char *file, char **envp, char **argp);
 void	get_all_path(t_sh *sh);
 char	*ft_search_path(t_sh *sh, char *str);
 void exit_code(t_sh *sh, int nbr);
 void pipe_n_red(t_sh *sh);
 int str_sep(char *str);
 int error(t_sh *sh, char *str);
-char **lstenv_to_tab(t_sh *sh);
 void quoting(t_sh *sh);
 void exec(t_sh *sh, t_lst_cmd *token);
 void	cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
 int ver_quote(char *str);
 int str_spechar(char *str);
+int index_token(t_sh *sh, t_lst_cmd *ptr);
+t_lst_cmd *prev_sep(t_sh *sh, t_lst_cmd *ptr);
+t_lst_cmd *next_sep2(t_lst_cmd *ptr);
+void	ft_sort_export(t_sh *sh, int i, char *tmp);
+void	print_export(t_sh *sh, char **tab);
+void	red_right(t_sh *sh, t_lst_cmd *token);
+void	red_dright(t_sh *sh, t_lst_cmd *token);
+void	red_left(t_sh *sh, t_lst_cmd *token);
+void	red_dleft(t_sh *sh, t_lst_cmd *token);
+void	red_forked(t_sh *sh, int pid, char *tmp);
+void	sigret();
 
 #endif

@@ -6,12 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/06 21:06:22 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 13:56:15 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
-
 
 int str_spechar(char *str)
 {
@@ -48,23 +47,55 @@ void	ft_print_lst(t_lst_cmd *lst)
 	while (lst)
 	{
 		//printf("!\n");
-		printf("[%s] - [%d]\n", lst->cmd, lst->type);
+		printf("[%p] - [%s] - [%d]\n",lst->cmd, lst->cmd, lst->type);
 		lst = lst->next;
 	}
-	printf("\n\n");
 }
 
-// void	ft_print_env(t_lst_env *lst)
-// {
-// 	if (!lst)
-// 		return ;
-// 	while (lst)
-// 	{
-// 		printf("{%s}", lst->var);
-// 		printf("{%s}\n", lst->content);
-// 		lst = lst->next;
-// 	}
-// }
+void	print_export(t_sh *sh, char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_putstr_fd("declare -x ", sh->fd_out);
+		ft_putstr_fd(tab[i], sh->fd_out);
+		ft_putstr_fd("=\"", sh->fd_out);
+		ft_putstr_fd(env_lstcontent(sh, tab[i]), sh->fd_out);
+		ft_putstr_fd("\"\n", sh->fd_out);
+		i++;
+	}
+}
+
+void	ft_sort_export(t_sh *sh, int i, char *tmp)
+{
+	char		**tab;
+	int			size;
+	int			j;
+
+	sh->ptr_env = sh->lst_env;
+	i = -1;
+	size = env_lstsize(sh->ptr_env);
+	tab = lst_to_tab(sh->ptr_env);
+	if (!tab)
+		return ;
+	while (++i < size)
+	{
+		j = i;
+		while (++j < size)
+		{
+			if (ft_strcmp(tab[i], tab[j]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[j];
+				tab[j] = tmp;
+			}
+		}
+	}
+	print_export(sh, tab);
+	free_tab(tab);
+}
 
 char	*get_actual_path(void)
 {
@@ -88,28 +119,6 @@ void ft_print_tab(char **str)
 		printf("[%s]\n", str[i]);
 }
 
-char	**lst_to_tab(t_lst_env *lst)
-{
-	char		**ptr;
-	t_lst_env	*arg_ptr;
-	int			size;
-
-	ptr = NULL;
-	size = env_lstsize(lst);
-	arg_ptr = lst;
-	ptr = ft_calloc(sizeof(char *), size + 1);
-	if (!ptr)
-		return (NULL);
-	size = -1;
-	while (arg_ptr)
-	{
-		ptr[++size] = ft_strdup(arg_ptr->var);
-		if (!ptr)
-			return (NULL);
-		arg_ptr = arg_ptr->next;
-	}
-	return (ptr);
-}
 
 char	*ft_search_path(t_sh *sh, char *str)
 {

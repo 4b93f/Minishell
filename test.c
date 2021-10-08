@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 19:59:01 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/10 22:08:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 04:38:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void dquoting(char *str, char **dup, int *i, int *j)
 	{
 		while (str[*i] && str[*i + 1] && str[*i + 1] != '\"')
 		{
-			printf("{%c}\n", str[*i + 1]);
 			*dup[*j] = str[*i + 1];
 			*j = *j + 1;
 			*i = *i + 1;

@@ -6,15 +6,15 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:02:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/30 17:52:40 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 10:23:59 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-static char *dollar_cut(char *str)
+static char	*dollar_cut(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && !is_sep(str[i]) && str[i] != '=')
@@ -24,28 +24,31 @@ static char *dollar_cut(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-static char *dollar_pass(char *str)
+static char	*dollar_pass(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '$')
 		i++;
-	while (str[i] && !is_sep(str[i]) && str[i] != '=' && (ft_isalpha(str[i]) || str[i] == '$'))
+	if (str[i] == '?')
+		i++;
+	while (str[i] && !is_sep(str[i]) && str[i] != '='
+		&& (ft_isalpha(str[i]) || str[i] == '$'))
 		i++;
 	return (ft_substr(str, i, ft_strlen(str)));
 }
 
-char *dollarz_value(t_sh *sh, char *str)
+char	*dollarz_value(t_sh *sh, char *str)
 {
-	t_lst_env *envlst;
-	char *tmp;
+	t_lst_env	*envlst;
+	char		*tmp;
 
 	tmp = dollar_cut(str);
 	if (!ft_strcmp(tmp, "$"))
-		return(tmp);
+		return (tmp);
 	envlst = sh->lst_env;
-	while (envlst->next)
+	while (envlst)
 	{	
 		if (!ft_strncmp(tmp, envlst->var, ft_strlen(envlst->var)))
 		{
@@ -54,15 +57,15 @@ char *dollarz_value(t_sh *sh, char *str)
 		}
 		envlst = envlst->next;
 	}
-	return (NULL);	
+	return (NULL);
 }
 
-char *dollar_swap(t_sh *sh, char *str, int i)
+char	*dollar_swap(t_sh *sh, char *str, int i)
 {
-	char *new;
-	char *tmp;
-	char *tmps;
-	int j;
+	char	*new;
+	char	*tmp;
+	char	*tmps;
+	int		j;
 
 	j = i;
 	new = NULL;
@@ -72,30 +75,24 @@ char *dollar_swap(t_sh *sh, char *str, int i)
 		new = ft_substr(str, 0, i - 1);
 	else
 		new = ft_substr(str, 0, i);
-	new = ft_remove_char(new, '\'');
 	i++;
 	tmp = dollarz_value(sh, (str + i));
 	if (!tmp)
-	{
-		//printf("new = {%s}\n", new);
 		tmp = ft_strdup(new);
-	}
 	else
 		tmp = ft_strjoin(new, tmp);
-	while(str[j] != '$')
+	while (str[j] != '$')
 		j++;
 	tmps = dollar_pass(str + j);
-	//printf("[%s]\n", tmps);
-	new = ft_substr(tmps, j, ft_strlen(str));
 	str = ft_strjoin(tmp, tmps);
 	return (str);
 }
 
-char *dollarz(t_sh *sh, char *str)
+char	*dollarz(t_sh *sh, char *str)
 {
-	int i;
-	int squote;
-	int dquote;
+	int	i;
+	int	squote;
+	int	dquote;
 
 	i = 0;
 	squote = 0;

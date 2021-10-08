@@ -6,23 +6,23 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/30 17:52:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 13:45:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-char *ft_remove_char(char *str, int c)
+char	*ft_remove_char(char *str, int c)
 {
-	int i;
-	int j;
-	char *dup;
+	int		i;
+	int		j;
+	char	*dup;
 
 	i = 0;
 	j = 0;
 	if (!str)
 		return (NULL);
-	dup = malloc(sizeof(char * ) * (ft_strlen(str) + 1));
+	dup = malloc(sizeof(char *) * (ft_strlen(str) + 1));
 	if (!dup)
 		return (NULL);
 	while (str[i])
@@ -36,20 +36,19 @@ char *ft_remove_char(char *str, int c)
 	}
 	dup[j] = '\0';
 	return (dup);
-	
 }
 
-int ver_quote(char *str)
+int	ver_quote(char *str)
 {
-	int i;
-	int dquote;
-	int squote;
+	int	i;
+	int	dquote;
+	int	squote;
 
 	i = 0;
 	squote = 0;
 	dquote = 0;
 	if (!str)
-		return(1);
+		return (1);
 	while (str[i])
 	{
 		is_quote_open(str, &squote, &dquote, i);
@@ -58,21 +57,47 @@ int ver_quote(char *str)
 	if (squote || dquote)
 	{
 		printf("Error, unclose quote detected\n");
-		return(0);
+		return (0);
 	}
-	return(1);
+	return (1);
 }
 
-void str_tolst(char *str, t_sh *sh)
+void	setup_type(int *i, int *type, char *str)
 {
-	int i;
-	int j;
-	int dquote;
-	int squote;
-	int type;
-	char *tmp;
-	
-	
+	*i = *i + 1;
+	if (str[*i - 1] == '|')
+		*type = PIPE;
+	if (str[*i - 1] == '>')
+		*type = RIGHT;
+	else if (str[*i - 1] == str[*i] && str[*i - 1] == '>')
+		*type = DRIGHT;
+	else if (str[*i - 1] == str[*i] && str[*i - 1] == '<')
+		*type = DLEFT;
+	else if (str[*i - 1] == '<')
+		*type = LEFT;
+	while (str[*i - 1] == str[*i] && is_sep(str[*i]))
+		*i = *i + 1;
+}
+
+void	handle_quote(char *tmp, int *i, int *squote, int *dquote)
+{
+	if (tmp[*i] && !is_sep(tmp[*i]))
+	{
+		while (tmp[*i] && (!is_sep(tmp[*i]) || squote || dquote))
+		{
+			is_quote_open(tmp, squote, dquote, *i);
+			*i = *i + 1;
+		}
+	}
+}
+
+void	str_tolst(char *str, t_sh *sh, int i, int j)
+{
+	int		dquote;
+	int		squote;
+	int		type;
+	char	*tmp;
+
 	j = 0;
 	i = 0;
 	tmp = str;
@@ -82,36 +107,15 @@ void str_tolst(char *str, t_sh *sh)
 	{
 		j = i;
 		type = 0;
-		if (tmp[i] && !is_sep(tmp[i]))
-		{
-			while (tmp[i] && (!is_sep(tmp[i]) || squote || dquote))
-			{
-				is_quote_open(tmp, &squote, &dquote, i);
-				i++;
-			}
-		}
-		else if (tmp[i] == ' ')
+		handle_quote(tmp, &i, &squote, &dquote);
+		if (tmp[i] == ' ')
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else
-		{
-			i++;
-			if (str[i - 1] == '|')
-				type = PIPE;
-			if (str[i - 1] == '>')
-				type = RIGHT;
-			else if (str[i - 1] == str[i] && str[i - 1] == '>')
-				type = DRIGHT;
-			else if (str[i - 1] == str[i] && str[i - 1] == '<')
-				type = DLEFT;
-			else if (str[i - 1]  == '<')
-				type = LEFT;
-			while(str[i - 1] == str[i] && is_sep(str[i]))
-				i++;
-		}
-		cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(ft_substr(tmp, j, i - j), type));
+			setup_type(&i, &type, str);
+		cmd_lstaddback(&sh->lst_cmd,
+			cmd_lstnew(ft_substr(tmp, j, i - j), type));
 	}
-	return ;
 }

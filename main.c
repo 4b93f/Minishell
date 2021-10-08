@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/06 23:42:49 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 10:25:52 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,91 +71,58 @@ void get_type(t_sh *sh)
 	}
 }
 
-//t_lst_cmd *next_sep2(t_lst_cmd *ptr)
-//{
-//	if (!ptr) 
-//		return (NULL);
-//	while(ptr)
-//	{
-//		if (str_sep(ptr->cmd))
-//			return (ptr);
-//		ptr = ptr->next;
-//	}
-//	return (NULL);	
-//}
+t_lst_cmd *next_sep2(t_lst_cmd *ptr)
+{
+	if (!ptr) 
+		return (NULL);
+	while(ptr)
+	{
+		if (str_sep(ptr->cmd))
+			return (ptr);
+		ptr = ptr->next;
+	}
+	return (NULL);	
+}
 
-//int index_token(t_sh *sh, t_lst_cmd *ptr)
-//{
-//	int i;
-//	t_lst_cmd *parse;
+int index_token(t_sh *sh, t_lst_cmd *ptr)
+{
+	int i;
+	t_lst_cmd *parse;
 
-//	i = 0;
-//	if (!ptr)
-//		return(-1);
-//	parse = sh->lst_cmd;
-//	while(parse)
-//	{
-//		if (parse == ptr)
-//			return (i);
-//		parse = parse->next;
-//		i++;
-//	}
-//	return(i);
-//}
+	i = 0;
+	if (!ptr)
+		return(-1);
+	parse = sh->lst_cmd;
+	while(parse)
+	{
+		if (parse == ptr)
+			return (i);
+		parse = parse->next;
+		i++;
+	}
+	return(i);
+}
 
-//t_lst_cmd *prev_sep(t_sh *sh, t_lst_cmd *ptr)
-//{	
-//	int index;
-//	t_lst_cmd *stock;
-//	t_lst_cmd *token;
-//	t_lst_cmd *parse;
+t_lst_cmd *prev_sep(t_sh *sh, t_lst_cmd *ptr)
+{	
+	int index;
+	t_lst_cmd *stock;
+	t_lst_cmd *token;
+	t_lst_cmd *parse;
 
-//	token = NULL;
-//	index = index_token(sh, ptr);
-//	parse = sh->lst_cmd;
-//	while(parse)
-//	{
-//		stock = token;
-//		token = next_sep2(parse);
-//		if (index_token(sh, token) >= index || index_token(sh, token) == -1)
-//			return(stock);
-//		parse = parse->next;
-//	}
-//	return(NULL);
-//}
-
-//int find_error(t_sh *sh, t_lst_cmd *cmd)
-//{
-//	t_lst_cmd *token_prev;
-
-//	if (!cmd || cmd->type == ARG || cmd->type == CMD)
-//	{
-//		token_prev = prev_sep(sh, cmd);
-//		if (!token_prev || token_prev->type == PIPE)
-//			return(1);
-//		else	
-//			return(0);
-//	}
-//	return(0);
-//}
-
-//void	ft_swap(t_sh *sh)
-//{
-//	t_lst_cmd	*first;
-//	char *stock;
-
-//	first = sh->lst_cmd;
-//	sh->ptr_cmd = sh->lst_cmd;
-//	sh->ptr_cmd = sh->ptr_cmd->next;
-//	while (sh->ptr_cmd)
-//	{
-//		stock = sh->ptr_cmd->cmd;
-//		sh->ptr_cmd->cmd = first->cmd;
-//		first->cmd = stock;
-//		sh->ptr_cmd = sh->ptr_cmd->next;
-//	}
-//}
-
+	token = NULL;
+	index = index_token(sh, ptr);
+	parse = sh->lst_cmd;
+	while(parse)
+	{
+		stock = token;
+		token = next_sep2(parse);
+		if (index_token(sh, token) >= index || index_token(sh, token) == -1)
+			return(stock);
+		parse = parse->next;
+	}
+	return(NULL);
+}
 
 int get_redir_number(t_sh *sh)
 {
@@ -196,7 +163,7 @@ void go_end(t_sh *sh, t_lst_cmd *token)
 	t_lst_cmd *stock;
 	(void)last;
 	stock = sh->lst_cmd;
-	cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(token->cmd, token->type));
+	cmd_lstaddback(&sh->lst_cmd, cmd_lstnew(ft_strdup(token->cmd), token->type));
 	token->type = -1;
 }
 
@@ -211,7 +178,7 @@ t_lst_cmd *new_lst(t_sh *sh)
 	while(ptr_cmd)
 	{
 		if (ptr_cmd->type != -1)
-			cmd_lstaddback(&new_lst, cmd_lstnew(ptr_cmd->cmd, ptr_cmd->type));
+			cmd_lstaddback(&new_lst, cmd_lstnew(ft_strdup(ptr_cmd->cmd), ptr_cmd->type));
 		ptr_cmd = ptr_cmd->next;
 	}
 	return(new_lst);
@@ -221,24 +188,13 @@ int verif_syntax(t_sh *sh)
 {
 	t_lst_cmd *prev;
 	t_lst_cmd *tmp;
-	t_lst_cmd *stock;
 	int i;
-	(void)prev;
-	(void)tmp;
-	(void)stock;
+	
 	sh->ptr_cmd = sh->lst_cmd;
-
-	//if (sh->ptr_cmd)
-	// 	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
-	// 	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
-	// 		return (2);
-	// while (sh->ptr_cmd)
-	// {
-	// 	if (sh->ptr_cmd->next)
-	// 		if (sh->ptr_cmd->type && ((t_lst_cmd *)sh->ptr_cmd->next)->type)
-	// 			return(2);
-	// 	sh->ptr_cmd = sh->ptr_cmd->next;
-	// }
+	if (sh->ptr_cmd)
+	 	if (!ft_strcmp(sh->ptr_cmd->cmd, "|") || !ft_strcmp(sh->ptr_cmd->cmd, "<") || !ft_strcmp(sh->ptr_cmd->cmd, "<<") || !ft_strcmp(sh->ptr_cmd->cmd, ">")
+	 	|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
+	 		return (2);
 	prev = sh->lst_cmd;
 	tmp = sh->lst_cmd;
 	get_type(sh);
@@ -253,38 +209,34 @@ int verif_syntax(t_sh *sh)
 		}
 		tmp = tmp->next;
 	}
+	tmp = sh->lst_cmd;
 	sh->lst_cmd = new_lst(sh);
-	//ft_print_lst(sh->lst_cmd);
+	cmd_lstclear(&tmp, free);
 	return(0);
 }
 
-// void ctrl_c()
-// {
-// 	write(2, "\n", 1);
-// 	rl_replace_line("", 0);
-// 	rl_on_new_line();
-// 	if (g_in_loop == 0)
-// 		rl_redisplay();
-// }
-
-void ctrl_backslash()
+void ctrl_c()
 {
-	//write(2, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	write(2, "\n", 1);
+ 	rl_replace_line("", 0);
+ 	rl_on_new_line();
+ 	if (g_in_loop == 0)
+ 		rl_redisplay();
 }
 
 void prompt(t_sh *sh)
 {
-	if(!(sh->input_str = readline("My Minishell ~> ")))
+	sh->input_str = readline("My Minishell ~> ");
+	if (sh->input_str)
 		add_history(sh->input_str);
 }
 
 void engine(t_sh *sh)
 {
-	str_tolst(sh->input_str, sh);
+	str_tolst(sh->input_str, sh, 0, 0);
 	quoting(sh);
+	if (!sh->lst_cmd)
+		return;
 	if (!verif_syntax(sh))
 	{
 		sh->ptr_cmd = sh->lst_cmd;
@@ -304,7 +256,10 @@ void engine(t_sh *sh)
 		sh->child_pid = 0;
 	}
 	else
+	{
+		sh_free(sh);
 		exit_code(sh, 2);
+	}
 }
 
 int read_l(t_sh *sh)
@@ -341,8 +296,8 @@ int main(int argc, char **argv, char **env)
 	ret = 1;
 	sh = ft_malloc_sh();
 	env_setup(sh, env);
-	//signal(SIGINT, &ctrl_c);
-	signal(SIGQUIT, &ctrl_backslash);
+	signal(SIGINT, &ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
 	while(ret)
 	{
 		if(!read_l(sh))

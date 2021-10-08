@@ -6,20 +6,20 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/10/03 22:39:41 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/08 09:50:08 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CMD_H
-#define CMD_H
-#include "stdlib.h"
+# define CMD_H
+# include "stdlib.h"
 
-typedef struct	s_lst_cmd
+typedef struct s_lst_cmd
 {
 	char	*cmd;
-	
+
 	int		type;
-	int redirected;
+	int		redirected;
 	void	*next;
 }				t_lst_cmd;
 

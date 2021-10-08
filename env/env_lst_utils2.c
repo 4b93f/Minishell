@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   env_lst_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/21 22:18:27 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 06:36:34 by chly-huc         ###   ########.fr       */
+/*   Created: 2021/10/08 09:55:46 by chly-huc          #+#    #+#             */
+/*   Updated: 2021/10/08 09:56:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../struct/struct.h"
+#include "env.h"
 
-void	print_env(t_sh *sh)
+t_lst_env	*env_lstfinder(t_lst_env *lst, char *var)
+{
+	t_lst_env	*ptr_lst;
+
+	ptr_lst = lst;
+	if (!ptr_lst || !var)
+		return (NULL);
+	while (ptr_lst)
+	{
+		if (ptr_lst->var && !ft_strcmp(ptr_lst->var, var))
+			return (ptr_lst);
+		ptr_lst = ptr_lst->next;
+	}
+	return (NULL);
+}
+
+void	env_lstedit(t_sh *sh, char *var, char *value)
 {
 	sh->ptr_env = sh->lst_env;
 	while (sh->ptr_env)
 	{
-		if (sh->ptr_env)
-		{
-			ft_putstr_fd(sh->ptr_env->var, 1);
-			write(1, "=", 1);
-			ft_putstr_fd(sh->ptr_env->content, 1);
-			write(1, "\n", 1);
-		}
+		if (!ft_strcmp(sh->ptr_env->var, var))
+			sh->ptr_env->content = ft_strdup(value);
 		sh->ptr_env = sh->ptr_env->next;
 	}
-	exit_code(sh, 0);
 }

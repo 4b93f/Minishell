@@ -6,37 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 13:45:37 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:02:07 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
-
-char	*ft_remove_char(char *str, int c)
-{
-	int		i;
-	int		j;
-	char	*dup;
-
-	i = 0;
-	j = 0;
-	if (!str)
-		return (NULL);
-	dup = malloc(sizeof(char *) * (ft_strlen(str) + 1));
-	if (!dup)
-		return (NULL);
-	while (str[i])
-	{
-		while (str[i] && str[i] == c)
-			i++;
-		if (str[i])
-			dup[j] = str[i];
-		i++;
-		j++;
-	}
-	dup[j] = '\0';
-	return (dup);
-}
 
 int	ver_quote(char *str)
 {
@@ -81,13 +55,10 @@ void	setup_type(int *i, int *type, char *str)
 
 void	handle_quote(char *tmp, int *i, int *squote, int *dquote)
 {
-	if (tmp[*i] && !is_sep(tmp[*i]))
+	while (tmp[*i] && (!is_sep(tmp[*i]) || *squote || *dquote))
 	{
-		while (tmp[*i] && (!is_sep(tmp[*i]) || squote || dquote))
-		{
-			is_quote_open(tmp, squote, dquote, *i);
-			*i = *i + 1;
-		}
+		is_quote_open(tmp, squote, dquote, *i);
+		*i = *i + 1;
 	}
 }
 
@@ -98,7 +69,6 @@ void	str_tolst(char *str, t_sh *sh, int i, int j)
 	int		type;
 	char	*tmp;
 
-	j = 0;
 	i = 0;
 	tmp = str;
 	squote = 0;
@@ -107,8 +77,9 @@ void	str_tolst(char *str, t_sh *sh, int i, int j)
 	{
 		j = i;
 		type = 0;
-		handle_quote(tmp, &i, &squote, &dquote);
-		if (tmp[i] == ' ')
+		if (tmp[i] && !is_sep(tmp[i]))
+			handle_quote(tmp, &i, &squote, &dquote);
+		else if (tmp[i] == ' ')
 		{
 			i++;
 			continue ;

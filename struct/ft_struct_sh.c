@@ -6,16 +6,15 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/03 22:39:33 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 16:44:20 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "struct.h"
 
 t_sh	ft_create_sh(void)
 {
-	t_sh sh;
+	t_sh	sh;
 
 	sh.block_cmd = 0;
 	sh.all_path = NULL;
@@ -39,9 +38,10 @@ t_sh	ft_create_sh(void)
 
 t_sh	*ft_malloc_sh(void)
 {
-	t_sh *malloc_sh;
+	t_sh	*malloc_sh;
 
-	if (!(malloc_sh = malloc(sizeof(t_sh))))
+	malloc_sh = malloc(sizeof(t_sh));
+	if (!malloc_sh)
 		return (NULL);
 	*malloc_sh = ft_create_sh();
 	return (malloc_sh);

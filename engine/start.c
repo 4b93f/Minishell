@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 22:05:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:51:00 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:32:37 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	start(t_sh *sh)
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "env"))
 		print_env(sh);
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "pwd"))
-		ft_pwd(sh);
+		ft_pwd();
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "exit"))
 		ft_exit(sh);
 	else if (!ft_strcmp(sh->ptr_cmd->cmd, "export"))

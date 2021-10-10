@@ -6,73 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 13:47:21 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 17:56:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
-
-void	red_forked(t_sh *sh, int pid, char *tmp)
-{
-	if (sh->fd_in != 0)
-		close(sh->fd_out);
-	chdir(env_lstcontent(sh, "PWD"));
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, &sigret);
-		while (ft_strcmp(tmp, sh->ptr_cmd->cmd))
-		{
-			tmp = readline("> ");
-			if (ft_strcmp(tmp, sh->ptr_cmd->cmd))
-				ft_putendl_fd(tmp, sh->fd_in);
-		}
-		exit(0);
-	}
-	else
-	{
-		chdir("/tmp");
-		close(sh->fd_in);
-		sh->fd_in = open("tmp_file", O_CREAT | O_RDWR | O_TRUNC, 00777);
-		chdir(env_lstcontent(sh, "PWD"));
-		dup2(sh->fd_in, sh->fd_out);
-		wait(&pid);
-	}
-}
-
-t_lst_cmd	*next_sep(t_lst_cmd *ptr)
-{
-	if (!ptr)
-		return (NULL);
-	while (ptr)
-	{
-		if (str_sep(ptr->cmd) && ptr->next)
-			return (ptr->next);
-		ptr = ptr->next;
-	}
-	return (NULL);
-}
-
-t_lst_cmd	*previous_sep(t_sh *sh, t_lst_cmd *ptr)
-{
-	t_lst_cmd	*parse;
-	t_lst_cmd	*stock;
-
-	if ((cmd_lstsize(ptr) - cmd_lstsize(sh->lst_cmd)) == 0)
-		return (NULL);
-	parse = sh->lst_cmd;
-	stock = parse;
-	while (parse)
-	{
-		stock = parse;
-		parse = next_sep(parse);
-		if (ptr == parse)
-			return (stock);
-		if (parse == NULL)
-			return (stock);
-	}
-	return (NULL);
-}
 
 int	ft_pipe(t_sh *sh)
 {
@@ -81,10 +19,10 @@ int	ft_pipe(t_sh *sh)
 
 	errno = 0;
 	if (pipe(fd) == -1)
-		printf("OOPSIE\n");
+		return(2);
 	pid = fork();
 	if (!pid)
-		return (1);
+		return (2);
 	if (pid == 0)
 	{
 		close(fd[1]);
@@ -101,18 +39,6 @@ int	ft_pipe(t_sh *sh)
 		sh->stat = 2;
 		return (2);
 	}
-}
-
-int	previous_type(t_sh *sh, t_lst_cmd *ptr)
-{
-	t_lst_cmd	*parse;
-
-	parse = sh->lst_cmd;
-	while (parse && parse->next != ptr)
-		parse = parse->next;
-	if (!parse)
-		return (0);
-	return (parse->type);
 }
 
 void	check_sep(t_sh *sh, t_lst_cmd *token, t_lst_cmd *prev, int prev_type)

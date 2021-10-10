@@ -6,13 +6,13 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/21 20:05:20 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/09/14 12:49:26 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 16:43:19 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-void is_quote_open(char *str, int *squote, int *dquote, int i)
+void	is_quote_open(char *str, int *squote, int *dquote, int i)
 {
 	if (!str)
 		return ;
@@ -26,7 +26,7 @@ void is_quote_open(char *str, int *squote, int *dquote, int i)
 		*dquote = TRUE;
 }
 
-void dquoting(t_sh *sh, int *i, int *j)
+void	dquoting(t_sh *sh, int *i, int *j)
 {
 	if (sh->ptr_cmd->cmd[*i + 1] != '\"')
 	{
@@ -39,7 +39,7 @@ void dquoting(t_sh *sh, int *i, int *j)
 	}
 }
 
-void squoting(t_sh *sh,   int *i, int *j)
+void	squoting(t_sh *sh, int *i, int *j)
 {
 	if (sh->ptr_cmd->cmd[*i + 1] != '\'')
 	{
@@ -52,22 +52,22 @@ void squoting(t_sh *sh,   int *i, int *j)
 	}
 }
 
-void quoting(t_sh *sh)
+void	quoting(t_sh *sh)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
 	sh->ptr_cmd = sh->lst_cmd;
 	while (sh->ptr_cmd)
 	{
 		i = 0;
 		j = 0;
-		while(sh->ptr_cmd->cmd[i])
+		while (sh->ptr_cmd->cmd[i])
 		{
 			if (sh->ptr_cmd->cmd[i] == '\"')
 				dquoting(sh, &i, &j);
 			else if (sh->ptr_cmd->cmd[i] == '\'')
-				squoting(sh, &i, &j);	
+				squoting(sh, &i, &j);
 			else
 				j++;
 			i++;

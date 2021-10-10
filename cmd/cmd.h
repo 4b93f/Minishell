@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/09 02:29:21 by jsilance          #+#    #+#             */
-/*   Updated: 2021/10/08 09:50:08 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:19:22 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ typedef struct s_lst_cmd
 	char	*cmd;
 
 	int		type;
-	int		redirected;
 	void	*next;
+	int		redirected;
 }				t_lst_cmd;
 
-void		cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
-void		cmd_lstaddfront(t_lst_cmd **alst, t_lst_cmd *new);
-void		cmd_lstclear(t_lst_cmd **lst, void (*del)(void*));
-void		cmd_lstdelone(t_lst_cmd *lst, void (*del)(void*));
-void		cmd_lstiter(t_lst_cmd *lst, void (*f)(void *));
+int			cmd_lstsize(t_lst_cmd *lst);
 t_lst_cmd	*cmd_lstlast(t_lst_cmd *lst);
 t_lst_cmd	*cmd_lstnew(void *content, int type);
-int			cmd_lstsize(t_lst_cmd *lst);
+void		cmd_lstiter(t_lst_cmd *lst, void (*f)(void *));
+void		cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
+void		cmd_lstdelone(t_lst_cmd *lst, void (*del)(void*));
+void		cmd_lstclear(t_lst_cmd **lst, void (*del)(void*));
+void		cmd_lstaddfront(t_lst_cmd **alst, t_lst_cmd *new);
 
 #endif

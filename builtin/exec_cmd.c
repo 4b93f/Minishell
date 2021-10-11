@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 18:28:50 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 23:20:34 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ static void	forked(t_sh *sh, char *file, char **envp, char **argp)
 
 void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
 {
-	printf("!\n");
 	pid_t	pid;
 
 	errno = 0;
@@ -118,7 +117,7 @@ void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
 	pid = fork();
 	if (pid == 0)
 		forked(sh, file, envp, argp);
-	else if (pid == -1)
+	else if (pid < 0)
 	{
 		ft_putstr_fd("My Minishell: ", 2);
 		ft_putendl_fd(strerror(errno), 2);

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/10 23:50:59 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 23:32:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,26 @@
 
 int	g_in_loop = 0;
 
-//void	ctrl_c(int c)
-//{
-//	(void)c;
-//	write(2, "\n", 1);
-//	rl_replace_line("", 0);
-//	rl_on_new_line();
-//	if (g_in_loop == 0)
-//		rl_redisplay();
-//}
+void	ctrl_c(int c)
+{
+	if (g_in_loop == 2)
+		g_in_loop = 0;
+	(void)c;
+	write(2, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	if (g_in_loop == 0)
+		rl_redisplay();
+	g_in_loop = 2;
+}
 
 void	prompt(t_sh *sh)
 {
+	if (g_in_loop == 2)
+	{
+		exit_code(sh, 130);
+		g_in_loop = 0;
+	}
 	sh->input_str = readline("My Minishell ~> ");
 	if (sh->input_str)
 		add_history(sh->input_str);
@@ -44,6 +52,7 @@ int	read_l(t_sh *sh)
 	if (!ft_strcmp(sh->input_str, ""))
 	{
 		g_in_loop = 0;
+		exit_code(sh, 130);
 		return (0);
 	}
 	if (!ver_quote(sh->input_str))
@@ -67,7 +76,7 @@ int	main(int argc, char **argv, char **env)
 	if (!sh)
 		return (0);
 	env_setup(sh, env);
-	//signal(SIGINT, &ctrl_c);
+	signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	while (ret)
 	{
@@ -76,6 +85,8 @@ int	main(int argc, char **argv, char **env)
 		sh->input_str = dollarz(sh, sh->input_str);
 		if (sh->input_str)
 			setup_engine(sh);
+		if (g_in_loop == 2)
+			exit_code(sh, 130);
 		g_in_loop = 0;
 	}
 	return (0);

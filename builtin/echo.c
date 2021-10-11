@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 06:34:05 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 17:24:42 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 21:40:25 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_echo(t_sh *sh)
 	sh->ptr_cmd = sh->lst_cmd;
 	sh->ptr_cmd = sh->ptr_cmd->next;
 	if (sh->flag_n == 1)
-		while (isflag(sh->ptr_cmd->cmd))
+		while (sh->ptr_cmd && isflag(sh->ptr_cmd->cmd))
 			sh->ptr_cmd = sh->ptr_cmd->next;
 	while (sh->ptr_cmd && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{

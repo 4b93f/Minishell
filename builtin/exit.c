@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 17:23:56 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 17:03:43 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 22:06:41 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long long	result_strtoll(long long sign, long long res)
 		return (-res);
 }
 
-long long	ft_strtoll(char *str)
+long long	ft_strtoll(char *str, int *toolong)
 {
 	int			i;
 	long long	res;
@@ -40,6 +40,7 @@ long long	ft_strtoll(char *str)
 		res = res * 10 + (str[i++] - '0');
 		if (res < 0)
 		{
+			*toolong = 1;
 			if (sign > 0)
 				return (-1);
 			else
@@ -62,7 +63,16 @@ int	verif(char *str)
 
 void	exit_ret(t_sh *sh, long long *ret)
 {
-	*ret = ft_strtoll(sh->ptr_cmd->cmd);
+	int toolong;
+
+	toolong = 0;
+	*ret = ft_strtoll(sh->ptr_cmd->cmd, &toolong);
+	if (toolong == 1)
+	{
+		ft_putstr_fd("My Minishell: exit: ", 1);
+		ft_putstr_fd(sh->ptr_cmd->cmd, 1);
+		ft_putendl_fd(": numeric argument required", 1);
+	}
 	if (ft_strlen(sh->ptr_cmd->cmd) >= 19 && (ft_strcmp(sh->ptr_cmd->cmd,
 				"9223372036854775807") > 0))
 		*ret = 2;
@@ -84,6 +94,7 @@ void	ft_exit(t_sh *sh)
 	sh->ptr_cmd = sh->lst_cmd;
 	if (sh->ptr_cmd->next)
 		sh->ptr_cmd = sh->ptr_cmd->next;
+	ft_putendl_fd("exit", 1);
 	if (sh->ptr_cmd->next && ft_strcmp(sh->ptr_cmd->cmd, "|"))
 	{
 		errno = EXIT_ARG;

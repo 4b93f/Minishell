@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 14:26:34 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:46:43 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 22:52:28 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int	handle_export(t_sh *sh, char **value, int *equal_pos, char **var)
 {
 	*value = ft_strchr(sh->ptr_cmd->cmd, '=');
 	if (!*value)
-	{			
-		if (sh->ptr_cmd->next)
+	{
+		if (sh->ptr_cmd->next && ft_strchr(sh->ptr_cmd->next, '='))
 		{
 			errno = UNV_ID;
 			error(sh, ((t_lst_cmd *)sh->ptr_cmd->next)->cmd);
@@ -60,6 +60,7 @@ int	handle_export(t_sh *sh, char **value, int *equal_pos, char **var)
 			exit_code(sh, errno);
 			return (0);
 		}
+		env_lstaddback(&sh->ptr_env, env_lstnew(sh->ptr_cmd->cmd, ""));
 	}
 	if (*value)
 		*equal_pos = ft_strchr(sh->ptr_cmd->cmd, '=')

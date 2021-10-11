@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 16:04:46 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/10 20:37:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 16:50:54 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	env_tolst(char **env, t_sh *sh, int i, int equal_pos)
 		value = ft_substr(env[i], equal_pos + 1, ft_strlen(env[i]));
 		new = env_lstnew(var, value);
 		env_lstaddback(&sh->lst_env, new);
+		free(value);
+		free(var);
 	}
 }
 

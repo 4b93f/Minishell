@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 17:47:03 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 21:29:55 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 17:02:56 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	engine_cd(t_sh *sh, int *ret, char *str)
 	else
 		env_lstaddback(&sh->lst_env, env_lstnew("OLDPWD", actual_path));
 	*ret = chdir(str);
+	free(actual_path);
 	actual_path = get_actual_path();
 	if (env_lstfinder(sh->lst_env, "PWD"))
 		env_lstedit(sh, "PWD", actual_path);

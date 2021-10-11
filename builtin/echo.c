@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 06:34:05 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 00:26:42 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 17:24:42 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void	echo_scan(t_sh *sh)
 
 void	ft_echo(t_sh *sh)
 {
-	printf("[%d]\n", sh->fd_out);
 	sh->ptr_cmd = sh->lst_cmd;
 	echo_scan(sh);
 	sh->ptr_cmd = sh->lst_cmd;

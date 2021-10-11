@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 09:55:46 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 21:35:23 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/11 16:51:23 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void	env_lstedit(t_sh *sh, char *var, char *value)
 	while (sh->ptr_env)
 	{
 		if (!ft_strcmp(sh->ptr_env->var, var))
+		{
+			free(sh->ptr_env->content);
 			sh->ptr_env->content = ft_strdup(value);
+		}
 		sh->ptr_env = sh->ptr_env->next;
 	}
 }

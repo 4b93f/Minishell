@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 17:47:03 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 17:30:40 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 21:29:55 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,36 @@
 
 static void	engine_cd(t_sh *sh, int *ret, char *str)
 {
-	env_lstedit(sh, "OLDPWD", get_actual_path());
-	*ret = chdir(env_lstcontent(sh, str));
-	env_lstedit(sh, "PWD", get_actual_path());
+	char	*actual_path;
+
+	actual_path = get_actual_path();
+	if (!actual_path)
+	{
+		*ret = chdir("..");
+		actual_path = get_actual_path();
+		if (env_lstfinder(sh->lst_env, "OLDPWD"))
+			env_lstedit(sh, "OLDPWD", actual_path);
+		if (env_lstfinder(sh->lst_env, "PWD"))
+			env_lstedit(sh, "PWD", actual_path);
+		free(actual_path);
+		return ;
+	}
+	if (env_lstfinder(sh->lst_env, "OLDPWD"))
+		env_lstedit(sh, "OLDPWD", actual_path);
+	else
+		env_lstaddback(&sh->lst_env, env_lstnew("OLDPWD", actual_path));
+	*ret = chdir(str);
+	actual_path = get_actual_path();
+	if (env_lstfinder(sh->lst_env, "PWD"))
+		env_lstedit(sh, "PWD", actual_path);
+	else
+		env_lstaddback(&sh->lst_env, env_lstnew("PWD", actual_path));
+	free(actual_path);
 }
 
 static void	cd_error(t_sh *sh)
 {
-	ft_putstr_fd("My minishell: ", 2);
+	ft_putstr_fd("My Minishell: ", 2);
 	ft_putendl_fd(strerror(errno), 2);
 	sh->exit_code = 1;
 }
@@ -37,7 +59,7 @@ void	ft_cd(t_sh *sh)
 	if (!sh->ptr_cmd->next || !ft_strcmp(((t_lst_cmd *)sh->ptr_cmd->next)->cmd,
 			"~"))
 	{
-		engine_cd(sh, &errno, "HOME");
+		engine_cd(sh, &errno, env_lstcontent(sh, "HOME"));
 		return ;
 	}
 	sh->ptr_cmd = sh->ptr_cmd->next;
@@ -49,7 +71,8 @@ void	ft_cd(t_sh *sh)
 		sh->exit_code = 1;
 		return ;
 	}
-	ret = chdir(sh->ptr_cmd->cmd);
+	engine_cd(sh, &ret, sh->ptr_cmd->cmd);
 	if (ret == -1)
 		cd_error(sh);
+	exit_code(sh, 0);
 }

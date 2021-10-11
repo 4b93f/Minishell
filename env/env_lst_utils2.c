@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 09:55:46 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:56:11 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 21:35:23 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
 t_lst_env	*env_lstfinder(t_lst_env *lst, char *var)
 {

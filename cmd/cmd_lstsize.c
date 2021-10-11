@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 04:41:04 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/12 15:14:18 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:42:14 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
+#include "../struct/struct.h"
 
 int	cmd_lstsize(t_lst_cmd *lst)
 {

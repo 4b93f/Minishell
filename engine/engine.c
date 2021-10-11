@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 17:31:05 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 17:36:39 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 23:39:20 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	setup_engine(t_sh *sh)
 {
 	str_tolst(sh->input_str, sh, 0, 0);
 	quoting(sh);
+	//ft_print_lst(sh->lst_cmd);
 	if (!sh->lst_cmd)
 		return ;
 	if (!verif_syntax(sh))

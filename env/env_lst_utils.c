@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 16:04:46 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/08 10:16:13 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 20:37:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
 char	*env_lstcontent(t_sh *sh, char *str)
 {
@@ -43,25 +43,12 @@ void	env_tolst(char **env, t_sh *sh, int i, int equal_pos)
 	char		*value;
 	t_lst_env	*new;
 
-	sh->ptr_env = sh->lst_env;
-	i = -1;
 	while (env && env[++i])
 	{
 		if (!init_var(&equal_pos, &var, i, env))
 			return ;
 		value = ft_substr(env[i], equal_pos + 1, ft_strlen(env[i]));
-		if (!value)
-		{
-			free(var);
-			return ;
-		}
 		new = env_lstnew(var, value);
-		if (!new)
-		{
-			free(var);
-			free(value);
-			return ;
-		}
 		env_lstaddback(&sh->lst_env, new);
 	}
 }
@@ -73,8 +60,7 @@ int	env_lstdupe(t_sh *sh, char *var, char *value)
 	{
 		if (!ft_strcmp(sh->ptr_env->var, var))
 		{
-			if (ft_strcmp(sh->ptr_env->content, value))
-				env_lstedit(sh, var, value);
+			env_lstedit(sh, var, value);
 			return (1);
 		}
 		sh->ptr_env = sh->ptr_env->next;

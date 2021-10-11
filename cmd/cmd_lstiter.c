@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 17:03:05 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/12 15:14:12 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:42:06 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
+#include "../struct/struct.h"
 
 void	cmd_lstiter(t_lst_cmd *lst, void (*f)(void *))
 {

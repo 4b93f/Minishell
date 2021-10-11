@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 18:02:07 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 19:26:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,6 @@ void	str_tolst(char *str, t_sh *sh, int i, int j)
 		else
 			setup_type(&i, &type, str);
 		cmd_lstaddback(&sh->lst_cmd,
-			cmd_lstnew(ft_substr(tmp, j, i - j), type));
+			cmd_lstnew(ft_substr(tmp, j, i - j), type, 0));
 	}
 }

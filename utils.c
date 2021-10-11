@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 17:50:15 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 23:24:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_print_lst(t_lst_cmd *lst)
 		return ;
 	while (lst)
 	{
-		printf("[%p] - [%s] - [%d]\n",lst->cmd, lst->cmd, lst->type);
+		printf("[%d] - [%d]\n",lst->cmd[0], lst->type);
 		lst = lst->next;
 	}
 }

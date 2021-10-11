@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:28:51 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:51:58 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:42:58 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
 void	env_lstdelone(t_lst_env *lst, void (*del)(void*))
 {

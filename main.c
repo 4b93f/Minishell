@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/10 18:07:39 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 23:50:59 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int	g_in_loop = 0;
 
-void	ctrl_c(int c)
-{
-	(void)c;
-	write(2, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	if (g_in_loop == 0)
-		rl_redisplay();
-}
+//void	ctrl_c(int c)
+//{
+//	(void)c;
+//	write(2, "\n", 1);
+//	rl_replace_line("", 0);
+//	rl_on_new_line();
+//	if (g_in_loop == 0)
+//		rl_redisplay();
+//}
 
 void	prompt(t_sh *sh)
 {
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **env)
 	if (!sh)
 		return (0);
 	env_setup(sh, env);
-	signal(SIGINT, &ctrl_c);
+	//signal(SIGINT, &ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	while (ret)
 	{

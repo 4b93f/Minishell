@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 17:24:18 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/08/04 15:57:09 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 20:27:30 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	if (start > ft_strlen(s))
 		len = 0;
-	arr = (char *)malloc(sizeof(char) * (len + 1));
+	arr = malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (NULL);
 	i = 0;
-	while (i < len && s[i] != '\0')
+	while (s[start] && i < len)
 	{
 		arr[i] = s[start];
 		i++;

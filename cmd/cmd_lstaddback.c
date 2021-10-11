@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 05:00:11 by jsilance          #+#    #+#             */
-/*   Updated: 2021/08/04 15:57:54 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:41:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
+#include "../struct/struct.h"
 
 void	cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new)
 {

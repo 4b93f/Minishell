@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 18:18:35 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 19:08:02 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <signal.h>
 # include <sys/wait.h>
 # include <sys/types.h>
-# include "../env/env.h"
-# include "../cmd/cmd.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "../lib/libft/libft.h"
@@ -45,6 +43,22 @@ enum e_boolean
 	TRUE
 };
 
+typedef struct s_lst_cmd
+{
+	char	*cmd;
+
+	int		type;
+	void	*next;
+	int		redirected;
+}				t_lst_cmd;
+
+typedef struct s_lst_env
+{
+	char		*var;
+	void		*next;
+	void		*content;
+}				t_lst_env;
+
 typedef struct s_sh
 {
 	int			ret;
@@ -69,6 +83,7 @@ typedef struct s_sh
 }				t_sh;
 
 void		ft_pwd(void);
+int			is_sep(int c);
 void		sigret(int c);
 void		ft_cd(t_sh *sh);
 void		start(t_sh *sh);
@@ -99,6 +114,11 @@ t_lst_cmd	*next_sep2(t_lst_cmd *ptr);
 int			error(t_sh *sh, char *str);
 t_lst_cmd	*next_sep2(t_lst_cmd *ptr);
 t_lst_cmd	*next_token(t_lst_cmd *ptr);
+int			cmd_lstsize(t_lst_cmd *lst);
+int			env_lstsize(t_lst_env *lst);
+t_lst_env	*env_lstlast(t_lst_env *lst);
+char		**lst_to_tab(t_lst_env *lst);
+t_lst_cmd	*cmd_lstlast(t_lst_cmd *lst);
 void		ft_print_lst(t_lst_cmd *lst);
 void		exit_code(t_sh *sh, int nbr);
 char		*dollarz(t_sh *sh, char *str);
@@ -110,8 +130,10 @@ void		go_end(t_sh *sh, t_lst_cmd *token);
 void		print_export(t_sh *sh, char **tab);
 t_lst_cmd	*prev_sep(t_sh *sh, t_lst_cmd *ptr);
 char		*env_lstcontent(t_sh *sh, char *str);
+t_lst_cmd	*cmd_lstnew(void *content, int type, int redirected);
 char		*ft_search_path(t_sh *sh, char *str);
 void		red_left(t_sh *sh, t_lst_cmd *token);
+t_lst_env	*env_lstnew(void *var, void *content);
 int			index_token(t_sh *sh, t_lst_cmd *ptr);
 void		red_right(t_sh *sh, t_lst_cmd *token);
 t_lst_cmd	*prev_token(t_sh *sh, t_lst_cmd *ptr);
@@ -127,7 +149,16 @@ void		ft_sort_export(t_sh *sh, int i, char *tmp);
 void		str_tolst(char *str, t_sh *sh, int i, int j);
 int			env_lstdupe(t_sh *sh, char *var, char *value);
 void		env_lstedit(t_sh *sh, char *var, char *value);
+void		cmd_lstiter(t_lst_cmd *lst, void (*f)(void *));
+void		env_lstiter(t_lst_env *lst, void (*f)(void *));
 void		cmd_lstaddback(t_lst_cmd **alst, t_lst_cmd *new);
+void		env_lstaddback(t_lst_env **alst, t_lst_env *new);
+void		cmd_lstdelone(t_lst_cmd *lst, void (*del)(void*));
+void		cmd_lstclear(t_lst_cmd **lst, void (*del)(void*));
+void		cmd_lstaddfront(t_lst_cmd **alst, t_lst_cmd *new);
+void		env_lstclear(t_lst_env **lst, void (*del)(void*));
+void		env_lstdelone(t_lst_env *lst, void (*del)(void*));
+void		env_lstadd_front(t_lst_env **alst, t_lst_env *new);
 void		env_tolst(char **env, t_sh *sh, int i, int equal_pos);
 void		exec_cmd(t_sh *sh, char *file, char **envp, char **argp);
 void		is_quote_open(char *str, int *squote, int *dquote, int i);

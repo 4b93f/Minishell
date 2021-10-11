@@ -6,11 +6,10 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 17:24:54 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 17:27:06 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 19:27:08 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
 #include "../struct/struct.h"
 
 t_lst_cmd	*next_sep2(t_lst_cmd *ptr)
@@ -68,6 +67,6 @@ void	go_end(t_sh *sh, t_lst_cmd *token)
 	(void)last;
 	stock = sh->lst_cmd;
 	cmd_lstaddback(&sh->lst_cmd,
-		cmd_lstnew(ft_strdup(token->cmd), token->type));
+		cmd_lstnew(ft_strdup(token->cmd), token->type, token->redirected));
 	token->type = -1;
 }

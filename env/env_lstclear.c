@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:27:02 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:52:00 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:42:56 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
 void	env_lstclear(t_lst_env **lst, void (*del)(void*))
 {

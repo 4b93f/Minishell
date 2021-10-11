@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 23:28:38 by jsilance          #+#    #+#             */
-/*   Updated: 2021/07/12 15:27:45 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:41:55 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
+#include "../struct/struct.h"
 
 void	cmd_lstclear(t_lst_cmd **lst, void (*del)(void*))
 {

@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/09 16:09:57 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 23:35:12 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,10 @@ void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
 	pid_t	pid;
 
 	errno = 0;
-	file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
+	if (ft_strlen(sh->ptr_cmd->cmd) == 0)
+		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), " ");
+	else
+		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
 	envp = lstenv_to_tab(sh);
 	argp = lstcmd_to_tab(sh->ptr_cmd);
 	pid = fork();
@@ -116,7 +119,7 @@ void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
 		forked(sh, file, envp, argp);
 	else if (pid == -1)
 	{
-		ft_putstr_fd("My minishell: ", 2);
+		ft_putstr_fd("My Minishell: ", 2);
 		ft_putendl_fd(strerror(errno), 2);
 	}
 	else

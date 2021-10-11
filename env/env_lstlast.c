@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:43:40 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 09:51:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/10 18:43:01 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
+#include "../struct/struct.h"
 
 t_lst_env	*env_lstlast(t_lst_env *lst)
 {

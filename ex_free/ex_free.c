@@ -17,7 +17,7 @@ void	sh_free(t_sh *sh)
 	if (sh->lst_cmd)
 		cmd_lstclear(&sh->lst_cmd, free);
 	free_tab(sh->all_path);
-	free(sh->input_str);
+	// free(sh->input_str);
 	sh->all_path = NULL;
 	sh->flag_n = 0;
 	dup2(sh->fd_backup[0], 0);

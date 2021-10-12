@@ -74,13 +74,11 @@ void	type(t_lst_cmd *cmd, t_lst_cmd *prev)
 void	get_type(t_sh *sh)
 {
 	t_lst_cmd	*prev;
-	t_lst_cmd	*next;
 
 	sh->ptr_cmd = sh->lst_cmd;
 	while (sh->ptr_cmd)
 	{
 		prev = prev_token(sh, sh->ptr_cmd);
-		next = next_token(sh->ptr_cmd);
 		if (!sh->ptr_cmd->type)
 			type(sh->ptr_cmd, prev);
 		sh->ptr_cmd = sh->ptr_cmd->next;

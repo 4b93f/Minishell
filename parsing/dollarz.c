@@ -29,6 +29,8 @@ static char	*dollar_pass(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	if (str[i] == '$')
 		i++;
 	if (str[i] == '?')
@@ -47,14 +49,12 @@ char	*dollarz_value(t_sh *sh, char *str)
 	tmp = dollar_cut(str);
 	if (!ft_strcmp(tmp, "$"))
 		return (tmp);
+	free(tmp);
 	envlst = sh->lst_env;
 	while (envlst)
 	{	
 		if (!ft_strncmp(tmp, envlst->var, ft_strlen(envlst->var)))
-		{
-			free(tmp);
-			return (envlst->content);
-		}
+			return (ft_strdup(envlst->content));
 		envlst = envlst->next;
 	}
 	return (NULL);
@@ -71,7 +71,7 @@ char	*dollar_swap(t_sh *sh, char *str, int i)
 	new = NULL;
 	tmp = NULL;
 	tmps = NULL;
-	if (str[i - 1] && str[i - 1] == '\"')
+	if (str && str[i] && str[i - 1] && str[i - 1] == '\"')
 		new = ft_substr(str, 0, i - 1);
 	else
 		new = ft_substr(str, 0, i);
@@ -80,29 +80,44 @@ char	*dollar_swap(t_sh *sh, char *str, int i)
 	if (!tmp)
 		tmp = ft_strdup(new);
 	else
+	{
+		sh->free_ptr = tmp;
 		tmp = ft_strjoin(new, tmp);
-	while (str[j] != '$')
+		free(sh->free_ptr);
+	}
+	while (str && str[j] && str[j] != '$')
 		j++;
 	tmps = dollar_pass(str + j);
+	free(str);
 	str = ft_strjoin(tmp, tmps);
+	free(new);
+	free(tmps);
+	free(tmp);
 	return (str);
 }
 
 char	*dollarz(t_sh *sh, char *str)
 {
 	int	i;
+	char *tmp;
 	int	squote;
 	int	dquote;
 
 	i = 0;
 	squote = 0;
 	dquote = 0;
-	while (str && str[i] && str[i] != ';')
+	tmp = ft_strdup(str);
+	while (tmp && tmp[i] && tmp[i] != ';')
 	{
-		is_quote_open(str, &squote, &dquote, i);
-		if ((!squote && str[i] == '$'))
-			str = dollar_swap(sh, str, i);
+		is_quote_open(tmp, &squote, &dquote, i);
+		if ((!squote && tmp[i] == '$'))
+		{
+			sh->free_ptr = tmp;
+			tmp = dollar_swap(sh, tmp, i);
+			free(sh->free_ptr);
+		}
 		i++;
 	}
-	return (str);
+	free(str);
+	return (tmp);
 }

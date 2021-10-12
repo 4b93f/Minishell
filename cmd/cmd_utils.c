@@ -61,11 +61,6 @@ int	get_redir_number(t_sh *sh)
 
 void	go_end(t_sh *sh, t_lst_cmd *token)
 {
-	t_lst_cmd	*last;
-	t_lst_cmd	*stock;
-
-	(void)last;
-	stock = sh->lst_cmd;
 	cmd_lstaddback(&sh->lst_cmd,
 		cmd_lstnew(ft_strdup(token->cmd), token->type, token->redirected));
 	token->type = -1;

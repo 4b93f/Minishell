@@ -34,7 +34,6 @@ void	verif_red_order(t_sh *sh, t_lst_cmd *tmp, int i)
 
 int	verif_syntax(t_sh *sh)
 {
-	t_lst_cmd	*prev;
 	t_lst_cmd	*tmp;
 
 	sh->ptr_cmd = sh->lst_cmd;
@@ -45,7 +44,6 @@ int	verif_syntax(t_sh *sh)
 			|| !ft_strcmp(sh->ptr_cmd->cmd, ">")
 			|| !ft_strcmp(sh->ptr_cmd->cmd, ">>"))
 			return (2);
-	prev = sh->lst_cmd;
 	tmp = sh->lst_cmd;
 	verif_red_order(sh, tmp, 0);
 	return (0);
@@ -73,8 +71,8 @@ void	engine(t_sh *sh)
 void	setup_engine(t_sh *sh)
 {
 	str_tolst(sh->input_str, sh, 0, 0);
+	free(sh->input_str);
 	quoting(sh);
-	//ft_print_lst(sh->lst_cmd);
 	if (!sh->lst_cmd)
 		return ;
 	if (!verif_syntax(sh))

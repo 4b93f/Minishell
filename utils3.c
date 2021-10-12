@@ -17,6 +17,8 @@ void	get_all_path(t_sh *sh)
 	int			i;
 
 	i = -1;
+	if (sh->all_path)
+		free_tab(sh->all_path);
 	sh->ptr_env = sh->lst_env;
 	while (sh->ptr_env && ft_strcmp(sh->ptr_env->var, "PATH"))
 		sh->ptr_env = sh->ptr_env->next;

@@ -6,48 +6,47 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 16:58:29 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 23:24:51 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 17:14:03 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct/struct.h"
 
-///////////////////////////////////////////// FOR TESTING
-void	ft_print_lst(t_lst_cmd *lst)
-{
-	
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		printf("[%d] - [%d]\n",lst->cmd[0], lst->type);
-		lst = lst->next;
-	}
-}
-////////////////////////////////////////////////////////////////////////
-
 char	*get_actual_path(void)
 {
 	char	*buf;
 	char	*str;
-    size_t	size;
+	size_t	size;
 
 	buf = NULL;
 	str = NULL;
-    size = 10000;
+	size = 10000;
 	str = getcwd(buf, size);
 	return (str);
 }
 
-void ft_print_tab(char **str)
+char	**malloc_tab(int size, t_lst_cmd *lst)
 {
-	int i;
+	char	**ptr;
 
-	i = -1;
-	while(str[++i])
-		printf("[%s]\n", str[i]);
+	ptr = NULL;
+	ptr = ft_calloc(sizeof(char *), size + 2);
+	if (!ptr)
+		return (NULL);
+	size = 0;
+	if (!ptr)
+		return (NULL);
+	while (lst && !str_sep(lst->cmd))
+	{
+		if (!ptr)
+			return (NULL);
+		ptr[size] = ft_strdup(lst->cmd);
+		lst = lst->next;
+		size++;
+	}
+	ptr[size] = NULL;
+	return (ptr);
 }
-
 
 char	*ft_search_path(t_sh *sh, char *str)
 {
@@ -94,8 +93,8 @@ char	**lst_to_tab(t_lst_env *lst)
 	return (ptr);
 }
 
-void sigret(int c)
+void	sigret(int c)
 {
 	(void)c;
-	exit(0);	
+	exit(0);
 }

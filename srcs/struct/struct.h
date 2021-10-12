@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 19:08:02 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 17:17:40 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include "../lib/libft/libft.h"
+# include "../../lib/libft/libft.h"
 
 # define ARG 6
 # define CMD 7
@@ -107,7 +107,8 @@ int			str_spechar(char *str);
 void		get_all_path(t_sh *sh);
 char		*get_actual_path(void);
 void		setup_engine(t_sh *sh);
-void		ft_print_tab(char **str);
+char		*dollar_cut(char *str);
+char		*dollar_pass(char *str);
 t_lst_cmd	*next_sep(t_lst_cmd *ptr);
 int			get_redir_number(t_sh *sh);
 t_lst_cmd	*next_sep2(t_lst_cmd *ptr);
@@ -128,9 +129,9 @@ void		exec(t_sh *sh, t_lst_cmd *token);
 char		*ft_remove_char(char *str, int c);
 void		go_end(t_sh *sh, t_lst_cmd *token);
 void		print_export(t_sh *sh, char **tab);
+char		*dollarz_value(t_sh *sh, char *str);
 t_lst_cmd	*prev_sep(t_sh *sh, t_lst_cmd *ptr);
 char		*env_lstcontent(t_sh *sh, char *str);
-t_lst_cmd	*cmd_lstnew(void *content, int type, int redirected);
 char		*ft_search_path(t_sh *sh, char *str);
 void		red_left(t_sh *sh, t_lst_cmd *token);
 t_lst_env	*env_lstnew(void *var, void *content);
@@ -140,10 +141,13 @@ t_lst_cmd	*prev_token(t_sh *sh, t_lst_cmd *ptr);
 void		type(t_lst_cmd *cmd, t_lst_cmd *prev);
 int			index_token(t_sh *sh, t_lst_cmd *ptr);
 void		red_dleft(t_sh *sh, t_lst_cmd *token);
+int			heredoc(t_sh *sh, char **tmp, int *fd);
 void		red_dright(t_sh *sh, t_lst_cmd *token);
+char		**malloc_tab(int size, t_lst_cmd *lst);
 t_lst_cmd	*previous_sep(t_sh *sh, t_lst_cmd *ptr);
 int			previous_type(t_sh *sh, t_lst_cmd *ptr);
 t_lst_cmd	*previous_sep(t_sh *sh, t_lst_cmd *ptr);
+void		red_forked(t_sh *sh, int pid, char *tmp);
 t_lst_env	*env_lstfinder(t_lst_env *lst, char *var);
 void		ft_sort_export(t_sh *sh, int i, char *tmp);
 void		str_tolst(char *str, t_sh *sh, int i, int j);
@@ -159,6 +163,7 @@ void		cmd_lstaddfront(t_lst_cmd **alst, t_lst_cmd *new);
 void		env_lstclear(t_lst_env **lst, void (*del)(void*));
 void		env_lstdelone(t_lst_env *lst, void (*del)(void*));
 void		env_lstadd_front(t_lst_env **alst, t_lst_env *new);
+t_lst_cmd	*cmd_lstnew(void *content, int type, int redirected);
 void		env_tolst(char **env, t_sh *sh, int i, int equal_pos);
 void		exec_cmd(t_sh *sh, char *file, char **envp, char **argp);
 void		is_quote_open(char *str, int *squote, int *dquote, int i);

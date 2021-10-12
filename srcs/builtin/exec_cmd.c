@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 21:56:08 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 23:20:34 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 16:53:00 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,6 @@ static char	**lstenv_to_tab(t_sh *sh)
 	}
 	dup[len] = NULL;
 	return (dup);
-}
-
-static char	**malloc_tab(int size, t_lst_cmd *lst)
-{
-	char	**ptr;
-
-	ptr = NULL;
-	ptr = ft_calloc(sizeof(char *), size + 2);
-	if (!ptr)
-		return (NULL);
-	size = 0;
-	if (!ptr)
-		return (NULL);
-	while (lst && !str_sep(lst->cmd))
-	{
-		if (!ptr)
-			return (NULL);
-		ptr[size] = ft_strdup(lst->cmd);
-		lst = lst->next;
-		size++;
-	}
-	ptr[size] = NULL;
-	return (ptr);
 }
 
 static char	**lstcmd_to_tab(t_lst_cmd *lst)
@@ -103,21 +80,9 @@ static void	forked(t_sh *sh, char *file, char **envp, char **argp)
 		exit(1);
 }
 
-void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
+void	dad_work(t_sh *sh, int pid)
 {
-	pid_t	pid;
-
-	errno = 0;
-	if (ft_strlen(sh->ptr_cmd->cmd) == 0)
-		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), " ");
-	else
-		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), sh->ptr_cmd->cmd);
-	envp = lstenv_to_tab(sh);
-	argp = lstcmd_to_tab(sh->ptr_cmd);
-	pid = fork();
-	if (pid == 0)
-		forked(sh, file, envp, argp);
-	else if (pid < 0)
+	if (pid < 0)
 	{
 		ft_putstr_fd("My Minishell: ", 2);
 		ft_putendl_fd(strerror(errno), 2);
@@ -128,6 +93,25 @@ void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
 		sh->exit_code = WEXITSTATUS(pid);
 	else
 		sh->exit_code = sh->exit_code / 256;
+}
+
+void	exec_cmd(t_sh *sh, char *file, char **envp, char **argp)
+{
+	pid_t	pid;
+
+	errno = 0;
+	if (ft_strlen(sh->ptr_cmd->cmd) == 0)
+		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd), " ");
+	else
+		file = ft_strjoin(ft_search_path(sh, sh->ptr_cmd->cmd),
+				sh->ptr_cmd->cmd);
+	envp = lstenv_to_tab(sh);
+	argp = lstcmd_to_tab(sh->ptr_cmd);
+	pid = fork();
+	if (pid == 0)
+		forked(sh, file, envp, argp);
+	else
+		dad_work(sh, pid);
 	free_tab(envp);
 	free_tab(argp);
 	free(file);

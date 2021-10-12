@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 14:24:58 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 23:27:46 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 17:12:56 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	ft_pipe(t_sh *sh)
 	int	pid;
 
 	if (pipe(fd) == -1)
-		return(2);
+		return (2);
 	pid = fork();
 	if (pid < 0)
-		return(2);
+		return (2);
 	if (pid == 0)
 	{
 		close(fd[1]);

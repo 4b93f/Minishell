@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 17:21:23 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 19:26:52 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 16:55:11 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_lst_cmd	*new_lst(t_sh *sh)
 	{
 		if (ptr_cmd->type != -1)
 			cmd_lstaddback(&new_lst,
-				cmd_lstnew(ft_strdup(ptr_cmd->cmd), ptr_cmd->type, ptr_cmd->redirected));
+				cmd_lstnew(ft_strdup(ptr_cmd->cmd), ptr_cmd->type,
+					ptr_cmd->redirected));
 		ptr_cmd = ptr_cmd->next;
 	}
 	return (new_lst);

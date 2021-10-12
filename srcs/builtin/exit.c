@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 17:23:56 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 22:06:41 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 16:54:51 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ long long	result_strtoll(long long sign, long long res)
 		return (-res);
 }
 
-long long	ft_strtoll(char *str, int *toolong)
+long long	ft_strtoll(char *str, int *toolong, int i)
 {
-	int			i;
 	long long	res;
 	int			sign;
 
 	sign = 1;
 	res = 0;
-	i = 0;
 	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r'
 		|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
 		i++;
@@ -63,10 +61,10 @@ int	verif(char *str)
 
 void	exit_ret(t_sh *sh, long long *ret)
 {
-	int toolong;
+	int	toolong;
 
 	toolong = 0;
-	*ret = ft_strtoll(sh->ptr_cmd->cmd, &toolong);
+	*ret = ft_strtoll(sh->ptr_cmd->cmd, &toolong, 0);
 	if (toolong == 1)
 	{
 		ft_putstr_fd("My Minishell: exit: ", 1);

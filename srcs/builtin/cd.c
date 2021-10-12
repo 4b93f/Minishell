@@ -6,11 +6,19 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 17:47:03 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 23:01:53 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 16:48:54 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
+
+void	pwd_edit(t_sh *sh, char *actual_path)
+{
+	if (env_lstfinder(sh->lst_env, "PWD"))
+		env_lstedit(sh, "PWD", actual_path);
+	else
+		env_lstaddback(&sh->lst_env, env_lstnew("PWD", actual_path));
+}
 
 static void	engine_cd(t_sh *sh, int *ret, char *str)
 {
@@ -35,10 +43,7 @@ static void	engine_cd(t_sh *sh, int *ret, char *str)
 	*ret = chdir(str);
 	free(actual_path);
 	actual_path = get_actual_path();
-	if (env_lstfinder(sh->lst_env, "PWD"))
-		env_lstedit(sh, "PWD", actual_path);
-	else
-		env_lstaddback(&sh->lst_env, env_lstnew("PWD", actual_path));
+	pwd_edit(sh, actual_path);
 	free(actual_path);
 }
 

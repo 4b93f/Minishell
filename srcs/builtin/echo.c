@@ -6,13 +6,13 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 06:34:05 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/11 21:40:25 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 16:49:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
 
-int isflag(char *str)
+int	isflag(char *str)
 {
 	int	i;
 

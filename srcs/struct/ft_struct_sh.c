@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 18:55:15 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 19:05:50 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:31:19 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_sh	*ft_malloc_sh(void)
 
 void	ft_free_sh(t_sh *sh)
 {
+	sh_free(sh);
 	if (!sh)
 		return ;
 	free(sh);

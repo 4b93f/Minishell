@@ -6,11 +6,27 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/29 15:01:52 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/08 13:49:07 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:45:27 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../struct/struct.h"
+
+int	str_isdigit(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}	
+	return (1);
+}
 
 static int	error3(char *str)
 {
@@ -27,6 +43,12 @@ static int	error3(char *str)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd(" retry: Resource temporarily unavailable\n", 2);
 		return (1);
+	}
+	if (errno == EXIT_CHAR)
+	{
+		ft_putstr_fd("My Minishell: exit: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putendl_fd(": numeric argument required", 2);
 	}
 	return (0);
 }

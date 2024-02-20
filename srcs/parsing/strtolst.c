@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 17:31:11 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/10 19:26:00 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:42:44 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ver_quote(char *str)
 	}
 	if (squote || dquote)
 	{
-		printf("Error, unclose quote detected\n");
+		ft_putstr_fd("Error, unclose quote detected\n", 2);
 		return (0);
 	}
 	return (1);

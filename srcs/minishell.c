@@ -6,11 +6,11 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/20 17:06:09 by shyrno            #+#    #+#             */
-/*   Updated: 2021/10/12 17:15:04 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:39:48 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "srcs/struct/struct.h"
+#include "struct/struct.h"
 
 int	g_in_loop = 0;
 

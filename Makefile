@@ -1,4 +1,4 @@
-MAIN_SRC = minishell.c srcs/utils.c srcs/utils2.c srcs/utils3.c srcs/parsing/strtolst.c srcs/struct/ft_struct_sh.c srcs/parsing/dollarz.c srcs/parsing/dollarz2.c\
+MAIN_SRC = srcs/minishell.c srcs/utils.c srcs/utils2.c srcs/utils3.c srcs/parsing/strtolst.c srcs/struct/ft_struct_sh.c srcs/parsing/dollarz.c srcs/parsing/dollarz2.c\
 srcs/parsing/quote.c srcs/builtin/echo.c srcs/engine/start.c srcs/parsing/handling_red.c srcs/parsing/handling_red2.c \
 srcs/builtin/env.c srcs/builtin/pwd.c srcs/ex_free/ex_free.c srcs/builtin/exit.c srcs/builtin/export.c \
 srcs/builtin/unset.c srcs/builtin/cd.c srcs/builtin/exec_cmd.c srcs/engine/exit_code.c srcs/parsing/pipe_n_red.c srcs/error/error.c \

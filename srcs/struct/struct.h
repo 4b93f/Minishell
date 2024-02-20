@@ -6,7 +6,7 @@
 /*   By: chly-huc <chly-huc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 15:15:25 by chly-huc          #+#    #+#             */
-/*   Updated: 2021/10/12 17:17:40 by chly-huc         ###   ########.fr       */
+/*   Updated: 2021/10/12 18:21:45 by chly-huc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define CMD_NOT_FOND 2
 # define SYNTAX_ERROR 5
 # define IS_DIRECTORY 21
+# define EXIT_CHAR 12
 
 enum e_boolean
 {
@@ -88,13 +89,13 @@ void		sigret(int c);
 void		ft_cd(t_sh *sh);
 void		start(t_sh *sh);
 void		quoting(t_sh *sh);
-void		ft_exit(t_sh *sh);
 void		sh_free(t_sh *sh);
 void		ft_echo(t_sh *sh);
 void		ft_unset(t_sh *sh);
 int			str_sep(char *str);
 t_lst_cmd	*new_lst(t_sh *sh);
 void		get_type(t_sh *sh);
+void		ft_exit(t_sh *sh);
 void		print_env(t_sh *sh);
 int			red_error(t_sh *sh);
 t_sh		*ft_malloc_sh(void);
@@ -103,6 +104,7 @@ void		ft_free_sh(t_sh *sh);
 void		pipe_n_red(t_sh *sh);
 int			ver_quote(char *str);
 void		ft_free_env(t_sh *sh);
+int			str_isdigit(char *str);
 int			str_spechar(char *str);
 void		get_all_path(t_sh *sh);
 char		*get_actual_path(void);

@@ -15,6 +15,6 @@ The goal is to make our very own version of [bash][1] with basic features
 - Environnement variable
 - Some signal like CTRL-C CTRL-D and so on
 
-Without **LEAK** and code withing the **42 Norm**
+Without **LEAK** and code with the **42 Norm**
 
 [1]: https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html
